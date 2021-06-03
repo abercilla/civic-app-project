@@ -1,38 +1,72 @@
 """Functions to do CRUD operations on database (civic)"""
 
-from model import db, User, Event, UserEvent, CreatedEvent, Preference, UserPreference, connect_to_db
+from model import db, User, Event, CreatedEvent, Preference, connect_to_db
+from datetime import datetime
 
-#Functions here
-
-
-def check_pref()
-    #if category/keyword already in preferences:
-        #create new user_pref record and connect user_id to preference
-    #if category/keyword NOT in preferences:
-        #call create_pref() function
+def create_user(fname, lname, email, password, zipcode):
     
-def create_pref(keyword):
-    new_pref = Preference(keyword_search=keyword)
-    # add to database
-    return new_pref
+    user = User(fname=fname, lname=lname, email=email, 
+                    password=password, zipcode=zipcode)
+    
+    db.session.add(user)
+    db.session.commit()
+
+    return user
+
+def create_event(name, category, start_date, location, description, image):
+    
+    event = CreatedEvent(name=name, category=category,
+                            start_date=start_date, location=location,
+                            description=description, image=image)
+    db.session.add(event)
+    db.session.commit()
+
+    return event
+
+def check_category(category): #can i refactor this so category AND keyword are in one function to check against everything in prefernces? 
+    """Figure out what to do with category entered
+            by user when creating a new event"""
+
+    if category not in Preference.query.with_entities(Preference.category).all():
+        save_category(category) 
+
+def save_category(category): 
+    """If user saves a NEW category, add to db"""
+
+    new_category = Preference(category=category)
+
+    db.session.add(new_category)
+    db.session.commit()
+   
+    return new_category
+        
+
+def check_search(keyword_search):
+    """Figure out what to do with keyword_search saved"""
+
+    if keyword_search not in Preference.query.with_entities(Preference.keyword_search).all():
+        save_search(keyword_search)
+
+
+def save_search(keyword_search):
+    """If user saves a NEW search, add to db"""
+
+    new_search = Preference(keyword_search=keyword_search)
+
+    db.session.add(new_search)
+    db.session.commit()
+   
+    return new_search
+
+def connect_user_pref(user_id, pref_obj):
+    """Connect saved category/keyword to user"""
+
 
 #connect user to their preference in user_preference table 
-def create_connection(user_id, pref_obj):
+#def create_connection(user_id, pref_obj):
 #- User_id can be in a session to keep track of who’s currently logged in
-#- Create a user/preference in the user_preferences table
 
 
-def create_event():
-#-  Create an event object
-    new_event = CreatedEvent()
-    
-    #query into preference table and pull out all existing event_category
-    categories = Preference.query.filter(event_category).all()
-
-#Check preferences table for that event_category
-    if event_category in categories:
-
- #   - Add if its not there, do nothing if it is there
 
 
 
