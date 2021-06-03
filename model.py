@@ -83,7 +83,7 @@ class CreatedEvent (db.Model):
     image = db.Column(db.String)
 
     def __repr__(self):
-        return f'<CreatedEvent created_event_id={self.event_id}, event_name={self.event_name}>'
+        return f'<CreatedEvent created_event_id={self.created_event_id}, event_name={self.event_name}>'
     
 
 class Preference(db.Model):
