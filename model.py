@@ -134,7 +134,7 @@ class Preference(db.Model):
                         autoincrement=True,
                         nullable=False)
     category = db.Column(db.String, unique=True)
-    keyword_search = db.Column(db.String)
+    keyword_search = db.Column(db.String, unique=True)
 
     def __repr__(self): 
         return f'<Preference pref_id={self.pref_id} category={self.category} keyword={self.keyword_search}>'

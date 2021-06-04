@@ -26,9 +26,12 @@ def create_event(name, category, start_date, location, description, image):
 def check_category(category): #can i refactor this so category AND keyword are in one function to check against everything in prefernces? 
     """Figure out what to do with category entered
             by user when creating a new event"""
+     
+    result = Preference.query.filter_by(category=category).first()
 
-    if category not in Preference.query.with_entities(Preference.category).all():
-        save_category(category) 
+    if not result:
+        save_search(category)
+        
 
 def save_category(category): 
     """If user saves a NEW category, add to db"""
@@ -44,7 +47,9 @@ def save_category(category):
 def check_search(keyword_search):
     """Figure out what to do with keyword_search saved"""
 
-    if keyword_search not in Preference.query.with_entities(Preference.keyword_search).all():
+    result = Preference.query.filter_by(keyword_search=keyword_search).first()
+
+    if not result:
         save_search(keyword_search)
 
 
@@ -60,6 +65,7 @@ def save_search(keyword_search):
 
 def connect_user_pref(user_id, pref_obj):
     """Connect saved category/keyword to user"""
+    #user[session] = 
 
 
 #connect user to their preference in user_preference table 
