@@ -20,8 +20,21 @@ def create_event(name, category, start_date, location, description, image):
                             description=description, image=image)
     db.session.add(event)
     db.session.commit()
-
+    #print("We're in create_event and it's been committed")
     return event
+
+
+def create_preference(category=None, keyword_search=None):
+    """Create a preference"""
+
+    preference = Preference(category=category, keyword_search=keyword_search)
+    #print("We tried instantiating a preference")
+
+    db.session.add(preference)
+    db.session.commit()
+
+    return preference
+
 
 def check_category(category): #can i refactor this so category AND keyword are in one function to check against everything in prefernces? 
     """Figure out what to do with category entered
@@ -63,14 +76,38 @@ def save_search(keyword_search):
    
     return new_search
 
-def connect_user_pref(user_id, pref_obj):
-    """Connect saved category/keyword to user"""
-    #user[session] = 
+# def connect_user_pref(user_id, pref_obj):
+#     """Connect saved category/keyword to user"""
+#     #user[session] = 
+#     user[session].preferences.append(pref)
 
 
 #connect user to their preference in user_preference table 
 #def create_connection(user_id, pref_obj):
 #- User_id can be in a session to keep track of who’s currently logged in
+
+
+#connect created_event to events
+def create_event_id(created_event_id):
+
+    new_event = Event(created_event_id=created_event_id, 
+                        eventbrite_event_id=None,
+                        mobilize_event_id=None)
+    
+    db.session.add(new_event)
+    db.session.commit()
+
+    return new_event
+
+def connect_user_event(user, event):
+    
+    user.events.append(event)
+    
+
+#add search functionality in here
+#search by user_Id so they can see what things they've saved
+
+
 
 
 
