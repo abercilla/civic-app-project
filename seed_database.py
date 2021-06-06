@@ -15,11 +15,10 @@ os.system('createdb civic')
 model.connect_to_db(server.app)
 model.db.create_all()
 
-################ CREATE DUMMY EVENTS #############################
-######## ADD EVENT CATEGORIES TO PREFERENCES ####################
+#----------------- CREATE DUMMY CREATED_EVENTS -------------------#
 
-events_in_db = []
-prefs_in_db = []
+created_events_in_db = []
+prefs_in_db = [] 
 
 for n in range (5): 
     
@@ -30,18 +29,16 @@ for n in range (5):
     description = f'description{n}'
     image = f'image{n}'
 
-    event = crud.create_event(name, category, start_date, location, description, image)
-    print(f"We created the event with {category}")
+    created_event = crud.user_creates_event(name, category, start_date, location, description, image)
 
-    events_in_db.append(event)
-    print(f'***Here are event objects in list =  {events_in_db}')
-    #add event categories to preferences table
+    created_events_in_db.append(created_event)
+
+#----------------- ADD EVENT CATEGORIES TO PREFERENCES -----------------#
 
     preference = crud.create_preference(category=category)
     prefs_in_db.append(preference)
-    print(f'***Here are the Preference (category) objects in list = {prefs_in_db}')
 
-################ CREATE DUMMY SEARCHES & ADD TO PREFERENCES #####################
+#------------------- CREATE SEARCHES, ADD TO PREFERENCES ----------------#
 
 for n in range(5):
 
@@ -49,12 +46,10 @@ for n in range(5):
 
     preference = crud.create_preference(keyword_search=keyword_search)
     prefs_in_db.append(preference)
-    print(f'***Here are the Preference (keyword_search) objects in list = {prefs_in_db}')
 
+#------------------------- CREATE 5 USERS  ------------------------------#
 
-################ CREATE DUMMY USERS AND CONNECT TO EVENTS and PREFERENCES #####################
-
-for n in range(10):
+for n in range(5):
     fname = f'User_fname{n}'
     lname = f'User_lname{n}'
     email = f'user{n}@test.com'
@@ -62,20 +57,27 @@ for n in range(10):
     zipcode = f'0000{n}'
 
     user = crud.create_user(fname, lname, email, password, zipcode)
-    print(f'****HERE IS A USER = {user}')
-    #append a random event to 5 users
 
-    for _ in range(1):
-        random_event = choice(events_in_db)
-        print(f'HERE IS THE RANDOM_EVENT = {random_event}')
-        
-        crud.connect_user_event(user, random_event) #IT ERRORS OUT HERE WITH A KEYERROR 'CAN'T RECOGNIZE 'USERS'
-        #print(f'Here are the user.event objects = {user.events}')
+#---------------- CONNECT 1 RANDOM EVENT FOR EACH USER  -------------------#
+    
+    #get a random created_event, then remove from list 
+    #...because a CreatedEvent can only be created by one User
+    #...(but many *Events* can be associated with one User)
+    random_event = choice(created_events_in_db) 
+    created_events_in_db.remove(random_event)
 
-    #append a random prefernce to 3 users
-    for __ in range(3):
-        random_pref = choice(prefs_in_db)
-        print(f'HERE IS THE RANDOM_PREFERENCE= {random_pref}')
+    #create Event object for CreatedEvent object
+    new_event_obj = crud.create_event_id(random_event.created_event_id)
 
-        user.preferences.append(random_pref)        
-        print(f'Here are the user.preferences objects = {user.preferences}')
+    #connect new Event object to User object 
+    crud.connect_user_to_event(user, new_event_obj) 
+
+#--------------- CONNECT 1 RANDOM PREFERENCE FOR EACH USER  ----------------------#
+    
+    #choose random pref from list
+    random_pref = choice(prefs_in_db)
+    print(f'HERE IS THE RANDOM_PREFERENCE= {random_pref}')
+
+    #connect random Preference object to User object
+    crud.connect_user_to_pref(user, random_pref)        
+    print(f'Here are the user.preferences objects = {user.preferences}')

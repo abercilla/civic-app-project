@@ -13,7 +13,7 @@ def create_user(fname, lname, email, password, zipcode):
 
     return user
 
-def create_event(name, category, start_date, location, description, image):
+def user_creates_event(name, category, start_date, location, description, image):
     
     event = CreatedEvent(name=name, category=category,
                             start_date=start_date, location=location,
@@ -76,19 +76,9 @@ def save_search(keyword_search):
    
     return new_search
 
-# def connect_user_pref(user_id, pref_obj):
-#     """Connect saved category/keyword to user"""
-#     #user[session] = 
-#     user[session].preferences.append(pref)
 
-
-#connect user to their preference in user_preference table 
-#def create_connection(user_id, pref_obj):
-#- User_id can be in a session to keep track of who’s currently logged in
-
-
-#connect created_event to events
-def create_event_id(created_event_id):
+def create_event_id(created_event_id): #how do we handle eventbrite_event_ids?
+    """Add CreatedEvent to events"""
 
     new_event = Event(created_event_id=created_event_id, 
                         eventbrite_event_id=None,
@@ -99,19 +89,33 @@ def create_event_id(created_event_id):
 
     return new_event
 
-def connect_user_event(user, event):
-    
+
+def connect_user_to_event(user, event):
+    """Connect a User to an Event"""
+
     print('we are in connect_user_event')
+    print(f'here is the user passed through = {user}')
+    print(f'here is the event passed through = {event}')
+
     user.events.append(event)
 
     db.session.commit()
     print('The event was successfully connected to user!')
 
+def connect_user_to_pref(user, pref):
+    """Connect a User to an Preference"""
+    #add in functionality to make sure we are 
+    #...only adding the preference to the user in session
+    user.preferences.append(pref)
+
+    db.session.commit()
+
 #add search functionality in here
 #search by user_Id so they can see what things they've saved
+def search_by_user_id(user_id):
+    """Search for user_id based on sign-in info"""
 
-
-
+    
 
 
 
