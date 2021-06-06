@@ -20,7 +20,7 @@ def create_event(name, category, start_date, location, description, image):
                             description=description, image=image)
     db.session.add(event)
     db.session.commit()
-    #print("We're in create_event and it's been committed")
+    print("We're in create_event and it's been committed")
     return event
 
 
@@ -28,7 +28,7 @@ def create_preference(category=None, keyword_search=None):
     """Create a preference"""
 
     preference = Preference(category=category, keyword_search=keyword_search)
-    #print("We tried instantiating a preference")
+    print("We tried instantiating a preference")
 
     db.session.add(preference)
     db.session.commit()
@@ -101,8 +101,11 @@ def create_event_id(created_event_id):
 
 def connect_user_event(user, event):
     
+    print('we are in connect_user_event')
     user.events.append(event)
-    
+
+    db.session.commit()
+    print('The event was successfully connected to user!')
 
 #add search functionality in here
 #search by user_Id so they can see what things they've saved
