@@ -1,25 +1,26 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>
-            {%block title%}{%endblock%}
-        </title>
-        {%block head}{%end block%}
-        
-        <!--ADD CSS WITHIN STYLE TAGS OR PUT In -->
-        <style>
+<!--extend formatting from base.html-->
 
-            
-        </style>
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>Hello. It's the Civic App.</h1>
+
+    <br>
+    <br>
+    <form action="/" method="POST">
+        <div>
+            <label for="signup">Create an Account</label>
+            <input id="namefield" type="text" name="fname" required/>
+            </div>
+            <br>
+            <div>
+                <input type="submit"/>
+            </div>
+        </div>
+    </form>
 
 
 
 
-    </head>
-<body>
-    {% block body %}{% endblock %}
-
-</body>
-</html>
+{% end body %}

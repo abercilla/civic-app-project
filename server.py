@@ -12,7 +12,21 @@ app.secret_key = "anne" #need to change this and add to secrets.sh
 app.jinja_env.undefined = StrictUndefined
 
 # #Replace with routes and view functions!
+@app.route("/")
+def index():
+    """Return homepage"""
+    #if user has already signed in, redirect to feed
+    #if not, prompt them to create an account and show unfiltered list of events
 
+    if 'name' in session:
+        return redirect("/users-feed")
+    else:
+        return render_template("homepage.html")
+
+@app.route("/create-account", methods=['POST'])
+def create_account():
+    
 
 if __name__ =='__main__':
+    #eventually we'll put connect_to_db here
     app.run(host='0.0.0.0', debug=True)
