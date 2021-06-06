@@ -1,29 +1,23 @@
 <!--add all app formatting here and extend into other html files-->
-<DOCTYPE! html>
+<!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE-edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>{% block title %}{% endblock %}</title>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    {%block head%}{% endblock %}   
+    </head>
 
-<!--Add link to styles.css within <style> tags-->
-<style>          
-</style>
+    <!--Add link to styles.css within <style> tags-->
+    <style>          
+    </style>
 
-</head>
-<body>
-{% block body %}
 
-{% endblock %}
+    <body>
+    {% block body %}{% endblock %}
 
-</body>
+    {% block after_body %}{% endblock %}
+    </body>
 </html>
-
-
-</head>
-</html>
-
-
-
-</DOCTYPE>
