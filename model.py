@@ -11,11 +11,8 @@ db = SQLAlchemy()
 #-- User can have many Preferences 
 #-- One Preference can have many Users
 
-#-- Users can create many CreatedEvents
-#-- CreatedEvent is created by one User
-
-#-- Event can have multiple CreatedEvents
-#-- CreatedEvent only has one Event 
+#-- Users can create many Events
+#-- One Event is created by one User
 
 
 #-- Association table between User and Event
@@ -44,7 +41,9 @@ class User(db.Model):
     lname = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(100), nullable=False,
                                         unique=True)
+    phone = db.Column(db.Integer) #do I then parse this out with RegEx
     password = db.Column(db.String)
+
     zipcode = db.Column(db.Integer)
     
     #-- list of associated events
@@ -62,9 +61,8 @@ class User(db.Model):
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
 
-class Event(db.Model):
-    """An event (from a source)"""
-    """Has many-to-many re'lp with User"""
+class Event (db.Model):
+    """A new event created by a user"""
 
     __tablename__ = 'events'
 
@@ -72,16 +70,54 @@ class Event(db.Model):
                         primary_key=True,
                         autoincrement=True,
                         nullable=False)
-    created_event_id = db.Column(db.Integer, 
-                        db.ForeignKey('created_events.created_event_id')) 
-    eventbrite_event_id = db.Column(db.Integer) #Event ID is returned from Eventbrite 
-    mobilize_event_id = db.Column(db.Integer) #Event ID returned from Mobilize
-                                            #Event ID from additional source?
-    
-    created_events = db.relationship ('CreatedEvent', backref='events') #on created_event_id
+    name = db.Column(db.String)
+    category = db.Column(db.String) #--> if category already exists, tag on, if not, add to category in preferences
+    start_date = db.Column(db.DateTime)
+    address = db.Column(db.String)
+    description = db.Column(db.Text)
+    image = db.Column(db.String)
 
     def __repr__(self):
-        return f'<Event event_id={self.event_id} created_event_id={self.created_event_id} eventbrite_id={self.eventbrite_event_id} mobilize_id={self.mobilize_event_id}>' 
+        return f'<Event event_id={self.event_id}, name={self.name}>'
+
+class Preference(db.Model):
+    """A preference = some combination of category and keyword searches 
+            that users can save to their account"""
+
+    __tablename__ = 'preferences'
+
+    pref_id = db.Column(db.Integer,
+                        primary_key=True,
+                        autoincrement=True,
+                        nullable=False)
+    category = db.Column(db.String, unique=True)
+    keyword_search = db.Column(db.String, unique=True)
+
+    def __repr__(self): 
+        return f'<Preference pref_id={self.pref_id} category={self.category} keyword={self.keyword_search}>'
+
+# class Event(db.Model):
+#     """An event (from a source)"""
+#     """Has many-to-many re'lp with User"""
+
+#     __tablename__ = 'events'
+
+#     event_id = db.Column(db.Integer,
+#                         primary_key=True,
+#                         autoincrement=True,
+#                         nullable=False)
+#     created_event_id = db.Column(db.Integer, 
+#                         db.ForeignKey('created_events.created_event_id')) 
+#     eventbrite_event_id = db.Column(db.Integer) #Event ID is returned from Eventbrite 
+#     mobilize_event_id = db.Column(db.Integer) #Event ID returned from Mobilize
+#                                             #Event ID from additional source?
+#                                                 #external source id  
+#                                                 #type: "eventbrite", "fb", "meetup"
+    
+    # created_events = db.relationship ('CreatedEvent', backref='events') #on created_event_id
+
+    # def __repr__(self):
+    #     return f'<Event event_id={self.event_id} created_event_id={self.created_event_id} eventbrite_id={self.eventbrite_event_id} mobilize_id={self.mobilize_event_id}>' 
 
 # class UserEvent (db.Model):
 #     """Glue table for User and Event""" 
@@ -103,41 +139,27 @@ class Event(db.Model):
 #     def __repr__(self):
 #         return f'<UserEvent user_events_id={self.user_events_id} event_id={self.event_id} user_id={self.user_id}>'
 
-class CreatedEvent (db.Model):
-    """A new event created by a user"""
+# class CreatedEvent (db.Model):
+#     """A new event created by a user"""
 
-    __tablename__ = 'created_events'
+#     __tablename__ = 'created_events'
 
-    created_event_id = db.Column(db.Integer,
-                        primary_key=True,
-                        autoincrement=True,
-                        nullable=False)
-    name = db.Column(db.String)
-    category = db.Column(db.String) #--> if category already exists, tag on, if not, add to category in preferences
-    start_date = db.Column(db.DateTime)
-    location = db.Column(db.String)
-    description = db.Column(db.Text)
-    image = db.Column(db.String)
+#     created_event_id = db.Column(db.Integer,
+#                         primary_key=True,
+#                         autoincrement=True,
+#                         nullable=False)
+#     name = db.Column(db.String)
+#     category = db.Column(db.String) #--> if category already exists, tag on, if not, add to category in preferences
+#     start_date = db.Column(db.DateTime)
+#     location = db.Column(db.String)
+#     description = db.Column(db.Text)
+#     image = db.Column(db.String)
 
-    def __repr__(self):
-        return f'<CreatedEvent created_event_id={self.created_event_id}, name={self.name}>'
+#     def __repr__(self):
+#         return f'<CreatedEvent created_event_id={self.created_event_id}, name={self.name}>'
     
 
-class Preference(db.Model):
-    """A preference = some combination of category and keyword searches 
-            that users can save to their account"""
 
-    __tablename__ = 'preferences'
-
-    pref_id = db.Column(db.Integer,
-                        primary_key=True,
-                        autoincrement=True,
-                        nullable=False)
-    category = db.Column(db.String, unique=True)
-    keyword_search = db.Column(db.String, unique=True)
-
-    def __repr__(self): 
-        return f'<Preference pref_id={self.pref_id} category={self.category} keyword={self.keyword_search}>'
     
 
 
