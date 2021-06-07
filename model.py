@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-################# MODEL DEFINITIONS ###############
+#------------- MODEL DEFINITIONS ------------#
+
 #-- User can have many Events
 #-- Event can have many Users
 
@@ -41,7 +42,7 @@ class User(db.Model):
     lname = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(100), nullable=False,
                                         unique=True)
-    phone = db.Column(db.Integer) #do I then parse this out with RegEx
+    phone = db.Column(db.String) #parse this out with RegEx, how to get leading 0s to stay
     password = db.Column(db.String)
 
     zipcode = db.Column(db.Integer)

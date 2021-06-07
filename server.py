@@ -23,17 +23,45 @@ def index():
     #     return 
     return render_template('homepage.html')
 
-@app.route('/create-account', methods=['POST'])
+@app.route('/create-account')
 def create_account():
-    """Create account for user"""
+    """Form for user to create"""
 
-    session['fname'] = request.form.get('fname')
     
-    return render_template('/feed')
+    
+    return render_template('/create-account.html')
+
+
+@app.route('/feed', methods=['POST'])
+def collect_account():
+    """Collect account info for user"""
+
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    email = request.form.get("email")
+    phone = request.form.get("phone")
+    password = request.form.get("password")
+    zipcode = request.form.get("zipcode")
+    
+    user = crud.create_user(fname=fname, lname=lname, email=email, 
+                    phone=phone, password=password, zipcode=zipcode)
+
+    #print(f'HERE IS THE USER = {user}')
+
+    #collect categories chosen and connect to user
+    categories = request.form.getlist("categories")
+    crud.connect_user_to_multiple_prefs(user, categories)
+
+    #print(f'HERE ARE THE USER_PREFS= {user.preferences}')
+
+    
+    #session[user.user_id]
+    
+    return render_template('/feed.html',fname=fname)
 
 
 if __name__ == "__main__":
     
     connect_to_db(app)
 
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=True) 

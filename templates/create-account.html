@@ -1,0 +1,98 @@
+<!--This page is rendered when URL is "/" 
+        and the user input is captured by "/create-account" app route-->
+
+        {% extends 'base.html' %}
+
+        {%block title %}Civic App Home{% endblock %}
+        
+        {% block body %}
+        
+            <h1>Hello. It's the Civic App.</h1>
+        
+            <br>
+            <br>
+            <h2>Create an Account</h2>
+            
+            <form action="/feed" method ="POST">
+
+                <!--ask user to type in First Name-->
+                <p> <label>First Name</label>
+                  <input type="text" name="fname">
+                </p> 
+
+                <!--ask user to type in Last Name-->
+                <p>
+                    <label>Last Name</label>  
+                    <input type="text" name="lname">
+                    </p>
+                    
+                <!--ask user to type in Email-->
+                <p>
+                    <label>Email</label>
+                    <input type="text" name="email">
+                </p> 
+                
+                <!--ask user to type in Phone Number-->
+                <p>
+                    <label>Phone Number</label>
+                    <input type="text" name="phone">
+                </p>
+
+                 <!--ask user to type in Phone Number-->
+                 <p>
+                    <label>Password</label>
+                    <input type="text" name="password">
+                </p>
+
+                <!--ask user to type in Zipcode-->
+                <p>
+                    <label>Zipcode</label>
+                    <input type="text" name="zipcode">
+                </p>
+
+
+            
+             <!--ask user to choose category from dropdown-->
+                   <p> <label>What types of events are you interested in? (You can pick more than 1)</label>
+                    <br>
+                    <input type = "checkbox" name = "categories" value="Gender Equality">
+                    <label>Gender Equality</label>
+                    <br>
+                    <input type = "checkbox" name = "categories" value="LGBTQ+">
+                    <label>LGBTQ+</label>
+                    <br>
+                    <input type = "checkbox" name = "categories" value="Anti-Racism">
+                    <label>Anti-Racism</label>
+                    <br>
+                    <input type = "checkbox" name = "categories" value="AAPI">
+                    <label>AAPI</label>
+                    <br>
+                    <input type = "checkbox" name = "categories" value="category1">
+                    <label>category1</label>
+                    <br>
+                    <input type = "checkbox" name = "categories" value="category2">
+                    <label>category2</label>
+                    </p>
+
+                    <div>
+                        <input type = "submit"/>
+                    </div>
+            
+                </form>
+            
+                <!-- <p><input type="submit">
+                </p>
+                </form><form action="/create-account" method="POST">
+                <div>
+                    <label for="namefield">Name:</label>
+                    <input id="namefield" type="text" name="fname" required/>
+                    <input id="namefield" type="text" name="fname" required/>
+                    </div>
+                    <br>
+                    <div>
+                        <input type="submit"/>
+                    </div>
+                </div>
+            </form> -->
+        
+        {% endblock %}

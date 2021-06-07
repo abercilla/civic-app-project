@@ -15,30 +15,30 @@ os.system('createdb civic')
 model.connect_to_db(server.app)
 model.db.create_all()
 
-#----------------- CREATE DUMMY CREATED_EVENTS -------------------#
+#------------------- CREATE 5 DUMMY EVENTS -------------------------#
 
-created_events_in_db = []
+events_in_db = []
 prefs_in_db = [] 
 
 for n in range (5): 
     
-    name=f'name{n}'
-    category = f'category{n}'
+    name=f'name{n+1}'
+    category = f'category{n+1}'
     start_date = "2020-09-04"
-    location = f'location{n}'
-    description = f'description{n}'
-    image = f'image{n}'
+    address = f'address{n+1}'
+    description = f'description{n+1}'
+    image = f'image{n+1}'
 
-    created_event = crud.user_creates_event(name, category, start_date, location, description, image)
+    event = crud.create_event(name, category, start_date, address, description, image)
 
-    created_events_in_db.append(created_event)
+    events_in_db.append(event)
 
 #----------------- ADD EVENT CATEGORIES TO PREFERENCES -----------------#
 
     preference = crud.create_preference(category=category)
     prefs_in_db.append(preference)
 
-#------------------- CREATE SEARCHES, ADD TO PREFERENCES ----------------#
+#------------------- CREATE SEARCHES and ADD TO PREFERENCES ----------------#
 
 for n in range(5):
 
@@ -50,27 +50,28 @@ for n in range(5):
 #------------------------- CREATE 5 USERS  ------------------------------#
 
 for n in range(5):
-    fname = f'User_fname{n}'
-    lname = f'User_lname{n}'
-    email = f'user{n}@test.com'
+    fname = f'User_fname{n+1}'
+    lname = f'User_lname{n+1}'
+    email = f'user{n+1}@test.com'
+    phone = f'{n+1}000000000'
     password = 'test'
-    zipcode = f'0000{n}'
+    zipcode = f'{n+1}0000'
 
-    user = crud.create_user(fname, lname, email, password, zipcode)
+    user = crud.create_user(fname, lname, email, phone, password, zipcode)
 
 #---------------- CONNECT 1 RANDOM EVENT FOR EACH USER  -------------------#
     
-    #get a random created_event, then remove from list 
-    #...because a CreatedEvent can only be created by one User
-    #...(but many *Events* can be associated with one User)
-    random_event = choice(created_events_in_db) 
-    created_events_in_db.remove(random_event)
+    #get a random event, then remove from list 
+    #...because an Event can only be created by one User
+    #...(but many Events can be associated with one User)
+    random_event = choice(events_in_db) 
+    events_in_db.remove(random_event)
 
-    #create Event object for CreatedEvent object
-    new_event_obj = crud.create_event_id(random_event.created_event_id)
+    # #create Event object for CreatedEvent object
+    # new_event_obj = crud.create_event_id(random_event.created_event_id)
 
-    #connect new Event object to User object 
-    crud.connect_user_to_event(user, new_event_obj) 
+    #connect Event object to User object 
+    crud.connect_user_to_event(user, random_event) 
 
 #--------------- CONNECT 1 RANDOM PREFERENCE FOR EACH USER  ----------------------#
     
