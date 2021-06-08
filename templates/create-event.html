@@ -1,0 +1,62 @@
+<!--This page is rendered when URL is "/" 
+        and the user input is captured by "/create-account" app route-->
+
+        {% extends 'base.html' %}
+
+        {%block title %}Civic App Home{% endblock %}
+        
+        {% block body %}
+        
+            <h1>Hello. It's the Civic App.</h1>
+        
+            <br>
+            <br>
+            <h2>Create an Event</h2>
+            
+            <form action="/event-confirm" method ="POST">
+
+                <!--input event name-->
+                <p> <label>Event Name</label>
+                  <input type="text" name="name">
+                </p> 
+
+                <!--ask for event category (1)-->
+                <p>                     
+                    <label>Event Category</label>
+                    <select name="category">
+                        <option value="watermelon">Watermelon</option>
+                        <option value="canteloupe">Canteloupe</option>
+                        <option value="honeydew">Honeydew</option>
+                    </select> 
+                    <br><br>
+                    </p>
+                    
+                <!--input day of event -->
+                <p>
+                    <label>Event Date</label>
+                    <input type="text" name="start_date">
+                </p> 
+                
+                <!--input address/location of event-->
+                <p>
+                    <label>Location</label>
+                    <input type="text" name="address">
+                </p>
+
+                 <!--input event description-->
+                 <p>
+                    <label>Description of Event</label>
+                    <input type="text" name="description">
+                </p>
+                <br>
+
+                <!--prompt user to upload an image for the event-->
+                <section id="prompt-1">
+                    <button id="upload-image-button">Upload an Image</button>
+            
+                  </section>
+            
+                </form>
+    
+        
+        {% endblock %}

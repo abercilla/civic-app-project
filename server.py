@@ -25,9 +25,7 @@ def index():
 
 @app.route('/create-account')
 def create_account():
-    """Form for user to create"""
-
-    
+    """Form for user to create account"""
     
     return render_template('/create-account.html')
 
@@ -58,6 +56,13 @@ def collect_account():
     #session[user.user_id]
     
     return render_template('/feed.html',fname=fname)
+
+
+@app.route('/create-event')
+def create_event():
+    """Take in event info from user"""
+    
+    return render_template("create-event.html")
 
 
 if __name__ == "__main__":
