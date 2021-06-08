@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = "DEV" #need to change this and add to secrets.sh
 app.jinja_env.undefined = StrictUndefined
 
-@app.route('/')
+@app.route("/")
 def index():
     """Return homepage"""
     #if user has already signed in, redirect to feed
@@ -21,16 +21,16 @@ def index():
     #     return redirect("/feed")
     # else:
     #     return 
-    return render_template('homepage.html')
+    return render_template("homepage.html")
 
-@app.route('/create-account')
+@app.route("/create-account")
 def create_account():
     """Form for user to create account"""
     
     return render_template('/create-account.html')
 
 
-@app.route('/feed', methods=['POST'])
+@app.route("/feed", methods=["POST"])
 def collect_account():
     """Collect account info for user"""
 
@@ -55,14 +55,34 @@ def collect_account():
     
     #session[user.user_id]
     
-    return render_template('/feed.html',fname=fname)
+    return render_template("/feed.html",fname=fname)
 
 
-@app.route('/create-event')
+@app.route("/create-event")
 def create_event():
     """Take in event info from user"""
-    
+
     return render_template("create-event.html")
+
+@app.route("/event-confirm", methods=["POST"])
+def confirm_added_event():
+    """Commit event to DB and present confirm page"""
+    
+    name = request.form.get("name")
+    category = request.form.get("category")
+    start_date = request.form.get("start_date")
+    address = request.form.get("address")
+    description = request.form.get("description")
+    image = "https://unsplash.com/photos/Evo4wmtRaPI" #how to capture whatever they want to upload
+
+    event = crud.create_event(name=name, category=category, start_date=start_date, 
+                                address=address, description=description, image=image)
+    
+    #connect user to event
+    #user = user[session] 
+
+    return render_template("event-confirm.html", name=name)
+
 
 
 if __name__ == "__main__":
