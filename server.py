@@ -13,7 +13,7 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route("/")
 def index():
-    """Return homepage"""
+    """View homepage"""
     #if user has already signed in, redirect to feed
     #if not, prompt them to create an account and show unfiltered list of events
 
@@ -23,14 +23,37 @@ def index():
     #     return 
     return render_template("homepage.html")
 
+@app.route("/login")
+def show_login():
+    """Display Login form""" 
+
+    return render_template("login.html")
+
+@app.route("/login", methods=["POST"])
+def collect_login():
+    """Process login"""
+
+    email = request.form.get("email")
+    password = request.form.get("password")  
+    
+    #do a db search with check_email and store returned user object in user
+    user = crud.check_email(email)
+
+    if not user or user.password != password:
+        flash("Email or password doesn't match.")
+        return redirect("/login")
+    else:
+        session["user_id"] = user.user_id
+        return render_template("/feed.html", fname=user.fname)
+    
+   
 @app.route("/create-account")
 def create_account():
-    """Form for user to create account"""
+    """Display Create Account form"""
     
-    return render_template('/create-account.html')
+    return render_template("create-account.html")
 
-
-@app.route("/feed", methods=["POST"])
+@app.route("/create-account", methods=["POST"])
 def collect_account():
     """Collect account info for user"""
 
@@ -41,21 +64,35 @@ def collect_account():
     password = request.form.get("password")
     zipcode = request.form.get("zipcode")
     
-    user = crud.create_user(fname=fname, lname=lname, email=email, 
-                    phone=phone, password=password, zipcode=zipcode)
+    #check if account already exists
+    user = crud.check_email(email)
 
+    if user:
+        flash("Account already exists with this email. Try again.")
+    else:
+        user = crud.create_user(fname=fname, lname=lname, email=email, 
+                    phone=phone, password=password, zipcode=zipcode)
+        
+        #collect categories chosen and connect to user
+        categories = request.form.getlist("categories")
+        crud.connect_user_to_multiple_prefs(user, categories)
+        return render_template("feed.html", fname=fname)
+        
+    # session_user = session[user.user_id]
+    # print("**************")
+    # print(f'HERE IS USER_ID={user.user_id}')
+    # print(f'SESSION USER = {session_user}')
+    # print("**************")
     #print(f'HERE IS THE USER = {user}')
 
-    #collect categories chosen and connect to user
-    categories = request.form.getlist("categories")
-    crud.connect_user_to_multiple_prefs(user, categories)
+ 
 
     #print(f'HERE ARE THE USER_PREFS= {user.preferences}')
 
     
     #session[user.user_id]
     
-    return render_template("/feed.html",fname=fname)
+    
 
 
 @app.route("/create-event")

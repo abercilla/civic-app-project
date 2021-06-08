@@ -147,9 +147,10 @@ def connect_user_to_multiple_prefs(user, categories):
 def search_by_user_id(user_id):
     """Search for user_id based on sign-in info"""
 
-    
+def check_email(email):
+    """See if input matches user info in db"""
 
-
+    return User.query.filter(User.email == email).first()
 
 
 if __name__ == '__main__':

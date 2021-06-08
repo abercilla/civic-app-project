@@ -1,0 +1,32 @@
+<!--This page is rendered when URL is "/login" 
+        and the user input is captured by "/feed" app route-->
+
+        {% extends 'base.html' %}
+
+        {%block title %}Civic App Home{% endblock %}
+        
+        {% block body %}
+        
+            <h1>Hello. It's the Civic App.</h1>
+        
+            <br>
+            <br>
+            <h2>Login</h2>
+            <!--add alert if user doesn't exist-->
+            <form action="/login" method ="POST">
+                <p>
+                    <label>Email</label>
+                    <input type="text" name="email">
+                </p> 
+                
+                 <p>
+                    <label>Password</label>
+                    <input type="text" name="password">
+                </p>
+                <div>
+                    <input type = "submit"/>
+                </div>
+                </form>
+         
+        
+        {% endblock %}
