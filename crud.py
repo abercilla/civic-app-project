@@ -92,17 +92,15 @@ def save_search(keyword_search):
 #     return new_event
 
 
-def connect_user_to_event(user, event):
+def connect_user_to_event(user_id, event):
     """Connect a User to an Event"""
 
-    print('we are in connect_user_event')
-    print(f'here is the user passed through = {user}')
-    print(f'here is the event passed through = {event}')
-
-    user.events.append(event)
+    user_obj = User.query.get(user_id)
+    
+    user_obj.events.append(event)
 
     db.session.commit()
-    print('The event was successfully connected to user!')
+
 
 def connect_user_to_pref(user, pref):
     """Connect a User to an Preference"""
@@ -151,6 +149,16 @@ def check_email(email):
     """See if input matches user info in db"""
 
     return User.query.filter(User.email == email).first()
+
+def get_events():
+    """Return all events"""
+    
+    return Event.query.all()
+
+def get_event_by_id(event_id):
+    """Return event by event_id"""
+
+    return Event.query.get(event_id)
 
 
 if __name__ == '__main__':

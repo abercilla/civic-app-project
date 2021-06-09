@@ -28,8 +28,14 @@
       <h2>Here is where the filters will go</h2>
       <br>
       <h2>Here is where the list of events will go</h2>
-
-   
-
-
+      <br>
+      <ul>
+        {% for event in events %}
+        <li> 
+            <a href = "events/{{events.event_id}}">
+              {{ event.name }}
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
 {% endblock %}

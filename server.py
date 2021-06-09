@@ -14,6 +14,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route("/")
 def index():
     """View homepage"""
+    #------- implement redirect based on login -----#
     #if user has already signed in, redirect to feed
     #if not, prompt them to create an account and show unfiltered list of events
 
@@ -21,7 +22,20 @@ def index():
     #     return redirect("/feed")
     # else:
     #     return 
-    return render_template("homepage.html")
+    #------------------------------------------------#
+    
+    events = crud.get_events()
+
+    return render_template("homepage.html", events=events)
+
+@app.route("/events/<event_id>")
+def show_event(event_id):
+    """Show details of a particular event"""
+
+    event = crud.get_event_by_id(event_id)
+
+    return render_template("event_details.html", event=event)
+
 
 @app.route("/login")
 def show_login():
@@ -44,6 +58,7 @@ def collect_login():
         return redirect("/login")
     else:
         session["user_id"] = user.user_id
+        print(f'******** HERE IS THE SESSION = {session} ********')
         return render_template("/feed.html", fname=user.fname)
     
    
@@ -63,41 +78,38 @@ def collect_account():
     phone = request.form.get("phone")
     password = request.form.get("password")
     zipcode = request.form.get("zipcode")
+    categories = request.form.getlist("categories")
+
     
     #check if account already exists
     user = crud.check_email(email)
 
     if user:
         flash("Account already exists with this email. Try again.")
+        return redirect("/create-account")
     else:
         user = crud.create_user(fname=fname, lname=lname, email=email, 
                     phone=phone, password=password, zipcode=zipcode)
         
         #collect categories chosen and connect to user
-        categories = request.form.getlist("categories")
         crud.connect_user_to_multiple_prefs(user, categories)
         return render_template("feed.html", fname=fname)
-        
-    # session_user = session[user.user_id]
-    # print("**************")
-    # print(f'HERE IS USER_ID={user.user_id}')
-    # print(f'SESSION USER = {session_user}')
-    # print("**************")
-    #print(f'HERE IS THE USER = {user}')
-
- 
-
-    #print(f'HERE ARE THE USER_PREFS= {user.preferences}')
-
     
-    #session[user.user_id]
-    
-    
+# @app.route()   
+# def logout_user():
+#     """Process logout"""
 
 
 @app.route("/create-event")
 def create_event():
     """Take in event info from user"""
+    
+    logged_in_user = session.get("user_id")
+
+    if logged_in_user is None:
+        flash(f"Please log in to create an event.")
+    else:  
+        flash(f"User with user_id =  {logged_in_user} is currently logged in")
 
     return render_template("create-event.html")
 
@@ -115,8 +127,10 @@ def confirm_added_event():
     event = crud.create_event(name=name, category=category, start_date=start_date, 
                                 address=address, description=description, image=image)
     
-    #connect user to event
-    #user = user[session] 
+    #connect user in session to event created
+    logged_in_user = session.get("user_id")
+
+    crud.connect_user_to_event(logged_in_user, event)
 
     return render_template("event-confirm.html", name=name)
 
@@ -126,4 +140,4 @@ if __name__ == "__main__":
     
     connect_to_db(app)
 
-    app.run(host="0.0.0.0", debug=True) 
+    app.run(host="127.0.0.1", debug=True) 
