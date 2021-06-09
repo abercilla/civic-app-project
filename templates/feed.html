@@ -1,6 +1,7 @@
 <!--extend formatting from base.html-->
 
 {% extends 'base.html' %}
+{%block head%}<script link to specific JS file></script> {% endblock %} 
 
 {% block body %}
 
@@ -9,10 +10,10 @@
     <br>
     <br>
     <h2>Get started by saving some events or <a href = "/create-event">creating an event!</a></h2>
-    <!-- % for event in events %
+    % for event in events %
     <div class="event-div">
         <h3>Event 1</h3>
-    </div> -->
+    </div>
 
 
 

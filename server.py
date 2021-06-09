@@ -14,19 +14,15 @@ app.jinja_env.undefined = StrictUndefined
 @app.route("/")
 def index():
     """View homepage"""
-    #------- implement redirect based on login -----#
-    #if user has already signed in, redirect to feed
-    #if not, prompt them to create an account and show unfiltered list of events
 
-    # if 'name' in session:
-    #     return redirect("/feed")
-    # else:
-    #     return 
-    #------------------------------------------------#
-    
-    events = crud.get_events()
+    logged_in_user = session.get("user_id")
 
-    return render_template("homepage.html", events=events)
+    if logged_in_user:
+        filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
+        return render_template("homepage.html", events=filtered_events)
+    else:
+        random_events = crud.get_events()
+        return render_template("homepage.html", events=random_events)
 
 @app.route("/events/<event_id>")
 def show_event(event_id):
@@ -58,8 +54,11 @@ def collect_login():
         return redirect("/login")
     else:
         session["user_id"] = user.user_id
-        print(f'******** HERE IS THE SESSION = {session} ********')
-        return render_template("/feed.html", fname=user.fname)
+        logged_in_user = session.get("user_id")
+        # print(f'******** HERE IS THE SESSION = {session} ********')
+        filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
+        return render_template("/homepage.html", events=filtered_events)
+
     
    
 @app.route("/create-account")
@@ -94,7 +93,9 @@ def collect_account():
         #collect categories chosen and connect to user
         crud.connect_user_to_multiple_prefs(user, categories)
         return render_template("feed.html", fname=fname)
-    
+    #render same template with specific events based on queries about preferences
+    #or just render template with first 25 events
+
 # @app.route()   
 # def logout_user():
 #     """Process logout"""
@@ -131,6 +132,11 @@ def confirm_added_event():
     logged_in_user = session.get("user_id")
 
     crud.connect_user_to_event(logged_in_user, event)
+
+    #if session user_id = the event's creator_id 
+#   call this function that saves it to their account as an event they created
+# if not: 
+#   save to their account as a saved event 
 
     return render_template("event-confirm.html", name=name)
 

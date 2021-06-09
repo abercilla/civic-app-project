@@ -1,7 +1,7 @@
 """Functions to do CRUD operations on database (civic)"""
 """CRUD = Create, Read, Update, Delete """
 
-from model import db, User, Event, Preference, connect_to_db
+from model import db, User, Event, Preference, connect_to_db, user_events_association_table, user_prefs_association_table
 from datetime import datetime
 
 def create_user(fname, lname, email, phone, password, zipcode):
@@ -95,11 +95,18 @@ def save_search(keyword_search):
 def connect_user_to_event(user_id, event):
     """Connect a User to an Event"""
 
+    #this will just connect user_id to Event...
+    #...but not make a distinction whether they created it or not
+ 
     user_obj = User.query.get(user_id)
     
     user_obj.events.append(event)
 
     db.session.commit()
+
+
+# to connect user to their event
+    #match on user_id and creator_id
 
 
 def connect_user_to_pref(user, pref):
@@ -160,6 +167,32 @@ def get_event_by_id(event_id):
 
     return Event.query.get(event_id)
 
+def filter_events_by_user_prefs(user_id):
+    """Pull out events that fit a user's preferences"""
+    
+    #Get list of Preference objects for user based on user_id
+    user_prefs = Preference.query.join(user_prefs_association_table).join(User).filter((user_prefs_association_table.c.pref_id == Preference.pref_id) & (user_prefs_association_table.c.user_id == user_id)).all()
+    
+    categories = []
+    keywords = []
+    events = []
+    
+    #loop over Preference objects in user_prefs list...
+    #...pull out any categories or keywords the user saved
+    for user_pref in user_prefs:
+        if user_pref.category: 
+            categories.append(user_pref.category)
+        if user_pref.keyword_search != None:
+            keywords.append(user_pref.keyword_search)
+    
+    #pull out events tied to those categories and keywords
+    for category in categories:
+        events.extend(Event.query.filter_by(category=category).all())
+            
+    for keyword in keywords:
+        events.append(Event.query.filter((Event.description.like(f'%{keyword}%')) | (Event.name.like(f'%{keyword}'))).all())
+
+    return events
 
 if __name__ == '__main__':
     from server import app

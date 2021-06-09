@@ -7,14 +7,25 @@
 
 <div> 
     {{ event.image }}
-<div>
-    <br>
-<div>
-    <li>
-        {{ event.start_date}} 
-        {{ event.location }}
-        {{ event.category }}
-        {{ event.description }}
-    </li>   
 </div>
+    <br>
+    <p>
+        {{ event.start_date}} 
+    </p>
+    <br>
+    <p>
+        {{ event.address }}
+    </p>
+    <br>
+    <p>
+        {{ event.category }}
+    </p>
+    <br>
+    <p>
+        {{ event.description }}
+    </p>   
+    <br>
+    <section id="save">
+        <button id="save-event">Save Event</button>
+    </section>
 {% endblock %} 

@@ -71,6 +71,7 @@ class Event (db.Model):
                         primary_key=True,
                         autoincrement=True,
                         nullable=False)
+    #creator_id = db.Colum(foreign_key)
     name = db.Column(db.String)
     category = db.Column(db.String) #--> if category already exists, tag on, if not, add to category in preferences
     start_date = db.Column(db.DateTime)
