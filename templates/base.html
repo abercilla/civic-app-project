@@ -16,11 +16,30 @@
 
 
     <body>
+        {% if session.get("user_id")%}
+            <div>
+                <a href ="/">Home</a>
+                <a href = "user/<user_id>">My Profile</a>
+                <a href = "/logout">Logout</a>
+            </div>
+        {% else %}
+            <div>
+                <a href ="/">Home</a>
+                <a href = "/create-account">Create Account</a>
+                <a href = "/login">Login</a>
+            </div>
+        {% endif %}
+
+        <br>
+
         {% for msg in get_flashed_messages()%}
             <p class="flash-msg">
                 {{ msg }}
             </p>
         {% endfor %}
+        <br>
+        <h1>Hello. It's the Civic App.</h1>
+        
     {% block body %}{% endblock %}
     </body>
 </html>

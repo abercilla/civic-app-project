@@ -6,28 +6,64 @@
 {%block title %}Civic App Home{% endblock %}
 
 {% block body %}
+  <script src="/static/homepage.js"></script>
 
     <h1>Hello. It's the Civic App.</h1>
 
     <br>
-    <section id="prompt-1">
+    <!-- <section id="login">
         <button id="login-button"><a href = "/login">Log In</a></button>
     </section>
      
     <br>
-      <section id="prompt-2">
+      <section id="account">
           <button id="create-account"><a href = "/create-account">Create Account</a></Create></button>
       </section>
 
       <br>
-      <section id="prompt-3">
+      <section id="event">
         <button id="create-event"><a href = "/create-event">Create Event</a></Create></button>
-    </section>
-    
+    </section> -->
+    <br>
+    <form>
+      <form action="/" method ="POST">
+        <p>
+            <label>Search by keyword</label>
+            <input type="text" name="keyword">
+        </p> 
+        <div>
+          <input type = "submit"/>
+      </div>
+    </form>
+    <br>
+    <form>
+      <p> <label>Filter by categories</label>
+        <br>
+        <input type = "checkbox" name = "categories" value="Gender Equality">
+        <label>Gender Equality</label>
+        <br>
+        <input type = "checkbox" name = "categories" value="LGBTQ+">
+        <label>LGBTQ+</label>
+        <br>
+        <input type = "checkbox" name = "categories" value="Anti-Racism">
+        <label>Anti-Racism</label>
+        <br>
+        <input type = "checkbox" name = "categories" value="AAPI">
+        <label>AAPI</label>
+        <br>
+        <input type = "checkbox" name = "categories" value="category1">
+        <label>category1</label>
+        <br>
+        <input type = "checkbox" name = "categories" value="category2">
+        <label>category2</label>
+      </p>
+      <div>
+          <input type = "submit"/><!--change this text to something else?-->
+      </div>
+
+  </form>
       <br>
-      <h2>Here is where the filters will go</h2>
-      <br>
-      <h2>Here is where the list of events will go</h2>
+      <h2>Upcoming Events</h2>
       <br>
       <ul>
         {% for event in events %}

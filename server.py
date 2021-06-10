@@ -23,6 +23,22 @@ def index():
     else:
         random_events = crud.get_events()
         return render_template("homepage.html", events=random_events)
+        #if button is clicked, run this other thing
+
+
+@app.route("/")
+def filter_homepage():
+    """Filter homepage by unsaved search and/or categories"""
+
+    #take in the user's input from homepage
+    keyword_search = request.form.get("keyword")
+    categories = request.form.getlist("categories")
+
+    #filter events by input 
+    filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
+
+    return redirect("/homepage.html", events=filtered_events)
+
 
 @app.route("/events/<event_id>")
 def show_event(event_id):
@@ -30,7 +46,21 @@ def show_event(event_id):
 
     event = crud.get_event_by_id(event_id)
 
+
     return render_template("event_details.html", event=event)
+
+@app.route("/events/<event_id>", methods=["POST"])
+def save_event_to_user(event_id):
+    """Save event to current user"""
+
+    logged_in_user = session.get("user_id")
+    
+    if logged_in_user:
+        crud.connect_user_to_event(logged_in_user, event_id)
+        flash("Event saved!")
+        return redirect("/event_details.html")
+    else:
+        flash("Create an account to save an event.")
 
 
 @app.route("/login")
@@ -59,7 +89,21 @@ def collect_login():
         filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
         return render_template("/homepage.html", events=filtered_events)
 
-    
+@app.route("/user-profile")
+def show_profile():
+    """Show a user's profile with saved events and preferences"""
+
+
+    return render_template("user-profile.html", fname=fname, lname=lname)
+
+@app.route("/logout")   
+def logout_user():
+    """Process logout"""
+
+    del session["user_id"]
+
+    return render_template("logout.html")
+
    
 @app.route("/create-account")
 def create_account():
@@ -95,10 +139,6 @@ def collect_account():
         return render_template("feed.html", fname=fname)
     #render same template with specific events based on queries about preferences
     #or just render template with first 25 events
-
-# @app.route()   
-# def logout_user():
-#     """Process logout"""
 
 
 @app.route("/create-event")

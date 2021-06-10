@@ -92,15 +92,16 @@ def save_search(keyword_search):
 #     return new_event
 
 
-def connect_user_to_event(user_id, event):
+def connect_user_to_event(user_id, event_id):
     """Connect a User to an Event"""
 
     #this will just connect user_id to Event...
     #...but not make a distinction whether they created it or not
  
     user_obj = User.query.get(user_id)
+    event_obj = Event.query.get(event_id)
     
-    user_obj.events.append(event)
+    user_obj.events.append(event_obj)
 
     db.session.commit()
 
@@ -167,6 +168,20 @@ def get_event_by_id(event_id):
 
     return Event.query.get(event_id)
 
+# def filter_events_by_prefs(keyword, categories):
+#     """Filter homepage events based on non-user search"""
+    
+#     events = []
+
+#     #pull out events that fit chosen categories
+#     for category in categories:
+#             events.extend(Event.query.filter_by(category=category).all())
+
+#     #pull out events that have chosen keyword
+#     events.append(Event.query.filter((Event.description.like(f'%{keyword}%')) | (Event.name.like(f'%{keyword}'))).all())
+
+#     return events
+
 def filter_events_by_user_prefs(user_id):
     """Pull out events that fit a user's preferences"""
     
@@ -190,9 +205,13 @@ def filter_events_by_user_prefs(user_id):
         events.extend(Event.query.filter_by(category=category).all())
             
     for keyword in keywords:
-        events.append(Event.query.filter((Event.description.like(f'%{keyword}%')) | (Event.name.like(f'%{keyword}'))).all())
+        events.append(Event.query.filter((Event.description.like(f'%{keyword}%')) | 
+                                            (Event.name.like(f'%{keyword}'))).all())
 
     return events
+
+# def save_event_for_user():
+
 
 if __name__ == '__main__':
     from server import app
