@@ -9,20 +9,18 @@
   <script src="/static/homepage.js"></script>
     <br>
 
-      <form action="/", method ="POST">
+      <form action="/" method="POST">
         <div>
-            <label>Search by keyword</label>
+            <label><b>Search by Keyword</b></label>
             <input type="text" name="keyword">
+            <button type = "submit" name = "button" id ="keyword_search">Search</button>
         </div> 
-        <div>
-          <input type = "submit"/>
-      </div>
-    </form>
-    
+        
+   
     <br>
-
-    <form>
-      <div> <label>Filter by categories</label>
+    
+    <div> <label><b>Filter by Categories</b></label>
+        <br>
         <br>
         <input type = "checkbox" name = "categories" value="Gender Equality">
         <label>Gender Equality</label>
@@ -42,13 +40,14 @@
         <input type = "checkbox" name = "categories" value="category2">
         <label>category2</label>
       </div>
+      <br>
       <div>
-          <input type = "submit"/><!--change this text to something else?-->
+          <button type = "submit" name = "button" id ="category_search">Search</button><!--change this text to something else?-->
       </div>
   </form>
 
       <br>
-      
+
       <h2>Upcoming Events</h2>
       <br>
       <ul>

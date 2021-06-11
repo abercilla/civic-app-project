@@ -15,20 +15,29 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """View homepage"""
 
-    logged_in_user = session.get("user_id")
+    random_events = crud.get_events()
 
-    if logged_in_user:
-        filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
-        return render_template("homepage.html", events=filtered_events)
-    else:
-        random_events = crud.get_events()
-        return render_template("homepage.html", events=random_events)
-        #if button is clicked, run this other thing
+    return render_template("homepage.html", events=random_events)
+    
+    #-------code for if I want the homepage to display different things------#
+    #------------based on whether whether someone is logged in---------------#
+    
 
+    #logged_in_user = session.get("user_id")
+
+    # if logged_in_user:
+    #     filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
+    #     return render_template("homepage.html", events=filtered_events)
+    # else:
+    #     random_events = crud.get_events()
+    #     return render_template("homepage.html", events=random_events)
+    #     if button is clicked, run this other thing
 
 @app.route("/", methods=["POST"])
 def filter_homepage():
     """Filter homepage by unsaved search and/or categories"""
+    #-----currently runs the search all over again with each form submit----#
+    #-----as opposed to adding searches on top of each other----------------#
 
     #take in the user's input from homepage
     keyword_search = request.form.get("keyword")
@@ -37,7 +46,7 @@ def filter_homepage():
     #filter events by input 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
 
-    return redirect("/", events=filtered_events)
+    return render_template("/homepage.html", events=filtered_events)
 
 
 @app.route("/events/<event_id>")
@@ -90,10 +99,23 @@ def collect_login():
         filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
         return render_template("/homepage.html", events=filtered_events)
 
-@app.route("/user-profile")
-def show_profile():
+@app.route("/user-profile/<user_id>")
+def show_profile(user_id):
     """Show a user's profile with saved events and preferences"""
+    
 
+    user = crud.get_user_by_id(user_id)
+
+
+    return render_template("event_details.html", event=event)
+    logged_in_user = session.get("user_id")
+
+    if logged_in_user:
+        return render_template("/user_profile")
+    else:
+        user = crud.create_user(fname=fname, lname=lname, email=email, 
+                    phone=phone, password=password, zipcode=zipcode)
+ 
 
     return render_template("user-profile.html", fname=fname, lname=lname)
 

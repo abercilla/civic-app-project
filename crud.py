@@ -91,6 +91,13 @@ def save_search(keyword_search):
 
 #     return new_event
 
+def get_user_by_id(user_id):
+    """Get user by user_id"""
+    
+    return User.query.get(user_id)
+
+
+
 
 def connect_user_to_event(user_id, event_id):
     """Connect a User to an Event"""
@@ -177,7 +184,7 @@ def filter_events_by_prefs(keyword_search=None, categories=None):
     
     events = []
 
-
+    
     if categories: 
         #pull out events that fit chosen categories
         for category in categories:
@@ -186,7 +193,7 @@ def filter_events_by_prefs(keyword_search=None, categories=None):
     
     if keyword_search:
         #pull out events that have chosen keyword (KEY SENSITIVE)
-        events.append(Event.query.filter((Event.description.like(f'%{keyword_search}%')) | (Event.name.like(f'%{keyword_search}%'))).all())
+        events.extend(Event.query.filter((Event.description.like(f'%{keyword_search}%')) | (Event.name.like(f'%{keyword_search}%'))).all())
 
     
     print(f"**********HERE ARE EVENTS = {events}*****")
