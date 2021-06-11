@@ -25,8 +25,9 @@
         {{ event.description }}
     </p>   
     <br>
-        <div>
-            <a href = "/events/<event_id>" method="POST">Save Event</a>
-        </div>
+  
+    <div>
+         <a href="/events/{{event.event_id}}" method="POST"><button id="save-event">Save Event</a>
+    </div>
 
 {% endblock %} 

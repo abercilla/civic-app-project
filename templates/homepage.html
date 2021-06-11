@@ -7,37 +7,22 @@
 
 {% block body %}
   <script src="/static/homepage.js"></script>
-
-    <h1>Hello. It's the Civic App.</h1>
-
     <br>
-    <!-- <section id="login">
-        <button id="login-button"><a href = "/login">Log In</a></button>
-    </section>
-     
-    <br>
-      <section id="account">
-          <button id="create-account"><a href = "/create-account">Create Account</a></Create></button>
-      </section>
 
-      <br>
-      <section id="event">
-        <button id="create-event"><a href = "/create-event">Create Event</a></Create></button>
-    </section> -->
-    <br>
-    <form>
-      <form action="/" method ="POST">
-        <p>
+      <form action="/", method ="POST">
+        <div>
             <label>Search by keyword</label>
             <input type="text" name="keyword">
-        </p> 
+        </div> 
         <div>
           <input type = "submit"/>
       </div>
     </form>
+    
     <br>
+
     <form>
-      <p> <label>Filter by categories</label>
+      <div> <label>Filter by categories</label>
         <br>
         <input type = "checkbox" name = "categories" value="Gender Equality">
         <label>Gender Equality</label>
@@ -56,13 +41,14 @@
         <br>
         <input type = "checkbox" name = "categories" value="category2">
         <label>category2</label>
-      </p>
+      </div>
       <div>
           <input type = "submit"/><!--change this text to something else?-->
       </div>
-
   </form>
+
       <br>
+      
       <h2>Upcoming Events</h2>
       <br>
       <ul>

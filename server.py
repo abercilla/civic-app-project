@@ -26,7 +26,7 @@ def index():
         #if button is clicked, run this other thing
 
 
-@app.route("/")
+@app.route("/", methods=["POST"])
 def filter_homepage():
     """Filter homepage by unsaved search and/or categories"""
 
@@ -37,7 +37,7 @@ def filter_homepage():
     #filter events by input 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
 
-    return redirect("/homepage.html", events=filtered_events)
+    return redirect("/", events=filtered_events)
 
 
 @app.route("/events/<event_id>")
@@ -54,13 +54,14 @@ def save_event_to_user(event_id):
     """Save event to current user"""
 
     logged_in_user = session.get("user_id")
-    
+
     if logged_in_user:
-        crud.connect_user_to_event(logged_in_user, event_id)
+        event = crud.connect_user_to_event(logged_in_user, event_id)
         flash("Event saved!")
-        return redirect("/event_details.html")
+        return redirect("/event_details.html", event=event)
     else:
         flash("Create an account to save an event.")
+        return redirect("/event_details.html", event=event)
 
 
 @app.route("/login")
