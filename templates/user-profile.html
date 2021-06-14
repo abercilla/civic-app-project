@@ -5,21 +5,41 @@
 
 {% block body %}
 
-    <h1>Account Profile for : {{fname}} {{lname}}</h1>
+    <h2>Welcome back, {{user.fname}} {{user.lname}}</h2>
 
     <br>
+    <h2>My Saved Searches</h2>
+
+    <h3>Categories:</h3>
+    {% if len(categories) > 0%}
+        {% for category in cateogories %}
+            <li>
+            {{ category }}
+            </li>
+        {% endfor %}
+    {% endif %}
     <br>
-    <h2>Saved Events:
-         
-        
-        
-        
-        
-        Get started by saving some events or <a href = "/create-event">creating an event!</a></h2>
-    % for event in events %
-    <div class="event-div">
-        <h3>Event 1</h3>
-    </div>
+    <h3>Search words:</h3>
+    {% if len(keywords) > 0%}
+        {% for keyword in keywords %}
+            <li>   
+            {{ keyword }} 
+            </li>     
+        {% endfor %}
+    {% endif %}
+
+    <br>
+    <h2>My Events</h2>
+     {% for event in events %}
+        <li>
+            <a href = "/events/{{event.event_id}}">
+                {{ event.name }}
+              </a> 
+        </li>
+        {% endfor %}
+    <br>
+    <p><a href = "/">Search for more events</a> or <a href = "/create-event">create an event!</a></p> 
+    
 
 
 

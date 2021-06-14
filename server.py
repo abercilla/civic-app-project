@@ -15,6 +15,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """View homepage"""
 
+    
     random_events = crud.get_events()
 
     return render_template("homepage.html", events=random_events)
@@ -48,13 +49,24 @@ def filter_homepage():
 
     return render_template("/homepage.html", events=filtered_events)
 
+@app.route("/", methods=["POST"])
+def save_pref_to_user():
+    """Save a search filter to user's profile"""
+
+#if the homepage is filtered by category or keyword
+
+#"Save filter" should show up
+
+#save criteria from form as a preference
+
+
 
 @app.route("/events/<event_id>")
 def show_event(event_id):
     """Show details of a particular event"""
 
+    logged_in_user = session.get("user_id")
     event = crud.get_event_by_id(event_id)
-
 
     return render_template("event_details.html", event=event)
 
@@ -63,14 +75,18 @@ def save_event_to_user(event_id):
     """Save event to current user"""
 
     logged_in_user = session.get("user_id")
+    
+    event = crud.get_event_by_id(event_id)
+    print(f"****HERE IS EVENT = {event}")
 
+    #Save event to current user's account
     if logged_in_user:
-        event = crud.connect_user_to_event(logged_in_user, event_id)
-        flash("Event saved!")
-        return redirect("/event_details.html", event=event)
+        crud.connect_user_to_event(logged_in_user, event)
+        flash("* Event successfully saved! *")
+        return render_template("event_details.html", event=event)
     else:
-        flash("Create an account to save an event.")
-        return redirect("/event_details.html", event=event)
+        flash("* Oops! Create an account to save an event. *")
+        return render_template("event_details.html", event=event)
 
 
 @app.route("/login")
@@ -94,27 +110,34 @@ def collect_login():
         return redirect("/login")
     else:
         session["user_id"] = user.user_id
-        logged_in_user = session.get("user_id")
+
+        #-----if we want to be redirected to the homepage with prefs filtered----#
+        # logged_in_user = session.get("user_id")
         # print(f'******** HERE IS THE SESSION = {session} ********')
-        filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
-        return render_template("/homepage.html", events=filtered_events)
+        #filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
+        # return render_template("/homepage.html", events=events)
+
+        random_events = crud.get_events()
+        return render_template("homepage.html", events=random_events)
 
 @app.route("/user-profile/<user_id>")
 def show_profile(user_id):
     """Show a user's profile with saved events and preferences"""
     
-
-    user = crud.get_user_by_id(user_id)
-
-
-    return render_template("event_details.html", event=event)
     logged_in_user = session.get("user_id")
-
+    #---BUG--My Profile button doesn't work when we're already on the user's profile
     if logged_in_user:
-        return render_template("/user_profile")
+        user = crud.get_user_by_id(user_id)
+        events = crud.filter_events_by_user_prefs(logged_in_user)
+        prefs = crud.get_user_prefs(user_id)
+        categories = crud.get_user_categories(prefs)
+        keywords = crud.get_user_prefs(prefs)
+
+        return render_template("user-profile.html", user=user, events=events, categories=categories, keywords=keywords)
     else:
-        user = crud.create_user(fname=fname, lname=lname, email=email, 
-                    phone=phone, password=password, zipcode=zipcode)
+        flash("Access Denied. Create an account to access this page.")
+        return redirect("/")
+
  
 
     return render_template("user-profile.html", fname=fname, lname=lname)

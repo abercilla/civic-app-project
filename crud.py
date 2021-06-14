@@ -93,25 +93,22 @@ def save_search(keyword_search):
 
 def get_user_by_id(user_id):
     """Get user by user_id"""
-    
+
     return User.query.get(user_id)
 
-
-
-
-def connect_user_to_event(user_id, event_id):
+def connect_user_to_event(user_id, event_obj):
     """Connect a User to an Event"""
 
     #this will just connect user_id to Event...
     #...but not make a distinction whether they created it or not
-    print("WE ARE IN CONNECT_USER_TO_EVENT")
+    print("********WE ARE IN CONNECT_USER_TO_EVENT***********")
     user_obj = User.query.get(user_id)
-    event_obj = Event.query.get(event_id)
+    # event_obj = Event.query.get(event_id)
     
-    user_obj.events.append(event_obj)
+    user_obj.events.append(event_obj) #BUG -- event_obj is coming in as <event_id>
 
     db.session.commit()
-    print("WE COMMITTED THE USER_EVENT RELATIONSHIP")
+    print("**********WE COMMITTED THE USER_EVENT RELATIONSHIP*********")
 
     return event_obj
 
@@ -229,6 +226,43 @@ def filter_events_by_user_prefs(user_id):
     return events
 
 # def save_event_for_user():
+#   """"Allow a user to save preferences"""
+
+
+def get_user_prefs(user_id):
+    """Grab prefs for a user"""
+
+    user = User.query.get(user_id)
+    prefs = user.preferences
+
+    return prefs
+    
+
+def get_user_categories(prefs):
+    """Get categories from user's preferences"""
+    
+    categories = []
+    #loop over list of pref objects
+    for pref in prefs: 
+        #if that pref object has a category attached, pull it out
+        if pref.category:
+            categories.append(pref.category)
+    
+    return categories
+   
+    
+def get_user_keywords(prefs):
+    """Get keywords from user preferences"""
+
+    keywords = []
+    #loop over list of pref objects
+    for pref in prefs: 
+        #if that pref object has a category attached, pull it out
+        if pref.keyword_search:
+            keywords.append(pref.keyword_search)
+    
+    return keywords
+
 
 
 if __name__ == '__main__':

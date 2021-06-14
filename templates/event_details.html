@@ -26,8 +26,8 @@
     </p>   
     <br>
   
-    <div>
-         <a href="/events/{{event.event_id}}" method="POST"><button id="save-event">Save Event</a>
-    </div>
+    <form action="/events/{{event.event_id}}" method="POST">
+        <button type = "submit" name = "button" id ="save-event">Save Event</button>
+    </form>
 
 {% endblock %} 

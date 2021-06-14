@@ -7,8 +7,6 @@
         
         {% block body %}
         
-            <h1>Hello. It's the Civic App.</h1>
-        
             <br>
             <br>
             <h2>Create an Event</h2>
@@ -56,10 +54,10 @@
             
                   </section>
                   <br>
-                  <div>
-                    <input type = "submit"/>
-                </div>
+                  <form action="/event-confirm" method="POST">
+                    <button type = "submit" name = "button" id ="create-event">Create Event</button>
                 </form>
+
     
         
         {% endblock %}
