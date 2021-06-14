@@ -8,27 +8,26 @@
     <h2>Welcome back, {{user.fname}} {{user.lname}}</h2>
 
     <br>
-    <h2>My Saved Searches</h2>
+    <h2>My Saved Filters</h2>
 
-    <h3>Categories:</h3>
-    {% if len(categories) > 0%}
-        {% for category in cateogories %}
-            <li>
-            {{ category }}
-            </li>
-        {% endfor %}
-    {% endif %}
     <br>
-    <h3>Search words:</h3>
-    {% if len(keywords) > 0%}
+    
+    <h3><u>Categories</u></h3>
+        {% for category in categories %}
+            <li>   
+            {{ category }} 
+            </li>     
+        {% endfor %}
+    <br>
+    
+    <h3><u>Search words</u></h3>  
         {% for keyword in keywords %}
             <li>   
             {{ keyword }} 
             </li>     
-        {% endfor %}
-    {% endif %}
-
+        {% endfor %}   
     <br>
+
     <h2>My Events</h2>
      {% for event in events %}
         <li>

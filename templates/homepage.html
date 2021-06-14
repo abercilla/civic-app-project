@@ -6,14 +6,14 @@
 {%block title %}Civic App Home{% endblock %}
 
 {% block body %}
-  <script src="/static/homepage.js"></script>
+  
     <br>
 
       <form action="/" method="POST">
         <div>
             <label><b>Search by Keyword</b></label>
             <input type="text" name="keyword">
-            <button type = "submit" name = "button" id ="keyword_search">Search</button>
+            <button type = "submit" name = "button" id ="keyword_search">Search by keyword</button>
         </div> 
         
    
@@ -42,15 +42,26 @@
       </div>
       <br>
       <div>
-          <button type = "submit" name = "button" id ="category_search">Search</button><!--change this text to something else?-->
+          <button type = "submit" name = "button" id ="category_search">Search by category</button><!--change this text to something else?-->
       </div>
-  </form>
+    </form>
 
       <br>
+      {% if session["user_id"]%}
+      <form><!--can i specify this button within existing route or do i need to create a new route-->
+        <button type = "submit" name = "button" id = "save_to_prefs">Save search to My Filters</button>
+      </form> 
+      <br>
+     <form>
+        <button type = "submit" name = "button" id = "saved_filters">Search by My Filters</button>
+     </form>
+      {% endif %}
+  
 
+      <br>
       <h2>Upcoming Events</h2>
       <br>
-      <ul>
+      <ul id = "event-list">
         {% for event in events %}
         <li> 
             <a href = "events/{{event.event_id}}">
@@ -59,4 +70,5 @@
         </li>
         {% endfor %}
       </ul>
+  <script src="/static/homepage.js"></script>
 {% endblock %}

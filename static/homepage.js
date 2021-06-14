@@ -2,19 +2,41 @@
 
 // separate JS files for each HTML page and then add in script tag to that HTML page
 
-//Login button 
+alert("js is connected!");
 
-const login_button = $('#login-button');
+// function FilterHomepage(evt){
+//     alert("We clicked on Search by My Filters!")
+//         };
 
-//Log a user out 
-function Logout(evt){
-    if (button.html('Log In')) {
-        button.on('click', () => {
-            //if user_id in session, button should read 'Logout'
-            //when button is clicked, user should be logged out
+//when button is clicked, call FilterHomepage function
 
-            button.html('Log Out');
-        });
-    }
-}
 
+
+//use this, data returned from get request will be in data and we'll append each one to list
+let url = "/saved-filter.json";
+let i = 0;
+
+$('#saved_filters').on('click', (evt) => {
+    evt.preventDefault();
+    console.log("On submit is working!")
+    $.get(url, (data) => {
+        $('#event-list').empty();
+        let events = data;
+        for (const event of events) {
+            console.log(events[i]["event_id"]);
+            const eventAdd = "<li><a href = 'events/" + events[i]["event_id"] + "'>" + events[i]["name"] + "</a></li>";
+            $('#event-list').append(eventAdd);
+            i = i + 1;
+        }     
+    })
+});
+
+
+
+
+//define function to add an item to existing list
+// function addItem(evt){
+//     list.append('<li>Item</li>'); //list item from homepage.html 
+
+
+// }

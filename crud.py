@@ -253,14 +253,14 @@ def get_user_categories(prefs):
     
 def get_user_keywords(prefs):
     """Get keywords from user preferences"""
-
+    
     keywords = []
     #loop over list of pref objects
     for pref in prefs: 
         #if that pref object has a category attached, pull it out
         if pref.keyword_search:
             keywords.append(pref.keyword_search)
-    
+
     return keywords
 
 

@@ -1,6 +1,6 @@
 """Server with all routes"""
 
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 
 from model import connect_to_db
 import crud
@@ -47,13 +47,45 @@ def filter_homepage():
     #filter events by input 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
 
+    #--ADD undo filtering!--  
+
+    #add category list to session to keep track of searches
+
     return render_template("/homepage.html", events=filtered_events)
 
-@app.route("/", methods=["POST"])
+@app.route("/saved-filter.json") 
+def filter_homepage_by_prefs():
+    """Filter homepage based on user's prefs"""
+
+    events = crud.filter_events_by_user_prefs(session["user_id"])
+
+    event_list = []
+
+    #open list of objs
+    for event in events: 
+    #create dict for each event obj with attributes as values
+        event_dict = {"event_id": event.event_id, "name": event.name, "category": event.category, 
+                        "start_date": event.start_date, "address": event.address,
+                        "description": event.description, "image": event.image}
+        event_list.append(event_dict)
+    
+    #key will be the field names, what js identifies
+    #append each dict to a list
+    #jsonify that list 
+    print(f"***EVENT LIST = {event_list}****")
+    return jsonify(event_list)
+
+
+
+
+@app.route("/saved-filter.json", methods=["POST"]) 
 def save_pref_to_user():
     """Save a search filter to user's profile"""
 
+#return events and then jsonify so we can read in js
+
 #if the homepage is filtered by category or keyword
+
 
 #"Save filter" should show up
 
@@ -127,13 +159,16 @@ def show_profile(user_id):
     logged_in_user = session.get("user_id")
     #---BUG--My Profile button doesn't work when we're already on the user's profile
     if logged_in_user:
+
         user = crud.get_user_by_id(user_id)
         events = crud.filter_events_by_user_prefs(logged_in_user)
-        prefs = crud.get_user_prefs(user_id)
-        categories = crud.get_user_categories(prefs)
-        keywords = crud.get_user_prefs(prefs)
 
-        return render_template("user-profile.html", user=user, events=events, categories=categories, keywords=keywords)
+        prefs = crud.get_user_prefs(user_id)
+
+        categories = crud.get_user_categories(prefs)
+        keywords = crud.get_user_keywords(prefs)
+
+        return render_template("user-profile.html", user=user, events=events, prefs = prefs, categories=categories, keywords=keywords)
     else:
         flash("Access Denied. Create an account to access this page.")
         return redirect("/")
