@@ -11,46 +11,43 @@
 
       <form action="/" method="POST">
         <div>
-            <label><b>Search by Keyword</b></label>
+            <label><b>Search</b></label>
             <input type="text" name="keyword">
-            <button type = "submit" name = "button" id ="keyword_search">Search by keyword</button>
         </div> 
-        
-   
     <br>
-    
-    <div> <label><b>Filter by Categories</b></label>
+      <div> <label><b>Categories</b></label>
+          <br>
+          <br>
+            <input type="checkbox" name="categories" value="Gender Equality">
+            <label>Gender Equality</label>
+            <br>
+            <input type="checkbox" name = "categories" value="LGBTQ+">
+            <label>LGBTQ+</label>
+            <br>
+            <input type="checkbox" name = "categories" value="Anti-Racism">
+            <label>Anti-Racism</label>
+            <br>
+            <input type="checkbox" name = "categories" value="AAPI">
+            <label>AAPI</label>
+            <br>
+            <input type="checkbox" name = "categories" value="category1">
+            <label>category1</label>
+            <br>
+            <input type="checkbox" name = "categories" value="category2">
+            <label>category2</label>
+        </div>
         <br>
-        <br>
-        <input type = "checkbox" name = "categories" value="Gender Equality">
-        <label>Gender Equality</label>
-        <br>
-        <input type = "checkbox" name = "categories" value="LGBTQ+">
-        <label>LGBTQ+</label>
-        <br>
-        <input type = "checkbox" name = "categories" value="Anti-Racism">
-        <label>Anti-Racism</label>
-        <br>
-        <input type = "checkbox" name = "categories" value="AAPI">
-        <label>AAPI</label>
-        <br>
-        <input type = "checkbox" name = "categories" value="category1">
-        <label>category1</label>
-        <br>
-        <input type = "checkbox" name = "categories" value="category2">
-        <label>category2</label>
-      </div>
-      <br>
-      <div>
-          <button type = "submit" name = "button" id ="category_search">Search by category</button><!--change this text to something else?-->
-      </div>
+        <div>
+            <button type = "submit" onclick="save()" name = "button" id ="category_search" >Apply Filters</button>
+        </div>
     </form>
+
+    <!--Add "Clear Filters" button to wipe out applied filters-->
+    <button type = "button" id="clear-button">Clear Filter</button>
 
       <br>
       {% if session["user_id"]%}
-      <form><!--can i specify this button within existing route or do i need to create a new route-->
-        <button type = "submit" name = "button" id = "save_to_prefs">Save search to My Filters</button>
-      </form> 
+        <button type = "button" name = "button" id = "save_to_prefs">Save Filter</button>
       <br>
      <form>
         <button type = "submit" name = "button" id = "saved_filters">Search by My Filters</button>

@@ -40,25 +40,52 @@ def filter_homepage():
     #-----currently runs the search all over again with each form submit----#
     #-----as opposed to adding searches on top of each other----------------#
 
-    #take in the user's input from homepage
     keyword_search = request.form.get("keyword")
     categories = request.form.getlist("categories")
 
-    #filter events by input 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
 
-    #--ADD undo filtering!--  
-
-    #add category list to session to keep track of searches
+    #--
 
     return render_template("/homepage.html", events=filtered_events)
+
+
+
+@app.route("/save-filter", methods=["POST"]) 
+def save_pref_to_user():
+    """Save a search filter to user's profile"""
+    
+    #get JSON string from JS and turn into Python obj
+    data = request.get_json()
+
+    print(data)
+
+    return jsonify("items saved")
+#would need to have "searched by category" before you can do this
+
+#if the homepage is filtered by category or keyword
+
+
+#"Save filter" should show up
+
+#save criteria from form as a preference
+
+
+#receive search criteria as JSON string so we can destruct it 
+#...here and send it through crud.py function to save to user's preference
+
+
+
+
 
 @app.route("/saved-filter.json") 
 def filter_homepage_by_prefs():
     """Filter homepage based on user's prefs"""
 
     events = crud.filter_events_by_user_prefs(session["user_id"])
+    print(f'HERE ARE EVENTS FROM SERVER = {events}------')
 
+    #--BUG--need to fix for when user has no events saved (events list is empty)
     event_list = []
 
     #open list of objs
@@ -74,22 +101,6 @@ def filter_homepage_by_prefs():
     #jsonify that list 
     print(f"***EVENT LIST = {event_list}****")
     return jsonify(event_list)
-
-
-
-
-@app.route("/saved-filter.json", methods=["POST"]) 
-def save_pref_to_user():
-    """Save a search filter to user's profile"""
-
-#return events and then jsonify so we can read in js
-
-#if the homepage is filtered by category or keyword
-
-
-#"Save filter" should show up
-
-#save criteria from form as a preference
 
 
 
@@ -161,9 +172,12 @@ def show_profile(user_id):
     if logged_in_user:
 
         user = crud.get_user_by_id(user_id)
-        events = crud.filter_events_by_user_prefs(logged_in_user)
+        
+        events = crud.get_user_events(logged_in_user)
+        print(f'----HERE ARE EVENTS FROM SERVER = {events}-----')
 
         prefs = crud.get_user_prefs(user_id)
+        print(f'----HERE ARE PREFS FROM SERVER = {prefs}-----')
 
         categories = crud.get_user_categories(prefs)
         keywords = crud.get_user_keywords(prefs)

@@ -12,7 +12,10 @@ alert("js is connected!");
 
 
 
-//use this, data returned from get request will be in data and we'll append each one to list
+// DISPLAY RELEVANT EVENTS
+// events that fit the current user's saved preferences will be returned as (data) from get request
+//... and we'll append each event to list element <li>
+
 let url = "/saved-filter.json";
 let i = 0;
 
@@ -32,11 +35,56 @@ $('#saved_filters').on('click', (evt) => {
 });
 
 
+//-------
+//this will listen for all checkboxes on homepage.html
+// var i is a number of checkboxes
+var j, boxes = document.querySelectorAll('input[type="checkbox"]');
+//var keyword = document.querySelectorAll('input[type="text"]');
+
+//save what's currently entered on the page (make it sticky)
+function save() {
+    for (j = 0; j < boxes.length; j++) {
+        localStorage.setItem(boxes[j].value, boxes[j].checked); 
+    }
+    //add what was entered in keyword textbox to localStorage
+    //localStorage.setItem(keyword.value,  );
+}
 
 
-//define function to add an item to existing list
-// function addItem(evt){
-//     list.append('<li>Item</li>'); //list item from homepage.html 
+function load_() {
+    for (j = 0; j < boxes.length; j++) {
+        boxes[j].checked = localStorage.getItem(boxes[j].value) === 'true' ? true:false;
+    }
+    //keep keyword textbox entered on page
+    //fill in whatever keyword is stored in localStorage 
+    //localStorage.getItem(keyword.value === 
+}
 
+//clear filters via localStorage
+const clear = () => {
+    localStorage.clear();
+    location.reload();
+}
 
-// }
+// Allow user to save search criteria as a filter/pref
+const saveUserFilter = (evt) => {
+    evt.preventDefault();
+    //turn what's saved in localstorage into usable
+    let formData = JSON.stringify(localStorage);
+    console.log(formData);
+    console.log(typeof(formData));
+
+    $.post({
+        url: '/save-filter',
+        data: formData,
+        contentType: 'application/json; charset=utf-8'
+    })
+        .done((response) => {
+            console.log(response)
+        });
+}
+
+$('#save_to_prefs').on("click", saveUserFilter);
+$('#clear-button').on("click", clear);
+$(document).ready(load_());
+

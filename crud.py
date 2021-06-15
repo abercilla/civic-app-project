@@ -112,6 +112,12 @@ def connect_user_to_event(user_id, event_obj):
 
     return event_obj
 
+def get_user_events(user_id):
+    """Get all events a user has saved"""
+
+    user = User.query.get(user_id)
+    
+    return user.events
 
 # to connect user to their event
     #match on user_id and creator_id
@@ -223,6 +229,7 @@ def filter_events_by_user_prefs(user_id):
         events.append(Event.query.filter((Event.description.like(f'%{keyword}%')) | 
                                             (Event.name.like(f'%{keyword}'))).all())
 
+    print(f"--------HERE ARE THE EVENTS FROM CRUD= {events}--------")
     return events
 
 # def save_event_for_user():
@@ -235,6 +242,7 @@ def get_user_prefs(user_id):
     user = User.query.get(user_id)
     prefs = user.preferences
 
+    print(f"------HERE ARE USER PREFS from CRUD = {prefs}----")
     return prefs
     
 
@@ -248,6 +256,7 @@ def get_user_categories(prefs):
         if pref.category:
             categories.append(pref.category)
     
+    print(f'----HERE ARE CATEGORIES IN CRUD = {categories}-----')
     return categories
    
     
@@ -260,6 +269,8 @@ def get_user_keywords(prefs):
         #if that pref object has a category attached, pull it out
         if pref.keyword_search:
             keywords.append(pref.keyword_search)
+
+    print(f'----HERE ARE KEYWORDS IN CRUD = {keywords}-----')
 
     return keywords
 
