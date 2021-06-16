@@ -41,11 +41,13 @@ def filter_homepage():
     #-----as opposed to adding searches on top of each other----------------#
 
     keyword_search = request.form.get("keyword")
+    #print(f"---- KEYWORD RECEIVED BY SERVER = {keyword_search}------")
     categories = request.form.getlist("categories")
+    #print(f"---- CATEGORIES RECEIVED BY SERVER = {categories}------")
 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
 
-    #--
+    
 
     return render_template("/homepage.html", events=filtered_events)
 
@@ -59,32 +61,28 @@ def save_pref_to_user():
     
     #get JSON string from JS and turn into Python ob
     data = request.get_json()
+    print(data)
 
     categories = []
 
-    for category, boolean in data.items():
-        if boolean == "true":
-            categories.append(category)
+    for stored_key, stored_value in data.items():
+        if stored_value == "true":
+            categories.append(stored_key)
+       
+        if (stored_key == "keyword") and (stored_value != ""):
+           keyword = stored_value
     
+    #save keyword as user_pref in db
+    crud.save_keyword_as_user_pref(logged_in_user, keyword)
+
     #save categories as user_prefs in db
     crud.save_categories_as_user_prefs(logged_in_user, categories)
-
-    return jsonify("items saved")
-#would need to have "searched by category" before you can do this
+    
+    
+    return jsonify("items saved") # delete this after debugging 
 
 #if the homepage is filtered by category or keyword
-
-
 #"Save filter" should show up
-
-#save criteria from form as a preference
-
-
-#receive search criteria as JSON string so we can destruct it 
-#...here and send it through crud.py function to save to user's preference
-
-
-
 
 
 @app.route("/saved-filter.json") 
@@ -108,7 +106,7 @@ def filter_homepage_by_prefs():
     #key will be the field names, what js identifies
     #append each dict to a list
     #jsonify that list 
-    print(f"***EVENT LIST = {event_list}****")
+    #print(f"***EVENT LIST = {event_list}****")
     return jsonify(event_list)
 
 
@@ -129,7 +127,7 @@ def save_event_to_user(event_id):
     logged_in_user = session.get("user_id")
     
     event = crud.get_event_by_id(event_id)
-    print(f"****HERE IS EVENT = {event}")
+    #print(f"****HERE IS EVENT = {event}")
 
     #Save event to current user's account
     if logged_in_user:
@@ -183,10 +181,10 @@ def show_profile(user_id):
         user = crud.get_user_by_id(user_id)
         
         events = crud.get_user_events(logged_in_user)
-        print(f'----HERE ARE EVENTS FROM SERVER = {events}-----')
+        #print(f'----HERE ARE EVENTS FROM SERVER = {events}-----')
 
         prefs = crud.get_user_prefs(user_id)
-        print(f'----HERE ARE PREFS FROM SERVER = {prefs}-----')
+        #print(f'----HERE ARE PREFS FROM SERVER = {prefs}-----')
 
         categories = crud.get_user_categories(prefs)
         keywords = crud.get_user_keywords(prefs)

@@ -12,7 +12,7 @@ alert("js is connected!");
 
 
 
-//----------- DISPLAY RELEVANT EVENTS --------------------//
+//----------- DISPLAY EVENTS FROM "SEARCH BY MY FILTERS" --------------------//
 // events that fit the current user's saved preferences will be returned as (data) from get request
 //... and we'll append each event to list element <li>
 
@@ -76,21 +76,27 @@ function load_() {
     }
 }
 
-// clear filters via localStorage
-// BUG --- Clear Filters should remove filters and have all events show up again
+
 const clear = () => {
+    // clear filters via localStorage
     localStorage.clear();
-    location.reload();
+    //reload page so all events show up again
+    window.location.href = "/";
 }
 
 // Allow user to save search criteria as a filter/pref
+// -- BUG -- if you click "Apply Filters" again and there is nothing applied, still shows 0 events
+// --- must click 'Clear Filters' to get al events again
+
 const saveUserFilter = (evt) => {
     evt.preventDefault();
-    //turn what's saved in localstorage into usable
+    //turn what's saved in localstorage into usable dict for server side
     let formData = JSON.stringify(localStorage);
-    console.log(formData);
-    console.log(typeof(formData));
-
+    //console.log(formData);
+    //console.log(typeof(formData));
+    alert("Filter saved to user's account!")
+    
+    //send data to a Flask route
     $.post({
         url: '/save-filter',
         data: formData,

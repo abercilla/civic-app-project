@@ -65,8 +65,9 @@ def check_search(keyword_search):
     result = Preference.query.filter_by(keyword_search=keyword_search).first()
 
     if not result:
-        save_search(keyword_search)
-
+        return save_search(keyword_search)
+        
+    return result
 
 def save_search(keyword_search):
     """If user saves a NEW search, add to db"""
@@ -83,7 +84,7 @@ def save_categories_as_user_prefs(user_id, categories):
     #one Pref = one category OR one keyword
     #..so we're conncting one user with multiple preferences depending on what they inputted
     user = User.query.get(user_id)
-    
+
     prefs = []
 
     #take in category list user wants saved
@@ -99,14 +100,22 @@ def save_categories_as_user_prefs(user_id, categories):
         #connect each pref obj to the user
         connect_user_to_pref(user, pref)
     
-    print(f"-------Here are user_prefs = {user.preferences}-----")
+    print(f"-------Here are user_prefs from categories = {user.preferences}-----")
 
     
-    #connect user to each of those Pref objects 
+def save_keyword_as_user_pref(user_id, keyword):
+    """Handle keyword user wants to save as a preference"""
 
-    # should we make this function to handle categorieS and a keyword? 
-    # ...or separate functions for categories and keyword
+    user = User.query.get(user_id)
 
+    pref = check_search(keyword)
+
+    connect_user_to_pref(user, pref)
+
+    print(f"-------Here are user_prefs from keyword = {user.preferences}-----")
+
+
+    
 
 
 
@@ -142,6 +151,7 @@ def connect_user_to_event(user_id, event_obj):
     user_obj.events.append(event_obj) #BUG -- event_obj is coming in as <event_id>
 
     db.session.commit()
+    print(f"-----HERE IS THE EVENT WE COMMITTED = {event_obj}-----")
     print("**********WE COMMITTED THE USER_EVENT RELATIONSHIP*********")
 
     return event_obj
@@ -208,7 +218,8 @@ def get_event_by_id(event_id):
 def filter_events_by_prefs(keyword_search=None, categories=None):
     """Filter homepage events based on non-user search"""
     print("**********WE ARE IN FILter_BY_PREFS*****")
-    
+    print(f"-----------KEYWORD_SEARCH IN FUNCTION = {keyword_search}------")
+    print(f"-----------CATEGORY LIST IN FUNCTION = {categories}------")
     events = []
 
     
