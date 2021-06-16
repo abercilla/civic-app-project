@@ -44,7 +44,7 @@ def check_category(category): #can i refactor this so category AND keyword are i
     result = Preference.query.filter_by(category=category).first()
 
     if not result:
-        save_category(category)
+        return save_category(category)
         
     return result
 
@@ -78,29 +78,30 @@ def save_search(keyword_search):
    
     return new_search
 
-def handle_saved_categories(categories):
+def save_categories_as_user_prefs(user_id, categories):
     """Handle categories a user wants to save as a preference"""
     #one Pref = one category OR one keyword
     #..so we're conncting one user with multiple preferences depending on what they inputted
+    user = User.query.get(user_id)
+    
+    prefs = []
 
     #take in category list user wants saved
     for category in categories: 
-        
-        if Preference.query.filter_by(category=category).first(): 
-            pref_obj = Preference.query.filter_by(category=category).first()
-            print(f"----PREF OBJ = {pref_obj}---")
-        else: 
-            new_pref_obj = Preference(category=category)
+        #use check_category and save_category to check existence of a pref obj for each category (create one if not)
+        #add pref objs returned to a list
+       prefs.append(check_category(category))
 
-            db.session.add(new_pref_obj)
-            db.session.commit()
+    #return prefs
 
-            print(f"----NEW PREF OBJ = {new_pref_obj}---")
+    #loop over pref objs returned
+    for pref in prefs: 
+        #connect each pref obj to the user
+        connect_user_to_pref(user, pref)
+    
+    print(f"-------Here are user_prefs = {user.preferences}-----")
 
-    #find Pref object attached to each category user wants to save
-
-    #if a Pref object doesn't exist for said category (it will), create one
-
+    
     #connect user to each of those Pref objects 
 
     # should we make this function to handle categorieS and a keyword? 
@@ -182,16 +183,6 @@ def connect_user_to_multiple_prefs(user, categories):
         user.preferences.append(pref)
     
     db.session.commit()
-
-# def create_prefs_from_list(categories):
-#     """Instantiate Preference for each category chosen"""
-
-#     for category in categories:
-#         Preference()
-         
-        
-#         db.session.commit()
-
 
 
 #add search functionality in here

@@ -55,9 +55,9 @@ def filter_homepage():
 def save_pref_to_user():
     """Save a search filter to user's profile"""
     
-    #get JSON string from JS and turn into Python obj
-    #parse through checkboxes that are true
-
+    logged_in_user = session["user_id"]
+    
+    #get JSON string from JS and turn into Python ob
     data = request.get_json()
 
     categories = []
@@ -65,9 +65,9 @@ def save_pref_to_user():
     for category, boolean in data.items():
         if boolean == "true":
             categories.append(category)
-
-    print(f"-----HERE ARE CATEGOREIS = {categories}-----")
-    print(data)
+    
+    #save categories as user_prefs in db
+    crud.save_categories_as_user_prefs(logged_in_user, categories)
 
     return jsonify("items saved")
 #would need to have "searched by category" before you can do this
