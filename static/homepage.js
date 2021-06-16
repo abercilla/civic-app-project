@@ -36,23 +36,29 @@ $('#saved_filters').on('click', (evt) => {
 
 
 //-------
+// Make user's search criteria STICKY
 //this will listen for all checkboxes on homepage.html
 // var i is a number of checkboxes
 var j, boxes = document.querySelectorAll('input[type="checkbox"]');
 //var keyword = document.querySelectorAll('input[type="text"]');
 
-//save what's currently entered on the page (make it sticky)
+//create items in localStorage to store user's input 
 function save() {
+    //loop over all the checkboxes 
     for (j = 0; j < boxes.length; j++) {
+        //create dict in localStorage where {key = 'category': value = 'true/false'}
         localStorage.setItem(boxes[j].value, boxes[j].checked); 
     }
-    //add what was entered in keyword textbox to localStorage
-    //localStorage.setItem(keyword.value,  );
+    //create dict in localStorage where {key = 'keyword': value= user input}
+    //localStorage.setItem(keyword, keyword.value);
 }
 
-
+//load what the user entered on the page from localStorage 
 function load_() {
+    //loop over checkboxes again to check for values 
     for (j = 0; j < boxes.length; j++) {
+        //set the dict value for boxes to whether or not they're checked (??) 
+        // snippet from: https://jsfiddle.net/sQuEy/4/
         boxes[j].checked = localStorage.getItem(boxes[j].value) === 'true' ? true:false;
     }
     //keep keyword textbox entered on page

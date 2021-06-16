@@ -78,7 +78,40 @@ def save_search(keyword_search):
    
     return new_search
 
+def handle_saved_categories(categories):
+    """Handle categories a user wants to save as a preference"""
+    #one Pref = one category OR one keyword
+    #..so we're conncting one user with multiple preferences depending on what they inputted
 
+    #take in category list user wants saved
+    for category in categories: 
+        
+        if Preference.query.filter_by(category=category).first(): 
+            pref_obj = Preference.query.filter_by(category=category).first()
+            print(f"----PREF OBJ = {pref_obj}---")
+        else: 
+            new_pref_obj = Preference(category=category)
+
+            db.session.add(new_pref_obj)
+            db.session.commit()
+
+            print(f"----NEW PREF OBJ = {new_pref_obj}---")
+
+    #find Pref object attached to each category user wants to save
+
+    #if a Pref object doesn't exist for said category (it will), create one
+
+    #connect user to each of those Pref objects 
+
+    # should we make this function to handle categorieS and a keyword? 
+    # ...or separate functions for categories and keyword
+
+
+
+
+
+
+#---------
 # def create_event_id(created_event_id): #how do we handle eventbrite_event_ids?
 #     """Add CreatedEvent to events"""
 

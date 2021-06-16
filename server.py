@@ -56,8 +56,17 @@ def save_pref_to_user():
     """Save a search filter to user's profile"""
     
     #get JSON string from JS and turn into Python obj
+    #parse through checkboxes that are true
+
     data = request.get_json()
 
+    categories = []
+
+    for category, boolean in data.items():
+        if boolean == "true":
+            categories.append(category)
+
+    print(f"-----HERE ARE CATEGOREIS = {categories}-----")
     print(data)
 
     return jsonify("items saved")
