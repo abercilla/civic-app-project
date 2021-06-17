@@ -14,9 +14,9 @@ def create_user(fname, lname, email, phone, password, zipcode):
 
     return user
 
-def create_event(name, category, start_date, address, description, image):
+def create_event(creator_id, name, category, start_date, address, description, image):
     
-    event = Event(name=name, category=category,
+    event = Event(creator_id=creator_id, name=name, category=category,
                     start_date=start_date, address=address,
                     description=description, image=image)
     db.session.add(event)
