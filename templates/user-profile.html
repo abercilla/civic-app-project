@@ -28,19 +28,42 @@
         {% endfor %}   
     <br>
 
-    <h2>My Events</h2>
-     {% for event in events %}
+    <h2>My Saved Events</h2>
+    {% if saved_events%} 
+
+        {% for saved_event in saved_events %}
         <li>
-            <a href = "/events/{{event.event_id}}">
-                {{ event.name }}
+            <a href = "/events/{{saved_event.event_id}}">
+                {{ saved_event.name }}
               </a> 
         </li>
         {% endfor %}
+
+    {% else %}
+
+        <h3>No events saved.</h3>
+
+    {% endif %}
+        <br>
+
+    <h2>My Created Events</h2>
+    {%if created_events%} 
+
+        {% for created_event in created_events %}
+            <li>
+                <a href = "/events/{{created_event.event_id}}">
+                    {{ created_event.name }}
+                </a> 
+            </li>
+        {% endfor %}
+
+    {% else %}
+            
+            <h3>You haven't created an event yet.</h3>
+    {% endif %}
     <br>
+
     <p><a href = "/">Search for more events</a> or <a href = "/create-event">create an event!</a></p> 
-    
-
-
 
 
 {% endblock %}

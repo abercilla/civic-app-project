@@ -115,14 +115,6 @@ def save_keyword_as_user_pref(user_id, keyword):
     print(f"-------Here are user_prefs from keyword = {user.preferences}-----")
 
 
-    
-
-
-
-
-
-
-
 def get_user_by_id(user_id):
     """Get user by user_id"""
 
@@ -145,15 +137,45 @@ def connect_user_to_event(user_id, event_obj):
 
     return event_obj
 
-def get_user_events(user_id):
-    """Get all events a user has saved"""
-
+def get_user_saved_events(user_id):
+    """Get all events a user has saved (not created)"""
+    
+    #get user obj from user_id
     user = User.query.get(user_id)
     
-    return user.events
+    #get events that are connected to this user
+    events_saved = user.events
 
-# to connect user to their event
-    #match on user_id and creator_id
+    events_to_return = []
+      
+    #loop over events, pull out creator_ids
+    for event_saved in events_saved:
+        #pull out events this user saved that were NOT created by the user
+        if event_saved.creator_id != user_id:
+            events_to_return.append(event_saved)
+
+    return events_to_return
+    
+
+def get_user_created_events(user_id):
+    """Get events a user created"""
+    
+    user = User.query.get(user_id)
+    
+    #get events that are connected to this user
+    events_saved = user.events
+
+    events_to_return = []
+    
+    #loop over events, pull out creator_ids
+    for event_saved in events_saved:
+        #pull out events this user saved that WERE created by the user
+        if event_saved.creator_id == user_id:
+            events_to_return.append(event_saved)
+
+    return events_to_return
+    
+
 
 def connect_user_to_their_event(user):
     """Connect event(s) a user created to them via user.events"""
@@ -279,8 +301,7 @@ def filter_events_by_user_prefs(user_id):
     print(f"--------HERE ARE THE EVENTS FROM CRUD= {events}--------")
     return events
 
-# def save_event_for_user():
-#   """"Allow a user to save preferences"""
+
 
 
 def get_user_prefs(user_id):

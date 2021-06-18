@@ -59,13 +59,21 @@
       <h2>Upcoming Events</h2>
       <br>
       <ul id = "event-list">
-        {% for event in events %}
-        <li> 
-            <a href = "events/{{event.event_id}}">
-              {{ event.name }}
-            </a>
-        </li>
-        {% endfor %}
+        {% if events%}
+
+          {% for event in events %}
+          <li> 
+              <a href = "events/{{event.event_id}}">
+                {{ event.name }}
+              </a>
+          </li>
+          {% endfor %}
+
+         {% else %}
+
+            <p>No Events Found.</p>
+
+        {% endif %}
       </ul>
   <script src="/static/homepage.js"></script>
 {% endblock %}

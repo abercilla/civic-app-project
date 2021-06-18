@@ -65,17 +65,20 @@ def save_pref_to_user():
 
     categories = []
 
+    #loop over items in dict returned by JSON request 
     for stored_key, stored_value in data.items():
+        #if a checkbox was checked (i.e. "true")
         if stored_value == "true":
+            #add the associated key into a list of categories
             categories.append(stored_key)
-       
+       #if the value of a keyword_key is NOT empty
         if (stored_key == "keyword") and (stored_value != ""):
-           keyword = stored_value
+           #keyword = stored_value
+           #save keyword as user_pref in db
+           crud.save_keyword_as_user_pref(logged_in_user, stored_value)
     
-    #save keyword as user_pref in db
-    crud.save_keyword_as_user_pref(logged_in_user, keyword)
-
-    #save categories as user_prefs in db
+            
+    #save list of categories just built as user_prefs in db
     crud.save_categories_as_user_prefs(logged_in_user, categories)
     
     
@@ -91,22 +94,30 @@ def filter_homepage_by_prefs():
 
     events = crud.filter_events_by_user_prefs(session["user_id"])
     print(f'HERE ARE EVENTS FROM SERVER = {events}------')
-
+    
     #--BUG--need to fix for when user has no events saved (events list is empty)
     event_list = []
+    # print(f"------JSONIFY LIST = {jsonify(event_list)}-------")
 
-    #open list of objs
+    #open list of event objs and loop over 
     for event in events: 
-    #create dict for each event obj with attributes as values
-        event_dict = {"event_id": event.event_id, "name": event.name, "category": event.category, 
+        #if event obj is an empty list
+        if event == []:
+            continue
+        else:
+            #create dict for each event obj with attributes as values
+            print(f"HERE IS THE EVENT LOOPING = {event}")
+            event_dict = {"event_id": event.event_id, "creator_id": event.creator_id, "name": event.name, "category": event.category, 
                         "start_date": event.start_date, "address": event.address,
                         "description": event.description, "image": event.image}
-        event_list.append(event_dict)
+            event_list.append(event_dict)
     
     #key will be the field names, what js identifies
     #append each dict to a list
     #jsonify that list 
-    #print(f"***EVENT LIST = {event_list}****")
+
+    print(f"***EVENT LIST = {event_list}****")
+    print(f"***JSONIFIED EVENT LIST = {jsonify(event_list)}****")
     return jsonify(event_list)
 
 
@@ -180,8 +191,11 @@ def show_profile(user_id):
 
         user = crud.get_user_by_id(user_id)
         
-        events = crud.get_user_events(logged_in_user)
+        saved_events = crud.get_user_saved_events(logged_in_user)
+        
         #print(f'----HERE ARE EVENTS FROM SERVER = {events}-----')
+        
+        created_events = crud.get_user_created_events(logged_in_user)
 
         prefs = crud.get_user_prefs(user_id)
         #print(f'----HERE ARE PREFS FROM SERVER = {prefs}-----')
@@ -189,7 +203,7 @@ def show_profile(user_id):
         categories = crud.get_user_categories(prefs)
         keywords = crud.get_user_keywords(prefs)
 
-        return render_template("user-profile.html", user=user, events=events, prefs = prefs, categories=categories, keywords=keywords)
+        return render_template("user-profile.html", user=user, saved_events=saved_events, created_events=created_events, prefs = prefs, categories=categories, keywords=keywords)
     else:
         flash("Access Denied. Create an account to access this page.")
         return redirect("/")
@@ -260,6 +274,8 @@ def create_event():
 def confirm_added_event():
     """Commit event to DB and present confirm page"""
     
+    logged_in_user = session.get("user_id")
+
     name = request.form.get("name")
     category = request.form.get("category")
     start_date = request.form.get("start_date")
@@ -267,7 +283,7 @@ def confirm_added_event():
     description = request.form.get("description")
     image = "https://unsplash.com/photos/Evo4wmtRaPI" #how to capture whatever they want to upload
 
-    event = crud.create_event(name=name, category=category, start_date=start_date, 
+    event = crud.create_event(creator_id=logged_in_user,name=name, category=category, start_date=start_date, 
                                 address=address, description=description, image=image)
     
     #connect user in session to event created
