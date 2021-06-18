@@ -71,22 +71,17 @@ for n in range(5):
     prefs_in_db.append(preference)
 
 
-#---------------- SAVE 1 RANDOM EVENT TO EACH USER  -------------------#
- 
-    #get a random event, then remove from list 
-    #...because an Event can only be created by one User
-    #...(but many Events can be associated with one User)
+#---------------- CONNECT THE EVENT A USER CREATED TO THE USER ---------------#
 
-#connect each user to an event they saved (i.e. that they didn't create)
-# for user in users:
+#loop over user objs we just created
+for user in users:
     
-#     #for each user created, connect them with a random event object 
-#     random_event = choice(events_in_db)
+    crud.connect_user_to_their_event(user)
+        
+#--------- "SAVE" A RANDOM EVENT TO A USER --------------------------#
 
-#     #events_in_db.remove(random_event)
-#     random_user = choice(users)
-#     #connect Event object to User object 
-#     crud.connect_user_to_event(user, random_event) 
+for user in users: 
+    crud.connect_user_to_random_event(user)
 
 #--------------- CONNECT 1 RANDOM PREFERENCE FOR EACH USER  ----------------------#
 

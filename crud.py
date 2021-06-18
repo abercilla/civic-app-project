@@ -121,18 +121,7 @@ def save_keyword_as_user_pref(user_id, keyword):
 
 
 
-#---------
-# def create_event_id(created_event_id): #how do we handle eventbrite_event_ids?
-#     """Add CreatedEvent to events"""
 
-#     new_event = Event(created_event_id=created_event_id, 
-#                         eventbrite_event_id=None,
-#                         mobilize_event_id=None)
-    
-#     db.session.add(new_event)
-#     db.session.commit()
-
-#     return new_event
 
 def get_user_by_id(user_id):
     """Get user by user_id"""
@@ -165,6 +154,29 @@ def get_user_events(user_id):
 
 # to connect user to their event
     #match on user_id and creator_id
+
+def connect_user_to_their_event(user):
+    """Connect event(s) a user created to them via user.events"""
+    #print("We are in crud.connect_user_to_their_event")
+    #find the events that were created by that user
+    event_to_add = Event.query.filter_by(creator_id=user.user_id).all()
+    #print(f"------Here is event_to_add = {event_to_add}-----")
+    #if the user didn't create any events (event_to_add = [])
+    if len(event_to_add) < 1:
+        print("No Events Created By User") 
+    else:
+        user.events.extend(event_to_add)
+
+    return user.events
+
+def connect_user_to_random_event(user):
+    """For seed_database.py"""
+    
+    #grab the first event found that was NOT created by that user
+    event_to_save = Event.query.filter(Event.creator_id != user.user_id).first()
+    user.events.append(event_to_save)
+    
+    return user.events
 
 
 def connect_user_to_pref(user, pref):
