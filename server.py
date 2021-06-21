@@ -273,6 +273,7 @@ def create_event():
 @app.route("/event-confirm", methods=["POST"])
 def confirm_added_event():
     """Commit event to DB and present confirm page"""
+    #add logic to give error if not enough fields are filled out
     
     logged_in_user = session.get("user_id")
 
@@ -281,7 +282,7 @@ def confirm_added_event():
     start_date = request.form.get("start_date")
     address = request.form.get("address")
     description = request.form.get("description")
-    image = "https://unsplash.com/photos/Evo4wmtRaPI" #how to capture whatever they want to upload
+    image = request.form.get("image") #how to capture whatever they want to upload
 
     event = crud.create_event(creator_id=logged_in_user,name=name, category=category, start_date=start_date, 
                                 address=address, description=description, image=image)

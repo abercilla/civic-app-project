@@ -31,9 +31,9 @@ function filterHomepage (evt) {
             //figure out the size of the JSON obj
             const objSize = Object(events).length;
             //console.log(objSize);
-            // if the JSON obj size is 0 (i.e. dict is empty & no events were found based on user's prefs)
+            // if the JSON obj size is 0 (i.e. dict is empty / no events were found based on user's prefs)
             if (objSize < 1) {
-                console.log("No Events Found")
+                //console.log("No Events Found")
                 const errorMsg = "<p>No Events Found</p>"
                 $('#event-list').append(errorMsg);
             } 

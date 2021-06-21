@@ -32,8 +32,9 @@
                 <!--input day of event // can I add a calendar here?-->
                 <p>
                     <label>Event Date</label>
-                    <input type="text" name="start_date">
+                    <input type="datetime-local" name="start_date">
                 </p> 
+
                 
                 <!--input address/location of event-->
                 <p>
@@ -44,20 +45,21 @@
                  <!--input event description-->
                  <p>
                     <label>Description of Event</label>
-                    <input type="text" name="description">
-                </p>
+                    <br>
+                    <textarea name="description" cols="50" rows="5"></textarea>                </p>
                 <br>
 
                 <!--prompt user to upload an image for the event-->
-                <section id="prompt-1">
-                    <button id="upload-image-button">Upload Event Image</button>
-            
+                <p><input type = "file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
+                   <p><label for="file" style="cursor": pointer;">Upload Image</label></p>
+                    <img id = "output" width="200"/>
                   </section>
                   <br>
                   <form action="/event-confirm" method="POST">
                     <button type = "submit" name = "button" id ="create-event">Create Event</button>
                 </form>
-
+                
+                <script src = "/static/create-event.js"></script>
     
         
         {% endblock %}

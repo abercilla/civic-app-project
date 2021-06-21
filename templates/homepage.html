@@ -62,11 +62,27 @@
         {% if events%}
 
           {% for event in events %}
-          <li> 
-              <a href = "events/{{event.event_id}}">
-                {{ event.name }}
-              </a>
-          </li>
+          <div> 
+              <h3>{{ event.name }}</h3>
+              <p>{{ event.address}} </p>
+              <p>{{ event.start_date }}</p>
+              <p>{{ event.description }}</p>
+
+
+              <span class = "buttons">
+                <form action="/events/{{event.event_id}}" method="POST">
+                  <button type = "submit" name = "button" id ="save-event">Save Event</button>
+              </form>
+              <br>
+              <form action="/events/{{event.event_id}}">
+                <button>See Event Details</button>
+             </form>
+            </span>
+              
+              <br>
+              <br>
+
+            </div>
           {% endfor %}
 
          {% else %}

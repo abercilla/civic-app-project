@@ -23,7 +23,7 @@
         {% if session.get("user_id")%}
             <div>
                 <a href ="/">Home</a>
-                <a href ="user-profile/{{ session["user_id"] }}">My Profile</a>
+                <a href ="/user-profile/{{ session.get("user_id") }}">My Profile</a>
                 <a href = "/create-event">Create Event</a>
                 <a href = "/logout">Logout</a>
             </div>
