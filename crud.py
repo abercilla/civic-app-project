@@ -342,7 +342,13 @@ def get_user_keywords(prefs):
 
     return keywords
 
+def upload_image(file_name):
+    """Store file uploaded by user to file path"""
 
+
+
+    #maniulate inage to be route
+    #file.save[os.path.join[app.config[IMAGE_FILE_PATH], file_name]])
 
 if __name__ == '__main__':
     from server import app

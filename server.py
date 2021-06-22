@@ -1,6 +1,10 @@
 """Server with all routes"""
 
-from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify, url_for, abort)
+
+#for handling images
+import os
+from werkzeug.utils import secure_filename
 
 from model import connect_to_db
 import crud
@@ -9,7 +13,25 @@ from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = "DEV" #need to change this and add to secrets.sh
+
+
+
+
+
+#set a max size for images uploaded--anything larger than 1MB will be rejected
+#app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024
+
+#set acceptable file extensions for images uploaded
+app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png", ".gif", ".PNG", ".JPEG", ".jpeg"]
+
+#UPLOAD_IMAGE_PATH = "/static/images/"
+app.config["UPLOAD_IMAGE_PATH"] = "static/images"
+
+
 app.jinja_env.undefined = StrictUndefined
+
+
+
 
 @app.route("/")
 def index():
@@ -17,6 +39,10 @@ def index():
 
     
     random_events = crud.get_events()
+    
+    #grab images from Event objects so they can be loaded on homepage 
+    
+    #event_images = crud.get
 
     return render_template("homepage.html", events=random_events)
     
@@ -282,10 +308,42 @@ def confirm_added_event():
     start_date = request.form.get("start_date")
     address = request.form.get("address")
     description = request.form.get("description")
-    image = request.form.get("image") #how to capture whatever they want to upload
+    #image = request.files["image"] #how to capture whatever they want to upload
+    
+    #print(f'----HERE IS IMAGE = {image}---')
+    #upload_file()
+    
+    #HANDLE IMAGE
+    def upload_file():
+        print("===We're in upload_file===")
+        uploaded_file = request.files["image"]
+
+        print(f'===uploaded_file = {uploaded_file}====')
+
+        filename = secure_filename(uploaded_file.filename)
+        print(f'====here is filename = {filename} ====')
+
+        if filename != " ":
+            file_ext = os.path.splitext(filename)[1]
+            print(f'===file_ext = {file_ext}====')
+            if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
+                abort(400)
+            uploaded_file.save(os.path.join(app.config["UPLOAD_IMAGE_PATH"], filename))
+    
+        return uploaded_file
+
+    upload_file()
+
+    image_url = url_for(app.config["UPLOAD_IMAGE_PATH"], filename)  
+    print(f'====image_url = {image_url}====')
+
+
+    #crud.upload_image(image)
+
+    #set up logic to turn the image from user into a filepath so we can display it on homepage
 
     event = crud.create_event(creator_id=logged_in_user,name=name, category=category, start_date=start_date, 
-                                address=address, description=description, image=image)
+                                address=address, description=description, image=image_url)
     
     #connect user in session to event created
     logged_in_user = session.get("user_id")

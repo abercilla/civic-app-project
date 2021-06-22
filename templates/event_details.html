@@ -5,9 +5,10 @@
 {% block body %} 
 <h1>{{ event.name }}</h1>
 
-<div> 
-    {{ event.image }}
-</div>
+<br>
+
+    <img src = {{ event.image }} alt="No Image Provided">
+
     <br>
     <p>
         {{ event.start_date}} 
@@ -23,7 +24,8 @@
     <br>
     <p>
         {{ event.description }}
-    </p>   
+    </p>  
+
     <br>
   
     <form action="/events/{{event.event_id}}" method="POST">

@@ -11,7 +11,7 @@
             <br>
             <h2>Create an Event</h2>
             
-            <form action="/event-confirm" method ="POST">
+            <form action="/event-confirm" method ="POST" enctype="multipart/form-data">
 
                 <!--input event name-->
                 <p> <label>Event Name</label>
@@ -55,7 +55,6 @@
                     <img id = "output" width="200"/>
                   </section>
                   <br>
-                  <form action="/event-confirm" method="POST">
                     <button type = "submit" name = "button" id ="create-event">Create Event</button>
                 </form>
                 
