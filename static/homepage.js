@@ -125,5 +125,21 @@ $('#save_to_prefs').on("click", saveUserFilter);
 //when "Clear Filter" is clicked
 $('#clear-button').on("click", clear);
 
+//when redirected back to homepage, clear localStorage
+//window.localStorage.clear();
+
 $(document).ready(load_());
+
+//-------------- Tell user event was saved ----------//
+
+const saveEvent = (evt) => {
+    console.log("We're in saveEvent")
+    evt.preventDefault();
+    
+    let success = "<p>Event successfully saved!</p>"
+
+    $('#success').innerHTML(success);
+}
+
+$('#save-event').on("click", saveEvent);
 

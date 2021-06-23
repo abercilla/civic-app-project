@@ -63,7 +63,9 @@
 
           {% for event in events %}
           <div> 
+              <div id="success"></div>
               <h3>{{ event.name }}</h3>
+              <img src = "{{ event.image }}" width="300" onerror="this.onerror=null; this.remove();">
               <p>{{ event.address}} </p>
               <p>{{ event.start_date }}</p>
               <p>{{ event.description }}</p>

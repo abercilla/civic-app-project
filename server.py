@@ -25,7 +25,7 @@ app.secret_key = "DEV" #need to change this and add to secrets.sh
 app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png", ".gif", ".PNG", ".JPEG", ".jpeg"]
 
 #UPLOAD_IMAGE_PATH = "/static/images/"
-app.config["UPLOAD_IMAGE_PATH"] = "static/images"
+app.config["UPLOAD_IMAGE_PATH"] = "static/images/"
 
 
 app.jinja_env.undefined = StrictUndefined
@@ -323,18 +323,27 @@ def confirm_added_event():
         filename = secure_filename(uploaded_file.filename)
         print(f'====here is filename = {filename} ====')
 
+        #if the filename is not empty
         if filename != " ":
-            file_ext = os.path.splitext(filename)[1]
-            print(f'===file_ext = {file_ext}====')
-            if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
-                abort(400)
+            #pull out the file extension by splitting filename and indexing to suffix
+            # file_ext = os.path.splitext(filename)[1]
+           # print(f'===file_ext = {file_ext}====')
+            #if the file's ext is not in our list of accepted exts, give 500 
+            # if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
+                # flash("Make sure image has an extension of .jpg, .png, .gif, .PNG, .JPEG, or .jpeg.")
+            
             uploaded_file.save(os.path.join(app.config["UPLOAD_IMAGE_PATH"], filename))
-    
-        return uploaded_file
+            print("-----Image was correctly stored!------")
 
-    upload_file()
+        return uploaded_file, filename
 
-    image_url = url_for(app.config["UPLOAD_IMAGE_PATH"], filename)  
+    #allow users to not uploaded images
+    uploaded_file, filename = upload_file()
+    # print(f'----output from upload_file = {uploaded_file, filename}------')
+
+    #need to figure out how to create URL from upload_file output !
+    image_url = url_for("static", filename= "images/" + filename)
+    #image_url = url_for('static')  
     print(f'====image_url = {image_url}====')
 
 
@@ -355,7 +364,7 @@ def confirm_added_event():
 # if not: 
 #   save to their account as a saved event 
 
-    return render_template("event-confirm.html", name=name)
+    return render_template("event-confirm.html", event=event, name=name)
 
 
 

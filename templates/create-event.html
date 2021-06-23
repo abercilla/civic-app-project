@@ -15,7 +15,7 @@
 
                 <!--input event name-->
                 <p> <label>Event Name</label>
-                  <input type="text" name="name">
+                  <input required type="text" name="name">
                 </p> 
 
                 <!--ask for event category (1)-->
@@ -32,14 +32,14 @@
                 <!--input day of event // can I add a calendar here?-->
                 <p>
                     <label>Event Date</label>
-                    <input type="datetime-local" name="start_date">
+                    <input required type="datetime-local" name="start_date">
                 </p> 
 
                 
                 <!--input address/location of event-->
                 <p>
                     <label>Location</label>
-                    <input type="text" name="address">
+                    <input required type="text" name="address">
                 </p>
 
                  <!--input event description-->
@@ -50,7 +50,7 @@
                 <br>
 
                 <!--prompt user to upload an image for the event-->
-                <p><input type = "file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
+                <p><input required type = "file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
                    <p><label for="file" style="cursor": pointer;">Upload Image</label></p>
                     <img id = "output" width="200"/>
                   </section>
