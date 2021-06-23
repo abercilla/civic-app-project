@@ -5,14 +5,16 @@
 {% block body %} 
 <h1>{{ event.name }}</h1>
 
-<br>
-
-    <img src = "{{ event.image }}" width="200" onerror="this.onerror=null; this.remove();">
-
     <br>
     <p>
-        {{ event.start_date}} 
+    {{ event.start_date.strftime("%A %B %d %Y %I:%M %p") }} 
     </p>
+    <br>
+
+    <img src = "{{ event.image }}" width="400" onerror="this.onerror=null; this.remove();">
+
+    <br>
+    
     <br>
     <p>
         {{ event.address }}

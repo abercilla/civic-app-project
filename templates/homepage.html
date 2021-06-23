@@ -63,17 +63,19 @@
 
           {% for event in events %}
           <div> 
-              <div id="success"></div>
+              <!-- <div id = "success-msg"></div> -->
               <h3>{{ event.name }}</h3>
+              <p>{{ event.start_date.strftime("%A %B %d %Y %I:%M %p") }}</p>
               <img src = "{{ event.image }}" width="300" onerror="this.onerror=null; this.remove();">
               <p>{{ event.address}} </p>
-              <p>{{ event.start_date }}</p>
+              
               <p>{{ event.description }}</p>
 
 
               <span class = "buttons">
-                <form action="/events/{{event.event_id}}" method="POST">
-                  <button type = "submit" name = "button" id ="save-event">Save Event</button>
+                <form action="/events/{{event.event_id}}" method="POST" >
+                  <input type="hidden" name = "event-id" value ="{{ event.event_id }}">
+                  <button type = "submit" class = "save-button" name = "button" id ="save-event">Save Event</button>
               </form>
               <br>
               <form action="/events/{{event.event_id}}">

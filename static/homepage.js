@@ -130,16 +130,35 @@ $('#clear-button').on("click", clear);
 
 $(document).ready(load_());
 
-//-------------- Tell user event was saved ----------//
+//-------------- Tell user event was saved on homepage ----------//
 
 const saveEvent = (evt) => {
-    console.log("We're in saveEvent")
-    evt.preventDefault();
     
+    //console.log("We're in saveEvent")
+    //prevent page from redirecting to events/event_id
+    evt.preventDefault();
+    console.log("Event saved");
+    console.log(evt);
     let success = "<p>Event successfully saved!</p>"
-
-    $('#success').innerHTML(success);
+    $('#success-msg').html(success);
+    //pull out value from hidden input from form (or action) and 
+    //...append value within the div <id = {event_id} so we can then reference
+    //the right div with the success message
+    //reference JQuery docs
+    
 }
 
-$('#save-event').on("click", saveEvent);
+//when user clicks "Save Event"
+
+//currently this only recognizes the first elementn with #save-event ID
+//as an event
+//if want to fix, change 
+
+//if we want to fix this, will need to do post request here 
+//...with AJAX instead of in server route
+//change save-event to class
+$('#save-event').on("submit", saveEvent);
+
+// append event_id as id into div element so message only shows up for that event
+// hidden input with event_id 
 

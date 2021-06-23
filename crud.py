@@ -349,6 +349,13 @@ def upload_image(file_name):
 
     #maniulate inage to be route
     #file.save[os.path.join[app.config[IMAGE_FILE_PATH], file_name]])
+def convert_start_dates(events):
+
+    """Convert datetime object to be readable to user"""
+    #don't think i need this actually since they display correctly with Jinja        
+    converted_date = start_date.strftime("%A, %B %d %Y")
+
+    return converted_date
 
 if __name__ == '__main__':
     from server import app

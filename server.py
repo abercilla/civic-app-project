@@ -39,6 +39,8 @@ def index():
 
     
     random_events = crud.get_events()
+
+
     
     #grab images from Event objects so they can be loaded on homepage 
     
@@ -72,8 +74,6 @@ def filter_homepage():
     #print(f"---- CATEGORIES RECEIVED BY SERVER = {categories}------")
 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
-
-    
 
     return render_template("/homepage.html", events=filtered_events)
 
