@@ -2,7 +2,12 @@
 
 {% block title %}{{event.name}} - Details {% endblock %} 
 
+{% block head %}
+<link rel="stylesheet" href="/static/map-style.css"/>
+{% end block %}
+
 {% block body %} 
+
 <h1>{{ event.name }}</h1>
 
     <br>
@@ -29,9 +34,25 @@
     </p>  
 
     <br>
-  
+
+      <!-- TODO: Step 4A2: Add a generic sidebar -->
+        <!-- The slide-out panel for showing place details -->
+        <div id="panel"></div>
+
+        <!-- Map appears here -->
+        <div id="map"></div>
+
+
+
+
+
+
     <form action="/events/{{event.event_id}}" method="POST">
         <button type = "submit" name = "button" id ="save-event">Save Event</button>
     </form>
+
+    <script src = "/static/event-map.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqoe-Kx7D1HiBqth0w0QWvwDmtTXtUPeg&libraries=places&callback=initMap">
+    </script>
 
 {% endblock %} 
