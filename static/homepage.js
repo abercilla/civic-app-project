@@ -131,34 +131,92 @@ $('#clear-button').on("click", clear);
 $(document).ready(load_());
 
 //-------------- Tell user event was saved on homepage ----------//
-
+//----------------- UNFINISHED ROUTE --------------//
 const saveEvent = (evt) => {
-    
-    //console.log("We're in saveEvent")
+
+    // let url = "/saved-event.json";
+    // let i = 0;
     //prevent page from redirecting to events/event_id
     evt.preventDefault();
-    console.log("Event saved");
-    console.log(evt);
-    let success = "<p>Event successfully saved!</p>"
-    $('#success-msg').html(success);
-    //pull out value from hidden input from form (or action) and 
-    //...append value within the div <id = {event_id} so we can then reference
-    //the right div with the success message
-    //reference JQuery docs
+    console.log("We're in saveEvent");
     
+    // get the value (event_id) from hidden input (and it'll be diff each time) 
+    let eventID = $('input[name=event-id]').val();
+    
+    console.log(eventID);
+
+    // take event_id from the event we're saving and send to server
+    $.post({
+        url: '/save-event',
+        data: eventID,
+        contentType: 'application/json; charset=utf-8'
+    })  
+        .done((response) => {
+            //add returned event_id and add it to the div 
+            console.log(response)
+        });
 }
-
-//when user clicks "Save Event"
-
-//currently this only recognizes the first elementn with #save-event ID
-//as an event
-//if want to fix, change 
 
 //if we want to fix this, will need to do post request here 
 //...with AJAX instead of in server route
 //change save-event to class
-$('#save-event').on("submit", saveEvent);
+$('#save-event').on("click", saveEvent);
 
+// for ANY save-event button (not ID specific)
+$('.save-button').on('click', saveEvent);
 // append event_id as id into div element so message only shows up for that event
 // hidden input with event_id 
+
+// function changeButton(evt){
+
+
+// }
+    
+        
+    //     //...append value within the div <id = {event_id} so we can then reference
+
+    //     let eventDiv = $('.event') // div where all event info is
+    //     let toAppend = "id = "{eventID}"" // what to add to div 
+        
+        
+        
+        
+    //     let successDiv = $('.success-msg')
+    //     let successMsg = "<p>Event successfully saved!</p>"
+        
+    //     function addSuccessMsg(evt){
+    //         div.append(success)
+    //     }
+
+    // }
+    
+ 
+    
+ 
+    //if any Save Event button is clicked on 
+
+
+    //the right div with the success message
+    //reference JQuery docs
+    
+
+//currently the listener only recognizes the first elemennt with #save-event ID
+
+// when user clicks "Save Event" button on homepage, need to pull out the event_id 
+//... that's being saved in hidden input value = {{ }}
+// let eventID = $('.event-id').value();
+
+// //sent post request with that event_id to save that event
+
+// // append that ID to the div so we know where to add success message
+// l
+
+// //...and find the right div in HTML for that event so message can pop up
+// let divMsg = $('.success-msg')
+// let success = "<p>Event successfully saved!</p>"
+
+// function addSuccessMsg(evt){
+//     div.append(success)
+// }
+
 

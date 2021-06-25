@@ -114,15 +114,49 @@ def save_pref_to_user():
 #if the homepage is filtered by category or keyword
 #"Save filter" should show up
 
+@app.route("/save-event", methods=["POST"]) 
+def save_event_to_user_from_homepage():
+
+    """Save an event to a user without redirecting to event page"""
+
+    
+    logged_in_user = session["user_id"]
+    
+    # #get JSON string from JS and turn into Python ob
+    data = request.get_json()
+    print(f'HERE IS DATA = {data}-------')
+
+    # categories = []
+
+    # #loop over items in dict returned by JSON request 
+    # for stored_key, stored_value in data.items():
+    #     #if a checkbox was checked (i.e. "true")
+    #     if stored_value == "true":
+    #         #add the associated key into a list of categories
+    #         categories.append(stored_key)
+    #    #if the value of a keyword_key is NOT empty
+    #     if (stored_key == "keyword") and (stored_value != ""):
+    #        #keyword = stored_value
+    #        #save keyword as user_pref in db
+    #        crud.save_keyword_as_user_pref(logged_in_user, stored_value)
+    
+            
+    # #save list of categories just built as user_prefs in db
+    # crud.save_categories_as_user_prefs(logged_in_user, categories)
+    
+    
+    return jsonify("items saved") # delete this after debugging 
 
 @app.route("/saved-filter.json") 
 def filter_homepage_by_prefs():
     """Filter homepage based on user's prefs"""
 
+    #-----Compiles list of relevant events for user 
+    #-----------and sends back to JS in JSON object
+
     events = crud.filter_events_by_user_prefs(session["user_id"])
     print(f'HERE ARE EVENTS FROM SERVER = {events}------')
     
-    #--BUG--need to fix for when user has no events saved (events list is empty)
     event_list = []
     # print(f"------JSONIFY LIST = {jsonify(event_list)}-------")
 
@@ -146,7 +180,6 @@ def filter_homepage_by_prefs():
     print(f"***EVENT LIST = {event_list}****")
     print(f"***JSONIFIED EVENT LIST = {jsonify(event_list)}****")
     return jsonify(event_list)
-
 
 
 @app.route("/events/<event_id>")
