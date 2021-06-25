@@ -14,6 +14,7 @@ from jinja2 import StrictUndefined
 app = Flask(__name__)
 app.secret_key = "DEV" #need to change this and add to secrets.sh
 
+GOOGLE_MAPS_API_KEY = os.environ['API_KEY']
 
 
 
