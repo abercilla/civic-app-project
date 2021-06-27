@@ -14,7 +14,7 @@ from jinja2 import StrictUndefined
 app = Flask(__name__)
 app.secret_key = "DEV" #need to change this and add to secrets.sh
 
-GOOGLE_MAPS_API_KEY = os.environ['API_KEY']
+#GOOGLE_MAPS_API_KEY = os.environ['API_KEY']
 
 
 
@@ -116,35 +116,22 @@ def save_pref_to_user():
 
 @app.route("/save-event", methods=["POST"]) 
 def save_event_to_user_from_homepage():
-
     """Save an event to a user without redirecting to event page"""
 
-    
     logged_in_user = session["user_id"]
     
-    # #get JSON string from JS and turn into Python ob
+    # get JSON string from JS and turn into Python ob
     data = request.get_json()
-    print(f'HERE IS DATA = {data}-------')
+    # print(f'HERE IS DATA = {data}-------')
+    # print(f'HERE IS LOGGED_IN_USER = {logged_in_user}')
+    
+    #get event object from event ID pulled from button ID
+    event = crud.get_event_by_id(data)
+    #print(f'EVENT_OBJ = {event}')
+    
+    #connect user to event 
+    crud.connect_user_to_event(logged_in_user, event)
 
-    # categories = []
-
-    # #loop over items in dict returned by JSON request 
-    # for stored_key, stored_value in data.items():
-    #     #if a checkbox was checked (i.e. "true")
-    #     if stored_value == "true":
-    #         #add the associated key into a list of categories
-    #         categories.append(stored_key)
-    #    #if the value of a keyword_key is NOT empty
-    #     if (stored_key == "keyword") and (stored_value != ""):
-    #        #keyword = stored_value
-    #        #save keyword as user_pref in db
-    #        crud.save_keyword_as_user_pref(logged_in_user, stored_value)
-    
-            
-    # #save list of categories just built as user_prefs in db
-    # crud.save_categories_as_user_prefs(logged_in_user, categories)
-    
-    
     return jsonify("items saved") # delete this after debugging 
 
 @app.route("/saved-filter.json") 
@@ -181,6 +168,12 @@ def filter_homepage_by_prefs():
     print(f"***JSONIFIED EVENT LIST = {jsonify(event_list)}****")
     return jsonify(event_list)
 
+# @app.route
+# def remove_event_from_user():
+#     """Remove event from user"""
+
+#     get event id, turn into event object, get the user object, user.events.remove(event)
+#     db.session.commit()
 
 @app.route("/events/<event_id>")
 def show_event(event_id):
