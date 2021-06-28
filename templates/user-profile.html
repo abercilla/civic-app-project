@@ -32,10 +32,13 @@
     {% if saved_events%} 
 
         {% for saved_event in saved_events %}
-        <li>
-            <a href = "/events/{{saved_event.event_id}}">
+        <li class ="saved-event" id = "remove-event-{{saved_event.event_id}}">
+            <!--display link and button as inline elements-->
+                <a href = "/events/{{saved_event.event_id}}">
                 {{ saved_event.name }}
               </a> 
+              <br>
+            <button type = "submit" class = "remove-button" id = "remove-event-{{saved_event.event_id}}">Remove Event</button>
         </li>
         {% endfor %}
 
@@ -64,6 +67,7 @@
     <br>
 
     <p><a href = "/">Search for more events</a> or <a href = "/create-event">create an event!</a></p> 
-
+    
+    <script src= "/static/user-profile.js"></script>
 
 {% endblock %}

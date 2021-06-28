@@ -228,6 +228,11 @@ def connect_user_to_multiple_prefs(user, categories):
     
     db.session.commit()
 
+def remove_event_from_user(user, event):
+    """Remove saved event from user profile"""
+
+    user.events.remove(event)
+    db.session.commit()
 
 #add search functionality in here
 #search by user_Id so they can see what things they've saved

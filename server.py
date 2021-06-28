@@ -172,7 +172,7 @@ def filter_homepage_by_prefs():
 # def remove_event_from_user():
 #     """Remove event from user"""
 
-#     get event id, turn into event object, get the user object, user.events.remove(event)
+#     get event id, turn into event object, get the user object, 
 #     db.session.commit()
 
 @app.route("/events/<event_id>")
@@ -393,7 +393,24 @@ def confirm_added_event():
 
     return render_template("event-confirm.html", event=event, name=name)
 
+@app.route("/remove-event", methods=["POST"])
+def remove_event_from_user():
+    """Remove event from user logged in"""
 
+    logged_in_user = session.get("user_id")
+
+    data = request.get_json()
+    
+    #get event object from event ID pulled from button ID
+    event = crud.get_event_by_id(data)
+ 
+    #get user object
+    user = crud.get_user_by_id(logged_in_user)
+    
+    #remove event from user in db
+    crud.remove_event_from_user(user, event)
+
+    return jsonify("items removed")
 
 if __name__ == "__main__":
     

@@ -151,7 +151,7 @@ const saveEvent = (evt) => {
         contentType: 'application/json; charset=utf-8'
     })  
         
-    //add returned event_id and add it to the div 
+    // add success message to correct event Div based on dynamic div id
 
         .done((response) => {
             
