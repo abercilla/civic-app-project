@@ -33,11 +33,12 @@
 
         {% for saved_event in saved_events %}
         <li class ="saved-event" id = "remove-event-{{saved_event.event_id}}">
+            
             <!--display link and button as inline elements-->
                 <a href = "/events/{{saved_event.event_id}}">
                 {{ saved_event.name }}
               </a> 
-              <br>
+        
             <button type = "submit" class = "remove-button" id = "remove-event-{{saved_event.event_id}}">Remove Event</button>
         </li>
         {% endfor %}
@@ -53,10 +54,13 @@
     {%if created_events%} 
 
         {% for created_event in created_events %}
-            <li>
+            <li class ="created-event" id = "delete-event-{{created_event.event_id}}">
+
                 <a href = "/events/{{created_event.event_id}}">
                     {{ created_event.name }}
                 </a> 
+        
+                <button type = "submit" class = "delete-button" id = "delete-event-{{created_event.event_id}}">Delete Event</button>
             </li>
         {% endfor %}
 

@@ -234,6 +234,15 @@ def remove_event_from_user(user, event):
     user.events.remove(event)
     db.session.commit()
 
+def delete_event(event_id):
+    """Delete event from db"""
+    event = Event.query.get(event_id)
+    print(f'----event to delete = {event}-----')
+
+    db.session.delete(event)
+    db.session.commit()
+
+
 #add search functionality in here
 #search by user_Id so they can see what things they've saved
 def search_by_user_id(user_id):

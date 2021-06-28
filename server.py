@@ -412,6 +412,32 @@ def remove_event_from_user():
 
     return jsonify("items removed")
 
+
+@app.route("/delete-event", methods=["POST"])
+def delete_created_event():
+    """Delete an event the user created"""
+
+    logged_in_user = session.get("user_id")
+
+    data = request.get_json()
+    
+    #if the user confirms that they want to delete the event
+    if data != None:
+         #delete event from db
+        crud.delete_event(data)
+
+        print(f"----DATA = {data}-------")
+    #get event object from event ID pulled from button ID
+    #event = crud.get_event_by_id(data)
+ 
+    # #get user object
+    #user = crud.get_user_by_id(logged_in_user)
+    
+   
+
+
+    return jsonify("items removed")
+
 if __name__ == "__main__":
     
     connect_to_db(app)
