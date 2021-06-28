@@ -14,16 +14,22 @@
     
     <h3><u>Categories</u></h3>
         {% for category in categories %}
-            <li>   
+            <li class ="preference" id = "remove-category-{{category}}">   
             {{ category }} 
+
+                <button type = "submit" class = "remove-category" id = "remove-category-{{category}}">Remove Category</button>
+
             </li>     
         {% endfor %}
     <br>
     
     <h3><u>Search words</u></h3>  
         {% for keyword in keywords %}
-            <li>   
+            <li class ="preference" id = "remove-keyword-{{keyword}}">   
             {{ keyword }} 
+
+                <button type = "submit" class = "remove-keyword" id = "remove-keyword-{{keyword}}">Remove Keyword</button>
+
             </li>     
         {% endfor %}   
     <br>
@@ -33,7 +39,7 @@
 
         {% for saved_event in saved_events %}
         <li class ="saved-event" id = "remove-event-{{saved_event.event_id}}">
-            
+
             <!--display link and button as inline elements-->
                 <a href = "/events/{{saved_event.event_id}}">
                 {{ saved_event.name }}

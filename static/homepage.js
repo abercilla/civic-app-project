@@ -101,6 +101,27 @@ const clear = () => {
 // -- BUG -- if you click "Apply Filters" again and there is nothing applied, still shows 0 events
 // --- must click 'Clear Filters' to get al events again
 
+
+
+// Save Filter and Clear Filter should only be visible if
+    //.... a filter has already been applied with Apply Filter
+
+//if localStorage has been set, show Save Filter and Clear Filter
+//if there IS a keyword OR if there IS a checked box (i.e. is "true")
+if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.value) == "true")) {
+    console.log("We're in if statement");
+    console.log(localStorage.getItem('keyword'));
+    console.log(localStorage.getItem(boxes.value));
+    $('#save_to_prefs').show();
+    $('#clear-button').show();
+} 
+
+
+
+
+
+
+
 const saveUserFilter = (evt) => {
     evt.preventDefault();
     //turn what's saved in localstorage into usable dict for server side
@@ -119,7 +140,22 @@ const saveUserFilter = (evt) => {
             console.log(response)
         });
 }
-//when "Apply Filters" is clicked
+
+
+
+    
+
+    
+// //if filters have been applied, THEN allow user to save filters
+// if (localStorage.length !== 0) {
+//     
+// }
+// else {
+//     $('#save_to_prefs').on("click", () => {
+//         alert("You must apply a filter before you can save it!");
+//     });
+// }
+
 $('#save_to_prefs').on("click", saveUserFilter);
 
 //when "Clear Filter" is clicked
@@ -169,6 +205,10 @@ const saveEvent = (evt) => {
 
 // for ANY save-event button and then ID changes according to event
 $('.save-button').on('click', saveEvent);
+
+
+
+
 
 
 

@@ -242,6 +242,34 @@ def delete_event(event_id):
     db.session.delete(event)
     db.session.commit()
 
+def remove_keyword_from_user(user_id, keyword):
+    """Remove keyword as pref from user"""
+
+    user = User.query.get(user_id)
+    print(f'----USER = {user}-------')
+
+    delete_keyword = Preference.query.filter(Preference.keyword_search == keyword).first()
+    print(f'----delete keyword = {delete_keyword}-------')
+    
+    user.preferences.remove(delete_keyword)
+    db.session.commit()
+    
+
+def remove_category_from_user(user_id, category):
+    """Remove category as pref from user"""
+
+    user = User.query.get(user_id)
+    print(f'----USER = {user}-------')
+
+    
+    delete_category = Preference.query.filter(Preference.category == category).first()
+    print(f'----delete category = {delete_category}-------')
+
+    user.preferences.remove(delete_category)
+    db.session.commit()
+
+    
+
 
 #add search functionality in here
 #search by user_Id so they can see what things they've saved
@@ -356,13 +384,7 @@ def get_user_keywords(prefs):
 
     return keywords
 
-def upload_image(file_name):
-    """Store file uploaded by user to file path"""
 
-
-
-    #maniulate inage to be route
-    #file.save[os.path.join[app.config[IMAGE_FILE_PATH], file_name]])
 def convert_start_dates(events):
 
     """Convert datetime object to be readable to user"""

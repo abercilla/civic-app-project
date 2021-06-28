@@ -40,14 +40,15 @@
         <div>
             <button type = "submit" onclick="save()" name = "button" id ="category_search" >Apply Filters</button>
         </div>
+      
     </form>
 
     <!--Add "Clear Filters" button to wipe out applied filters-->
-    <button type = "button" id="clear-button">Clear Filter</button>
+    <button type = "button" id="clear-button" style = "display:none">Clear Filter</button>
 
       <br>
       {% if session%} <!--change this so "Save Filter" only shows up if Apply Filter has been clicked first-->
-        <button type = "button" name = "button" id = "save_to_prefs">Save Filter</button>
+        <button type = "button" name = "button" id = "save_to_prefs" hidden>Save Filter</button>
       <br>
      <form>
         <button type = "submit" name = "button" id = "saved_filters">Search by My Filters</button>

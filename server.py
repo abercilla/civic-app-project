@@ -168,13 +168,6 @@ def filter_homepage_by_prefs():
     print(f"***JSONIFIED EVENT LIST = {jsonify(event_list)}****")
     return jsonify(event_list)
 
-# @app.route
-# def remove_event_from_user():
-#     """Remove event from user"""
-
-#     get event id, turn into event object, get the user object, 
-#     db.session.commit()
-
 @app.route("/events/<event_id>")
 def show_event(event_id):
     """Show details of a particular event"""
@@ -437,6 +430,40 @@ def delete_created_event():
 
 
     return jsonify("items removed")
+
+@app.route("/remove-category", methods=["POST"])
+def remove_category_from_user():
+    """Remove a category as preference from the user"""
+
+    logged_in_user = session.get("user_id")
+
+    category = request.get_json()
+    
+    print(f"----Category = {category}-------")
+
+    crud.remove_category_from_user(logged_in_user, category)
+
+    
+    return jsonify("items removed")
+
+@app.route("/remove-keyword", methods=["POST"])
+def remove_keyword_from_user():
+    """Remove a keyword as preference from the user"""
+
+    logged_in_user = session.get("user_id")
+
+    keyword = request.get_json()
+    
+    print(f"----Keyword = {keyword}-------")
+
+    crud.remove_keyword_from_user(logged_in_user, keyword)
+
+    
+    return jsonify("items removed")
+
+
+
+
 
 if __name__ == "__main__":
     
