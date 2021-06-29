@@ -22,7 +22,7 @@
     <body>
         {% if session.get("user_id")%}
             <div>
-                <a href ="/">Home</a>
+                <a href ="/">Civic Home</a>
                 <a href ="/user-profile/{{ session.get("user_id") }}">My Profile</a>
                 <a href = "/create-event">Create Event</a>
                 <a href = "/logout">Logout</a>
@@ -43,7 +43,6 @@
             </p>
         {% endfor %}
         <br>
-        <h1>Hello. It's the Civic App.</h1>
         
     {% block body %}{% endblock %}
     </body>

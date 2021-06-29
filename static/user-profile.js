@@ -90,6 +90,8 @@ const deleteEvent = (evt) => {
 // for ANY save-event button and then ID changes according to event
 $('.delete-button').on('click', deleteEvent);
 
+//---------------Remove a Category as pref from user-----------//
+
 const removeCategory = (evt) => {
 
     evt.preventDefault();
@@ -132,12 +134,13 @@ const removeCategory = (evt) => {
     else {
         console.log("Not confirmed!")
     }
-   
-
 }
 
 
 $('.remove-category').on('click', removeCategory);
+
+
+//---------------Remove a Keyword as pref from user-----------//
 
 const removeKeyword = (evt) => {
 
@@ -181,9 +184,6 @@ const removeKeyword = (evt) => {
     else {
         console.log("Not confirmed!")
     }
-   
-
 }
-
 
 $('.remove-keyword').on('click', removeKeyword);

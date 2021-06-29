@@ -15,16 +15,18 @@
 
                 <!--input event name-->
                 <p> <label>Event Name</label>
-                  <input required type="text" name="name">
+                  <input required type="text" name="name" size="50">
                 </p> 
 
                 <!--ask for event category (1)-->
                 <p>                     
                     <label>Event Category</label>
                     <select name="category">
-                        <option value="watermelon">Watermelon</option>
-                        <option value="canteloupe">Canteloupe</option>
-                        <option value="honeydew">Honeydew</option>
+                        <option value="Protest">Protest</option>
+                        <option value="March">March</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Canvass">Canvass</option>
+                        <option value="Workshop">Workshop</option>
                     </select> 
                     <br><br>
                     </p>
@@ -39,7 +41,7 @@
                 <!--input address/location of event-->
                 <p>
                     <label>Location</label>
-                    <input required type="text" name="address">
+                    <input required type="text" name="address" size="50">
                 </p>
 
                  <!--input event description-->
@@ -51,8 +53,9 @@
 
                 <!--prompt user to upload an image for the event-->
                 <p><input required type = "file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
-                   <p><label for="file" style="cursor": pointer;">Upload Image</label></p>
-                    <img id = "output" width="200"/>
+                <!-- <label for="file" style="cursor": pointer;">Upload Image</label><p></p> -->
+                <br>    
+                <img id = "output" width="200"/>
                   </section>
                   <br>
                     <button type = "submit" name = "button" id ="create-event">Create Event</button>

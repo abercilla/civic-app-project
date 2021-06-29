@@ -1,18 +1,10 @@
 'use strict';
 
-// separate JS files for each HTML page and then add in script tag to that HTML page
-
 alert("js is connected!");
-
-// function FilterHomepage(evt){
-//     alert("We clicked on Search by My Filters!")
-//         };
-
-//when button is clicked, call FilterHomepage function
-
 
 
 //----------- DISPLAY EVENTS FROM "SEARCH BY MY FILTERS" --------------------//
+
 // events that fit the current user's saved preferences will be returned as (data) from get request
 //... and we'll append each event to list element <li>
 
@@ -97,14 +89,12 @@ const clear = () => {
     window.location.href = "/";
 }
 
-// Allow user to save search criteria as a filter/pref
-// -- BUG -- if you click "Apply Filters" again and there is nothing applied, still shows 0 events
-// --- must click 'Clear Filters' to get al events again
+
+//when redirected back to homepage, clear localStorage
+//window.localStorage.clear();
 
 
-
-// Save Filter and Clear Filter should only be visible if
-    //.... a filter has already been applied with Apply Filter
+//------------Only show Save Filter and Clear Filter after Apply Filter is clicked-----//
 
 //if localStorage has been set, show Save Filter and Clear Filter
 //if there IS a keyword OR if there IS a checked box (i.e. is "true")
@@ -116,11 +106,9 @@ if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.va
     $('#clear-button').show();
 } 
 
+//-------------------------------------------------------------------------------------//
 
-
-
-
-
+//-------------------Save whatever is in localStorage as prefs for user ---------------//
 
 const saveUserFilter = (evt) => {
     evt.preventDefault();
@@ -142,27 +130,11 @@ const saveUserFilter = (evt) => {
 }
 
 
-
-    
-
-    
-// //if filters have been applied, THEN allow user to save filters
-// if (localStorage.length !== 0) {
-//     
-// }
-// else {
-//     $('#save_to_prefs').on("click", () => {
-//         alert("You must apply a filter before you can save it!");
-//     });
-// }
-
 $('#save_to_prefs').on("click", saveUserFilter);
 
 //when "Clear Filter" is clicked
 $('#clear-button').on("click", clear);
 
-//when redirected back to homepage, clear localStorage
-//window.localStorage.clear();
 
 $(document).ready(load_());
 
