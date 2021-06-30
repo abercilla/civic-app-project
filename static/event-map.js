@@ -8,7 +8,7 @@ function initialize() {
     const latlng = new google.maps.LatLng(37.7887459, -122.4115852);
     // set characteristics of map
     const mapOptions = {
-        zoom: 10,
+        zoom: 15,
         center: latlng
     }
     //set variable to represent map

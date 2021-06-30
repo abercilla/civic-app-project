@@ -3,6 +3,8 @@
 alert("js is connected!");
 
 
+
+
 //----------- DISPLAY EVENTS FROM "SEARCH BY MY FILTERS" --------------------//
 
 // events that fit the current user's saved preferences will be returned as (data) from get request
@@ -81,6 +83,25 @@ function load_() {
     }
 }
 
+//Filters should stick as long as we are still on homepage
+//once all DOM objects are loaded, repopulate localStorage in search filters
+$(document).ready(load_());
+
+
+// If we leave homepage and come back, filters should clear via localStorage
+$(document).ready(function() {
+    let previousURL = document.referrer;
+    console.log(previousURL);
+    if (previousURL !== "/") {
+        localStorage.clear();
+    }
+});
+
+
+
+
+
+
 
 const clear = () => {
     // clear filters via localStorage
@@ -89,8 +110,12 @@ const clear = () => {
     window.location.href = "/";
 }
 
+//when "Clear Filter" is clicked
+$('#clear-button').on("click", clear);
+
 
 //when redirected back to homepage, clear localStorage
+
 //window.localStorage.clear();
 
 
@@ -132,11 +157,8 @@ const saveUserFilter = (evt) => {
 
 $('#save_to_prefs').on("click", saveUserFilter);
 
-//when "Clear Filter" is clicked
-$('#clear-button').on("click", clear);
 
 
-$(document).ready(load_());
 
 //-------------- Save event and tell user without redirecting ----------//
 
