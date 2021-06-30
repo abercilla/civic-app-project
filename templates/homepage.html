@@ -63,8 +63,8 @@
         {% if events%}
 
           {% for event in events %}
-          <div class = "event"> 
-              <div class= "success-msg" id ="success-msg-{{event.event_id}}"></div>
+          <div class = "event" id ="event-id-{{event.event_id}}"> 
+              <div class= "success-msg" id ="success-msg-{{event.event_id}}">
               <h3>{{ event.name }}</h3>
               <p>{{ event.start_date.strftime("%A %B %d %Y %I:%M %p") }}</p>
               <img src = "{{ event.image }}" width="300" onerror="this.onerror=null; this.remove();">
@@ -75,7 +75,6 @@
              
               <span class = "buttons">
                 <form action="/events/{{event.event_id}}" method="POST" >
-                  <!-- <input type="hidden" name="event-id" value="{{event.event_id}}"> -->
                   <button type = "submit" class = "save-button" name = "button" id ="save-event-{{event.event_id}}">Save Event</button>
               </form>
               <br>
@@ -86,8 +85,8 @@
               
               <br>
               <br>
-
             </div>
+          </div>
           {% endfor %}
 
          {% else %}

@@ -1,10 +1,5 @@
 'use strict';
 
-alert("js is connected!");
-
-
-
-
 //----------- DISPLAY EVENTS FROM "SEARCH BY MY FILTERS" --------------------//
 
 // events that fit the current user's saved preferences will be returned as (data) from get request
@@ -33,9 +28,29 @@ function filterHomepage (evt) {
             } 
             else {
                 for (const event of events) {
+                    console.log(event);
                     console.log(events[i]["event_id"]);
-                    const eventAdd = "<li><a href = 'events/" + events[i]["event_id"] + "'>" + events[i]["name"] + "</a></li>";
+                
+                    let eventID = events[i]["event_id"];
+                    
+                    
+                    const eventAdd = "<div class= 'success-msg' id ='success-msg-" + eventID + 
+                                        "'><h3>" + events[i]['name'] + "</h3><p>" + events[i]['start_date'] + 
+                                        "</p><img src='" + events[i]['image'] + "' width='300' onerror='this.onerror=null; this.remove();'><p>" + 
+                                        events[i]['address'] + "</p><p>" + events[i]['description'] + "</p>" + 
+                                        "<span class = 'buttons'><form action='/events/" + eventID + "' method='POST'>" +
+                                        "<button type = 'submit' class = 'save-button' name = 'button' id ='save-event-'" + eventID + "'>Save Event</button>" +
+                                        "</form><br><form action='events/" + eventID + "'>" + 
+                                        "<button>See Event Details</button></form></span><br><br><br></div>";
+
+                    //how can we get it to save on the page again with this new behavior instead of redirecting
+                    //are we clicking on this in JS instead of HTML on the page, and if so, how can we add a listener to the JS itself to then reference anther JS function
+                    
+                    console.log(eventAdd);
+                    
                     $('#event-list').append(eventAdd);
+
+
                     i = i + 1;
                 }  
             }   
@@ -83,25 +98,7 @@ function load_() {
     }
 }
 
-//Filters should stick as long as we are still on homepage
-//once all DOM objects are loaded, repopulate localStorage in search filters
-$(document).ready(load_());
-
-
-// If we leave homepage and come back, filters should clear via localStorage
-$(document).ready(function() {
-    let previousURL = document.referrer;
-    console.log(previousURL);
-    if (previousURL !== "/") {
-        localStorage.clear();
-    }
-});
-
-
-
-
-
-
+//-------------------- Clear LocalStorage --------------------------------//
 
 const clear = () => {
     // clear filters via localStorage
@@ -113,10 +110,18 @@ const clear = () => {
 //when "Clear Filter" is clicked
 $('#clear-button').on("click", clear);
 
+//Filters should stick as long as we are still on homepage
+//once all DOM objects are loaded, repopulate localStorage in search filters
+$(document).ready(load_());
 
-//when redirected back to homepage, clear localStorage
-
-//window.localStorage.clear();
+// If we leave homepage and come back, filters should clear via localStorage
+$(document).ready(function() {
+    let previousURL = document.referrer;
+    console.log(previousURL);
+    if (previousURL !== "/") {
+        localStorage.clear();
+    }
+});
 
 
 //------------Only show Save Filter and Clear Filter after Apply Filter is clicked-----//
@@ -131,7 +136,8 @@ if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.va
     $('#clear-button').show();
 } 
 
-//-------------------------------------------------------------------------------------//
+$()
+
 
 //-------------------Save whatever is in localStorage as prefs for user ---------------//
 
@@ -156,9 +162,6 @@ const saveUserFilter = (evt) => {
 
 
 $('#save_to_prefs').on("click", saveUserFilter);
-
-
-
 
 //-------------- Save event and tell user without redirecting ----------//
 
