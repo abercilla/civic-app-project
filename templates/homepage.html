@@ -43,11 +43,11 @@
       
     </form>
 
-    <!--Add "Clear Filters" button to wipe out applied filters-->
-    <button type = "button" id="clear-button" style = "display:none">Clear Filter</button>
+    <!-- style = "display:none" -->
+    <button type = "button" id="clear-button" hidden>Clear Filter</button>
 
       <br>
-      {% if session%} <!--change this so "Save Filter" only shows up if Apply Filter has been clicked first-->
+      {% if session%} 
         <button type = "button" name = "button" id = "save_to_prefs" hidden>Save Filter</button>
       <br>
      <form>
@@ -65,11 +65,12 @@
           {% for event in events %}
           <div class = "event" id ="event-id-{{event.event_id}}"> 
               <div class= "success-msg" id ="success-msg-{{event.event_id}}">
+
               <h3>{{ event.name }}</h3>
+              <p>{{ event.category }}</p>
               <p>{{ event.start_date.strftime("%A %B %d %Y %I:%M %p") }}</p>
               <img src = "{{ event.image }}" width="300" onerror="this.onerror=null; this.remove();">
               <p>{{ event.address}} </p>
-              
               <p>{{ event.description }}</p>
 
              

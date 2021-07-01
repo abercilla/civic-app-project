@@ -88,7 +88,7 @@ def save_pref_to_user():
     
     #get JSON string from JS and turn into Python ob
     data = request.get_json()
-    print(data)
+    print(f'-----DATA = {data}')
 
     categories = []
 
@@ -232,7 +232,7 @@ def show_profile(user_id):
     """Show a user's profile with saved events and preferences"""
     
     logged_in_user = session.get("user_id")
-    #---BUG--My Profile button doesn't work when we're already on the user's profile
+    
     if logged_in_user:
 
         user = crud.get_user_by_id(user_id)
