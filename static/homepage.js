@@ -12,6 +12,7 @@ function filterHomepage (evt) {
 
         evt.preventDefault();
         console.log("On submit is working!")
+        clear;
 
         $.get(url, (data) => {
             $('#event-list').empty();
@@ -61,6 +62,7 @@ function filterHomepage (evt) {
         });
 }
 
+$('#saved_filters').on('click', filterHomepage);
 
 
 
@@ -84,6 +86,7 @@ function save() {
     for (j = 0; j < boxes.length; j++) {
         //create dict in localStorage where {key = 'category': value = 'true/false'}
         localStorage.setItem(boxes[j].value, boxes[j].checked); 
+        
     } 
 }
 
@@ -114,24 +117,33 @@ const clear = () => {
 //when "Clear Filter" is clicked
 $('#clear-button').on("click", clear);
 
-//Filters should stick as long as we are still on homepage
-//once all DOM objects are loaded, repopulate localStorage in search filters
-$(document).ready(load_());
-
-
-
-
-//------------Only show Save Filter and Clear Filter after Apply Filter is clicked-----//
 
 //if localStorage has been set, show Save Filter and Clear Filter
 //if there IS a keyword OR if there IS a checked box (i.e. is "true")
 if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.value) == "true")) {
     console.log("We're in if statement");
     console.log(localStorage.getItem('keyword'));
-    console.log(localStorage.getItem(boxes.value));
+    console.log(localStorage.getItem(boxes.value)); // this console.logs "null" but somehow still works
     $('#save_to_prefs').show();
     $('#clear-button').show();
 } 
+
+//Filters should stick as long as we are still on homepage
+//once all DOM objects are loaded, repopulate localStorage in search filters
+$(document).ready(load_());
+//console.log(localStorage);
+
+//------------Only show Save Filter and Clear Filter after Apply Filter is clicked-----//
+
+//if localStorage has been set, show Save Filter and Clear Filter
+//if there IS a keyword OR if there IS a checked box (i.e. is "true")
+// if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.value) == "true")) {
+//     console.log("We're in if statement");
+//     console.log(localStorage.getItem('keyword'));
+//     console.log(localStorage.getItem(boxes.value));
+//     $('#save_to_prefs').show();
+//     $('#clear-button').show();
+// } 
 
 
 
@@ -205,7 +217,7 @@ const saveEvent = (evt) => {
 $(document).on('click', '.save-button', saveEvent); 
 
 //$('#saved_filters').on('click', localStorage.clear());
-$('#saved_filters').on('click', filterHomepage);
+
 
 
 // --TO FIX-- 

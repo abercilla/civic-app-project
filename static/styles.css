@@ -1,14 +1,54 @@
-img {
-    height: 200px;
-    width: 200px;
-}
-
-.melon-div {
-    display: inline-block;
-    padding: 10px;
-    width: 205px;
-}
-
 body {
-    background-color: darkmagenta;
+    background-color: whitesmoke;
 }
+
+/* 
+button {
+    background-color: #192476;
+    color: white;
+    /* border: none;
+    
+    /* padding: 5px 10px; */
+    /* text-align: center;
+    text-decoration: none;
+    display: inline-block; */
+    /* font-size: 12px; */
+/* } */ 
+
+nav {
+    height: 50px;
+    background-color: white;
+}
+/* make elements on nav evenly spaced */
+nav a {
+    padding-left:15px;
+    padding-right:15px;
+    font-size:10px;
+}
+
+.navbar-brand {
+    font-size:17px !important;
+    font-weight: 600; 
+    color: #2738B9 !important;
+}
+
+.btn {
+      margin-right:20px;
+      background-color: #2738B9;
+      font-weight: 500;
+}
+
+button {
+    /* margin-right:20px; */
+    /* background-color: #2738B9; */
+    font-weight: 500;
+    color: white;
+    margin:2px;
+
+}
+
+#clear-button {
+    background-color:white;
+    color:#2738B9;
+}
+
