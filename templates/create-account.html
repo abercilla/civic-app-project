@@ -2,78 +2,116 @@
         and the user input is captured by "/create-account" app route-->
 
         {% extends 'base.html' %}
+        {%block head%}
+       
+        <link href="/static/create-account.css" rel="stylesheet">
+    
+        {% endblock %}
 
-        {%block title %}Civic App Home{% endblock %}
+        {%block title %}{% endblock %}
         
         {% block body %}
+        <body class="text-center">
+            <main class="create-account">
         
-        
-            <h2>Create an Account</h2>
             
             <form action="/create-account" method ="POST">
 
-                <!--ask user to type in First Name-->
-                <p> <label>First Name</label>
-                  <input required type="text" name="fname">
-                </p> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                  </svg>
+                  <br>
+                  <br>
+                
+                <h2 class="h3 mb-3 fw-normal">Create an Account</h2>
+
+                <div class="form-floating">
+                  <input required type="text" class="form-control" name="fname" id="fname">
+                  <label for="fname" class="form-label">First Name</label>
+                </div>
 
                 <!--ask user to type in Last Name-->
-                <p>
-                    <label>Last Name</label>  
-                    <input required type="text" name="lname">
-                    </p>
-                    
+                <div class="form-floating">
+                    <input required type="text" class="form-control" name="lname" id="lname">
+                    <label for="lname" class="form-label">Last Name</label>  
+                </div> 
                 <!--ask user to type in Email-->
-                <p>
-                    <label>Email</label>
-                    <input required type="text" name="email">
-                </p> 
+                <div class="form-floating">
+                    <input required type="text" class="form-control" name="email" id="email">
+                    <label for="email" class="form-label">Email</label>
+                </div>
                 
                 <!--ask user to type in Phone Number-->
-                <p>
-                    <label>Phone Number</label>
-                    <input required type="text" name="phone">
-                </p>
+                <div class="form-floating">
+                    <input required type="text" class="form-control" name="phone" id="phone">
+                    <label for="phone" class="form-label">Phone Number</label>
+                </div>
 
                  <!--ask user to type in Phone Number-->
-                 <p>
-                    <label>Password</label>
-                    <input required type="password" name="password">
-                </p>
+                 <div class="form-floating">
+                    <input required type="password" class="form-control" name="password" id="password">
+                    <label for="password" class="form-label">Password</label>
+                 </div>
 
                 <!--ask user to type in Zipcode-->
-                <p>
-                    <label>Zipcode</label>
-                    <input required type="text" name="zipcode">
-                </p>
+                <div class="form-floating">
+                    <input required type="text" class="form-control" name="zipcode" id="zipcode">
+                    <label for="zipcode" class="form-label">Zipcode</label>
+                </div>
 
 
             
              <!--ask user to choose category from dropdown-->
-                   <p> <label>What types of events are you interested in? (You can pick more than 1)</label>
-                    <br>
-                    <input type = "checkbox" name = "categories" value="Protest">
-                    <label>Protest</label>
-                    <br>
-                    <input type = "checkbox" name = "categories" value="March">
-                    <label>March</label>
-                    <br>
-                    <input type = "checkbox" name = "categories" value="Meeting">
-                    <label>Meeting</label>
-                    <br>
-                    <input type = "checkbox" name = "categories" value="Canvass">
-                    <label>Canvass</label>
-                    <br>
-                    <input type = "checkbox" name = "categories" value="Workshop">
-                    <label>Workshop</label>
-                    <br>
-                    </p>
+                   <!-- <div class="form-floating"> -->
+                       <!-- <div class="container"> -->
+            <div class="checkbox mb-3">
+                <fieldset class="form-group">
+                <div class="row">
+                    <legend class="col-form-label col-sm-3 pt-0">Types of Events you're Interested In:</legend>
+                        <div class="col-sm-8">
 
-                    <div>
-                        <input type = "submit"/>
-                    </div>
+                                <div class="form-check">
+                                    <input type = "checkbox" class="form-check-input" name = "categories" value="Protest" id="protest">
+                                    <label class="form-check-label" for="protest">Protest</label>
+                                </div> 
+
+                                <div class="form-check">
+                                    <input type = "checkbox" class="form-check-input" name = "categories" value="March" id="march">
+                                    <label class="form-check-label" for="march">March</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type = "checkbox" class="form-check-input" name = "categories" value="Meeting" id="meeting">
+                                    <label class="form-check-label" for="meeting">Meeting</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type = "checkbox" class="form-check-input" name = "categories" value="Canvass" id="canvass">
+                                    <label class="form-check-label" for="canvass">Canvass</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type = "checkbox" class="form-check-input" name = "categories" value="Workshop" id="workshop">
+                                    <label class="form-check-label" for="workshop">Workshop</label>
+                                </div>
+
+                            </div>
+
+
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+                    
+                    <button type = "submit" class="w-100 btn btn-lg btn-primary">Create Account</button>
+                   
             
                 </form>
+            </main>
+        </body>
             
                 <!-- <p><input type="submit">
                 </p>

@@ -108,7 +108,7 @@
 
                       <h5 class = "card-title">{{ event.name }}</h5>
                       <p class = "card-text">{{ event.category }}</p>
-                      <p id="start_date">{{ event.start_date.strftime("%A, %B %d %Y %I:%M %p") }}</p>
+                      <p id="start_date">{{ event.start_date.strftime("%A, %B %d %Y %I:%M %p %Z") }}</p>
                       <p>{{ event.address}} </p>
                       <!-- <p>{{ event.description }}</p> -->
 
@@ -124,7 +124,7 @@
                 <form action="/events/{{event.event_id}}">
                   <button class="btn btn-primary" id="event-details">See Event Details > </button>
                 </form>
-
+                <!--still some extra space at bottom of card when we condense the window -->
           </div>
       </div> 
     </div>

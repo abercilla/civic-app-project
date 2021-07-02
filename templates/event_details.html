@@ -8,10 +8,13 @@
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
      #map {
-        height: 50%;
-        width: 500px;
+        height: 60%;
+        /* width: 500px; */
         background-color: grey;
-        margin: 20px
+        margin-top: 80px;
+        margin-left:50px;
+        align-items: center;
+        
       }
   
       /* Optional: Makes the sample page fill the window. */
@@ -62,40 +65,62 @@
         text-decoration: none;
         color: cadetblue;
       }
+
+      .img-fluid {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+
+      
 </style>
 {% endblock %}
 
 {% block body %} 
-<h1 id="name">{{ event.name }}</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
 
-    <br>
-    
-    <img src = "{{ event.image }}" width="400" onerror="this.onerror=null; this.remove();">
-    <br>
-    <p>
-        {{ event.start_date.strftime("%A %B %d %Y %I:%M %p") }} 
-        </p>
+        <h1 id="name">
+          {{ event.name }}
+        </h1>
+      <br>
+        <h5 id="time">
+          {{ event.start_date.strftime("%A, %B %d %Y %I:%M %p %Z") }}
+        </h5>
 
-    <br>
-    
-    <br>
-    <p id="address">
-        {{ event.address }}
-    </p>
-    <br>
-    <p>
-        {{ event.category }}
-    </p>
-    <br>
-    <p>
-        {{ event.description }}
-    </p>  
+        <img class="img-fluid" src = "{{ event.image }}" onerror="this.onerror=null; this.remove();">
+     
 
-    <br>
-    <form action="/events/{{event.event_id}}" method="POST">
-        <button type = "submit" name = "button" id ="save-event">Save Event</button>
-    </form>
-    <br>
+        <h6 id="address">
+          {{ event.address }}
+        </h6>
+      <br>
+        <h6>
+            {{ event.category }}
+        </h6>
+        <br>
+        <h6>
+            {{ event.description }}
+        </h6>  
+        <br>
+
+        <form action="/events/{{event.event_id}}" method="POST">
+          <button type = "submit" class="btn btn-primary btn-sm" name = "button" id ="save-event">Save Event</button>
+      </form>
+
+    </div>
+
+    <div class="col">
+
+      <div id="map"></div> 
+
+    </div>
+
+   
+  </div>
+</div>
+
+
 <!--add Remove Event button: input hidden with value as the event_id to pull from into server, name = event_id, then request.get-->
 
       <!-- TODO: Step 4A2: Add a generic sidebar -->
@@ -103,10 +128,16 @@
         <!-- <div id="panel"></div> -->
         <!-- Map appears here -->
         
-    <div id="map"></div> 
+    
 
     <script src = "/static/event-map.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqoe-Kx7D1HiBqth0w0QWvwDmtTXtUPeg&libraries=places&callback=initialize">
     </script>
+
+
+<!-- <br>
+<div class="container">
+    <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
+</div> -->
 
 {% endblock %} 
