@@ -52,3 +52,26 @@ button {
     color:#2738B9;
 }
 
+h2 {
+    margin-left:100px;
+}
+
+/* .card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+} */
+
+.img-fluid {
+    margin:10px;
+
+}
+
+.card-body {
+    margin-left:20px;
+
+}
+
+.flash-msg {
+    color: #2738B9;
+    font-weight: 500;
+}

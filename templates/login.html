@@ -2,30 +2,39 @@
         and the user input is captured by "/feed" app route-->
 
         {% extends 'base.html' %}
+        {%block head%}
+       
+            <link href="/static/login.css" rel="stylesheet">
+        <!--currently the navbar doesn't show up correctly, overlapping CSS causing a problem-->
+        {% endblock %}
 
-        {%block title %}Civic App Home{% endblock %}
+        {%block title %}{% endblock %}
         
         {% block body %}
-        
-        
-            <br>
-            <br>
-            <h2>Login</h2>
-            <!--add alert if user doesn't exist-->
+        <body class="text-center">
+        <main class="form-signin">
+
             <form action="/login" method ="POST">
-                <p>
-                    <label>Email</label>
-                    <input type="text" name="email">
-                </p> 
-                
-                 <p>
-                    <label>Password</label>
-                    <input type="password" name="password">
-                </p>
-                <div>
-                    <input type = "submit"/>
+    
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg> -->
+
+                <h1 class="h3 mb-3 fw-normal">Login</h1>
+
+                <div class="form-floating">
+                    <input type="text" name="email" class="form-control" placeholder="name@example.com">
+                    <label for="floatingInput">Email</label>
+                </div> 
+                <div class="form-floating">
+                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="password">
+                    <label for="floastingPassowrd">Password</label>
                 </div>
-                </form>
-         
         
+                    <button type = "submit" class="w-100 btn btn-lg btn-primary">Login</button>
+                    <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
+                </form>
+        </main>
+    </body>
         {% endblock %}

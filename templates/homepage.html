@@ -3,7 +3,7 @@
 
 {% extends 'base.html' %}
 
-{%block title %}Civic App Home{% endblock %}
+{%block title %}{% endblock %}
 
 {% block body %}
 
@@ -77,72 +77,71 @@
                  <form>
                     <button type = "submit" class= "btn btn-primary btn-sm" name = "button" id = "saved_filters">Search by My Filters</button>
                  </form>
-                  {% endif %}
-              
-   
+                  {% endif %} 
   </div>
 </div>
-          
 
-
-
-    <!-- style = "display:none" -->
- 
-
-     
   
 
-      <br>
-      <h2>Upcoming Events</h2>
-      <br>
-      <ul id = "event-list">
-        {% if events%}
-
-          {% for event in events %}
-          <div class = "card mb-3">
-            <div class = "row no-gutters">
-              <div class="col-md-4">
-            <img src = "{{ event.image }}" class="card-img-top" onerror="this.onerror=null; this.remove();">
-              </div>
-              <div class="col-md-8">
-            <div class = "card-body">
-              <div class = "event" id ="event-id-{{event.event_id}}"> 
-                <div class= "success-msg" id ="success-msg-{{event.event_id}}">
-
-                <h5 class = "card-title">{{ event.name }}</h5>
-                <p class = "card-text">{{ event.category }}</p>
-                <p>{{ event.start_date.strftime("%A, %B %d %Y %I:%M %p") }}</p>
-                
-                <p>{{ event.address}} </p>
-                <p>{{ event.description }}</p>
-                <a href = "#" class="btn btn-primary">Go</a>
-              
-                <span class = "buttons">
-                  <form action="/events/{{event.event_id}}" method="POST" >
-                    <button type = "submit" class = "save-button" name = "button" id ="save-event-{{event.event_id}}">Save Event</button>
-                </form>
-                <br>
-                <form action="/events/{{event.event_id}}">
-                  <button>See Event Details</button>
-                </form>
-                </span>
-                <br>
-                <br>
-
-              </div>
-              </div>
-             </div>
-            </div>
-          </div>
+<br>
+<h2>Upcoming Events</h2>
+<br>
+<ul id = "event-list">
+  {% if events%}
+  
+    {% for event in events %}
+    <div class="container">
+    <div class="card mb-3">
+      <!-- <div class="shadow-sm p-3 mb-5 bg-body rounded"></div> -->
+      <div class="row g-0">
+        <div class="col-md-4">
+          <!--HOW DO I GET THIS IMAGE TO STAY HEIGHT OF WHATEVER CONTAINER IS-->
+              <img class="img-fluid rounded-start" src= "{{ event.image }}" onerror="this.onerror=null; this.remove();">
         </div>
-      </div>
-          {% endfor %}
 
-         {% else %}
+          <div class="col-md-8">
+            <div class="card-body">
+                <div class = "event" id ="event-id-{{event.event_id}}"> 
+                  <div class= "success-msg" id ="success-msg-{{event.event_id}}">
+
+                      <h5 class = "card-title">{{ event.name }}</h5>
+                      <p class = "card-text">{{ event.category }}</p>
+                      <p>{{ event.start_date.strftime("%A, %B %d %Y %I:%M %p") }}</p>
+                      <p>{{ event.address}} </p>
+                      <p>{{ event.description }}</p>
+
+                  </div>
+                </div>
+              </div>
+          </div>
+
+           
+
+              <!--let's make these buttons inline and right under event info -- make See Event Details > outlined-->            
+              <span class = "buttons">
+                <form action="/events/{{event.event_id}}" method="POST" >
+                  <button type = "submit" class = "btn btn-primary save-button" name = "button" id ="save-event-{{event.event_id}}">Save Event</button>
+                </form>
+
+                <form action="/events/{{event.event_id}}">
+                  <button class="btn btn-primary">See Event Details</button>
+                </form>
+              </span>
+
+        
+
+              
+        </div> 
+    </div>
+  </div> 
+</ul>   
+    {% endfor %}
+
+  {% else %}
 
             <p>No Events Found.</p>
 
-        {% endif %}
-      </ul>
+  {% endif %}
+ 
   <script src="/static/homepage.js"></script>
 {% endblock %}
