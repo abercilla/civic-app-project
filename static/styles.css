@@ -52,26 +52,62 @@ button {
     color:#2738B9;
 }
 
-h2 {
-    margin-left:100px;
+
+#event-header {
+    margin-left:30px;
 }
 
 /* .card-horizontal {
     display: flex;
     flex: 1 1 auto;
 } */
+/* .container {
+    height:100%;
 
-.img-fluid {
-    margin:10px;
+} */
 
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.img-thumbnail {
+    height:100%;
+    width:100%;
+    object-fit:contain;
+    float:left;
 }
 
 .card-body {
     margin-left:20px;
+}
 
+#start_date {
+    color: #2738B9;
+    font-weight: 500;
 }
 
 .flash-msg {
     color: #2738B9;
     font-weight: 500;
+}
+
+.save-button {
+    float:right;
+    margin-bottom:10px;
+}
+
+#event-details {
+    float:right;
+    margin-bottom:10px;
+    background-color:white;
+    color:#2738B9;
+}
+
+.mt-5 {
+    text-align:center;
+}
+
+#no-events-found {
+    text-align:center;
 }
