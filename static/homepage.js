@@ -169,7 +169,7 @@ const saveUserFilter = (evt) => {
     let formData = JSON.stringify(localStorage);
     console.log(formData);
     console.log(typeof(formData));
-    alert("Filter saved to user's account!")
+    alert("Filter successfully saved to your account!")
     
     //send data to a Flask route
     $.post({

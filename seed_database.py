@@ -146,20 +146,20 @@ prefs_in_db = []
 
 
 event1 = crud.create_event(creator_id=choice(user_ids), name="Black Lives Matter Protest", category="Protest",
-                            start_date="2021-09-10 16:30", address="1666 North Main Street Walnut Creek, CA, 94596",
-                            description="Let's recognize the first anniversary of George Floyd's murder by marching down Ygnacio Valley! We'll be making signs from 5-6pm at Civic Park #blm", 
-                            image="https://i.ytimg.com/vi/6TcmTAhX_XQ/maxresdefault.jpg")
+                            start_date="2021-09-10 16:30", address="1666 North Main Street, Walnut Creek, CA, 94596",
+                            description="We are planning to honor the first anniversary of George Floyd's murder by protesting police violence at Walnut Creek City Hall. We'll be making signs from 5-6pm at Civic Park #blm", 
+                            image="https://www.nhpr.org/sites/nhpr/files/styles/x_large/public/202006/GeorgeFloydImage_JimUrquhartNPR.jpg")
 
 events_in_db.append(event1)
 
 event2 = crud.create_event(creator_id=choice(user_ids), name="Women's March Berkeley", category="March",
-                            start_date="2021-01-16 11:00", address="2180 Milvia St Berkeley, CA 94704", 
+                            start_date="2021-01-16 11:00", address="2180 Milvia St, Berkeley, CA 94704", 
                             description="Join us for the fifth annual Women's March starting at Berkeley City Hall on Milvia! Bring a sign and water!",
                             image="https://www.washingtonpost.com/rf/image_1484w/2010-2019/WashingtonPost/2017/01/21/Others/Images/2017-01-21/DSC_1255.jpg")
 events_in_db.append(event2)
 
-event3 = crud.create_event(creator_id=choice(user_ids), name="Kamala For The People Organizing Meeting", category="Meeting",
-                            start_date="2021-08-10 18:30", address="3810 Ingersoll Ave Des Moines IA 50312", 
+event3 = crud.create_event(creator_id=choice(user_ids), name="Kamala Organizing Meeting!", category="Meeting",
+                            start_date="2021-08-10 18:30", address="3810 Ingersoll Ave, Des Moines IA 50312", 
                             description="We're two weeks away from the caucuses! Come to the Kamala HQ office and strategize where to canvass in your neighborhood. Bring a notebook and any other Kamala supporters you know!",
                             image="https://lasentinel.net/wp-content/uploads/sites/5/2019/09/USbvcZLQ.jpeg")
 events_in_db.append(event3)

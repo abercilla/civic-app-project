@@ -304,6 +304,11 @@ def filter_events_by_prefs(keyword_search=None, categories=None):
         for category in categories:
                 events.extend(Event.query.filter_by(category=category).all())
         #categories.append(user_pref.category)
+        # #if it's only one category:
+        # else:
+        #     for category in categories:
+        #             events.append(Event.query.filter_by(category=category).first())
+
     
     if keyword_search:
         #pull out events that have chosen keyword (KEY SENSITIVE)
@@ -332,13 +337,18 @@ def filter_events_by_user_prefs(user_id):
         if user_pref.keyword_search != None:
             keywords.append(user_pref.keyword_search)
     
+    print(f'-----------KEYWORDS = {keywords}')
+    print(f'----------CATEGORIES = {categories}')
     #pull out events tied to those categories and keywords
     for category in categories:
         events.extend(Event.query.filter_by(category=category).all())
             
     for keyword in keywords:
-        events.append(Event.query.filter((Event.description.like(f'%{keyword}%')) | 
-                                            (Event.name.like(f'%{keyword}'))).all())
+        results= Event.query.filter((Event.description.like(f'%{keyword}%')) | 
+                                            (Event.name.like(f'%{keyword}'))).all()
+
+        events.extend(results)
+    # print(f"--------HERE ARE THE RESULTS FROM CRUD= {results}--------")
 
     print(f"--------HERE ARE THE EVENTS FROM CRUD= {events}--------")
     return events
