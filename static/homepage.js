@@ -36,16 +36,30 @@ function filterHomepage (evt) {
                     let eventID = events[i]["event_id"];
                     console.log(typeof(eventID));
 
-                    const saveEventButton = "<button type = 'submit' class = 'save-button' name = 'button' id ='save-event-" + eventID + "'>Save Event</button>"
+                    const saveEventButton = "<button type = 'submit' class = 'btn btn-primary save-button' name = 'button' id ='save-event-" + eventID + "'>Save Event</button>";
 
-                    const eventAdd = "<div class= 'success-msg' id ='success-msg-" + eventID + 
-                                        "'><h3>" + events[i]['name'] + "</h3><p>" + events[i]['category'] + "</p><p>" + events[i]['start_date'] + 
-                                        "</p><img src='" + events[i]['image'] + "' width='300' onerror='this.onerror=null; this.remove();'><p>" + 
-                                        events[i]['address'] + "</p><p>" + events[i]['description'] + "</p>" + 
-                                        "<span class = 'buttons'><form action='/events/" + eventID + "' method='POST'>" +
-                                        saveEventButton +
-                                        "</form><br><form action='events/" + eventID + "'>" + 
-                                        "<button>See Event Details</button></form></span><br><br><br></div>";
+                    // "<button type = 'submit' class = 'save-button' name = 'button' id ='save-event-" + eventID + "'>Save Event</button>"
+
+                    const eventAdd = "<div class='container'><div class='card mb-3'><div class='row g-0'><div class='col-md-4'><img class='img-thumbnail rounded-start' src='" + events[i]['image'] + 
+                                        "' onerror='this.onerror=null; this.remove();'></div><div class='col-md-8'><div class='card-body'><div class='event' id='event-id-" + eventID + 
+                                        "'><div class='success-msg' id='success-msg-" + eventID + "'><h5 class='card-title'>"+ events[i]["name"] + "</h5><p class='card-text'>" + events[i]['category'] + 
+                                        "</p><p id='start_date'>" + events[i]['start_date'] + "</p><p>" + events[i]['address'] + "</p></div></div></div><form action='/events/" + eventID + 
+                                        "' method='POST'><button type='submit' class='btn btn-primary save-button' name='button' id='save-event-" + eventID + 
+                                        "'>Save Event</button></form><form action='/events/" + eventID + "'><button class='btn btn-primary' id='event-details'>See Event Details > </button></form></div></div></div></div>";
+                    
+                    
+                    
+                    
+                    
+                    
+                    // <div class= 'success-msg' id ='success-msg-" + eventID + 
+                    //                     "'><h3>" + events[i]['name'] + "</h3><p>" + events[i]['category'] + "</p><p>" + events[i]['start_date'] + 
+                    //                     "</p><img src='" + events[i]['image'] + "' width='300' onerror='this.onerror=null; this.remove();'><p>" + 
+                    //                     events[i]['address'] + "</p><p>" + events[i]['description'] + "</p>" + 
+                    //                     "<span class = 'buttons'><form action='/events/" + eventID + "' method='POST'>" +
+                    //                     saveEventButton +
+                    //                     "</form><br><form action='events/" + eventID + "'>" + 
+                    //                     "<button>See Event Details</button></form></span><br><br><br></div>"; }
 
                     //how can we get it to save on the page again with this new behavior instead of redirecting
                     //are we clicking on this in JS instead of HTML on the page, and if so, how can we add a listener to the JS itself to then reference anther JS function
@@ -210,6 +224,10 @@ const saveEvent = (evt) => {
         });
 }
 
+
+const showClear = (evt) => {
+    $('#clear-button').show();
+}
 // deprecated: for events preloaded on page via HTML 
 //$('.save-button').on('click', saveEvent);
 
@@ -217,7 +235,8 @@ const saveEvent = (evt) => {
 //...(including dynicamlly created events via "Search by My Filters"), do saveEvent
 $(document).on('click', '.save-button', saveEvent); 
 
-//$('#saved_filters').on('click', localStorage.clear());
+//If a user searches by saved prefs, show them Clear Filter button
+$('#saved_filters').on('click', showClear);
 
 
 

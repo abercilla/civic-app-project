@@ -12,9 +12,11 @@
         {%block title %}{% endblock %}
         
         {% block body %}
-        <div class="container shadow-sm p-3 mb-5 bg-body rounded">
+        <div class="container shadow-sm col-md-6 p-3 mb-5 bg-body rounded">
+            <!-- <div class="container shadow-sm bg-body rounded col-md-6 p-3 mb-5"> -->
 
-            <h2>Create an Event</h2>
+
+            <h2>Create Event</h2>
             <br>
             
             <form action="/event-confirm" method ="POST" enctype="multipart/form-data">
@@ -28,7 +30,8 @@
 
                 <!--ask for event category (1)-->
                
-                <h7>Event Categories</h7>  
+                <h7>Event Category</h7>  
+                <br>
                 <br>
                 <div class="form-check">  
                    <input class="form-check-input" type="radio" name="category" value="" id="protest" value="protest" checked>                
@@ -112,7 +115,10 @@
 
                 <!--prompt user to upload an image for the event-->
                 <div class="form-group">
-                    <label for="file">Upload Event Image</label>
+                    <h7>Upload Event Image</h7>
+                    <br>
+                    <br>
+                    <!-- <label for="file">Upload Event Image</label> -->
                     <input required type = "file" class="form-control-file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
                 <!-- <label for="file" style="cursor": pointer;">Upload Image</label><p></p> -->
                 </div>

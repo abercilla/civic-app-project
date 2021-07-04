@@ -118,11 +118,20 @@ def save_pref_to_user():
 def save_event_to_user_from_homepage():
     """Save an event to a user without redirecting to event page"""
 
+    #--TO DO-- if there isn't a user logged in, give them an alert
+        #...and don't let them save
+        
+    # if not session.get("user_id"):
+    #     flash("Create an account to save an event!") 
+    #     return jsonify("None")
+    # else:
+
+
     logged_in_user = session["user_id"]
-    
+
     # get JSON string from JS and turn into Python ob
     data = request.get_json()
-    # print(f'HERE IS DATA = {data}-------')
+    print(f'HERE IS DATA = {data}-------')
     # print(f'HERE IS LOGGED_IN_USER = {logged_in_user}')
     
     #get event object from event ID pulled from button ID
@@ -290,17 +299,26 @@ def collect_account():
     
     #check if account already exists
     user = crud.check_email(email)
+    print(f'------USER = {user}-------')
 
-    if user:
+    if user != None:
         flash("Account already exists with this email. Try again.")
         return redirect("/create-account")
     else:
         user = crud.create_user(fname=fname, lname=lname, email=email, 
                     phone=phone, password=password, zipcode=zipcode)
+        print(f'------USER = {user}-------')
         
         #collect categories chosen and connect to user
         crud.connect_user_to_multiple_prefs(user, categories)
-        return render_template("feed.html", fname=fname)
+        
+        #create session for user
+        session["user_id"] = user.user_id
+
+        random_events = crud.get_events()
+
+        return render_template("homepage.html", events=random_events)
+
     #render same template with specific events based on queries about preferences
     #or just render template with first 25 events
 

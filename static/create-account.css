@@ -1,3 +1,8 @@
+/* .container {
+  margin:auto;
+} */
+
+/* 
 .create-account {
     width: 100%;
     max-width: 330px;
@@ -21,15 +26,21 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-  
+   */
  
-.form-check {
+/* .form-check {
     margin-bottom: 10px;
     border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-top-right-radius: 0; 
 
-}
+}*/
 svg {
-    color:#2738B9; 
+    color:#2738B9;
+    display:block;
+    margin:auto;
+    margin-bottom:30px;
 }
 
+h2 {
+  text-align:center;
+}
