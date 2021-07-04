@@ -8,7 +8,7 @@ const removeEvent = (evt) => {
     //get specific eventID from html button element 
     let eventID = (evt.target.id).split('-')[2]
 
-    // console.log(eventID);
+    console.log(eventID);
 
     // take event_id from the event we're saving 
     //... and send to server to save event to user

@@ -14,50 +14,60 @@
 <div class="container">
     <div class="row">
         <div class="col">
+            <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
-            <br>
-            <h3 class="heading">My Saved Filters</h3>
         
-            <br>
+                <h4 class="heading">My Saved Filters</h4>
             
-            <h4>Event Categories</h4>
-            {% if categories%}    
-                {% for category in categories %}
-                        <li class ="preference" id = "remove-category-{{category}}">   
-                            {{ category }} 
-                            <button type = "submit" class = "close remove-category" aria-label="Close" id = "remove-category-{{category}}">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </li>     
-                    {% endfor %}
-
-                {% else %}
-                    <h7>You haven't saved any categories yet.</h7>
-                {% endif %}
                 <br>
+                
+                <h5 class="heading2">Event Categories</h5>
+                {% if categories%}    
+                    {% for category in categories %}
+                            <li class ="preference" id = "remove-category-{{category}}">   
+                                {{ category }} 
+                                <button type = "submit" class="remove-category" id="remove-category-{{category}}">
+                                    x
+                                </button>
+                                <!--button with X-->
+                                <!-- aria-label="Close" -->
+                                <!-- <button type = "submit" class = "remove-category close"  id = "remove-category-{{category}}">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> -->
+                            </li>     
+                        {% endfor %}
+
+                    {% else %}
+                        <h7>You haven't saved any categories yet!</h7>
+                    {% endif %}
+                <br>
+                <br>
+
+                <h5 class="heading2">Search Words</h5>  
+                {% if keywords%}
+                    {% for keyword in keywords %}
+                        <li class ="preference" id = "remove-keyword-{{keyword}}">   
+                            {{ keyword }} 
             
-            <h4>Search words</h4>  
-            {% if keywords%}
-                {% for keyword in keywords %}
-                    <li class ="preference" id = "remove-keyword-{{keyword}}">   
-                        {{ keyword }} 
-        
-                    <button type = "submit" class = "close remove-keyword" aria-lable="Close" id = "remove-keyword-{{keyword}}">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-        
-                    </li>     
-                {% endfor %} 
+                            <button type = "submit" class = "remove-keyword" id = "remove-keyword-{{keyword}}">
+                                x
+                            </button>    
+                        </li>     
+                    {% endfor %} 
 
-            {% else %} 
+                {% else %} 
 
-                <h7>Yo haven't saved any search words yet.</h7>
-            
-            {% endif %}
-        <br>
-        <br>
+                    <h7>You haven't saved any search words yet!</h7>
+                
+                {% endif %}
+            <br>
+            <br>
+        </div>
+    
+        <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
-            <h3 class="heading">My Saved Events</h3>
+         <h4 class="heading">My Saved Events</h4>
+            <br>
             {% if saved_events%} 
         
                 {% for saved_event in saved_events %}
@@ -68,39 +78,43 @@
                         {{ saved_event.name }}
                       </a> 
                 
-                    <button type = "submit" class = "remove-button" id = "remove-event-{{saved_event.event_id}}">Remove Event</button>
+                    <button type = "submit" class = "remove-button btn btn-primary btn-sm" id = "remove-event-{{saved_event.event_id}}">Remove</button>
                 </li>
                 {% endfor %}
         
             {% else %}
         
-                <h3>No events saved.</h3>
+                <h7>You haven't saved any events yet!</h7>
         
             {% endif %}
         </div>
+        </div>
    
     <div class="col">
-        <br>
-        <h3 class="heading">My Created Events</h3>
+        <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
-            {%if created_events%} 
-                {% for created_event in created_events %}
-                    <li class ="created-event" id = "delete-event-{{created_event.event_id}}">
-        
-                        <a href = "/events/{{created_event.event_id}}">
-                            {{ created_event.name }}
-                        </a> 
-                
-                        <button type = "submit" class = "delete-button" id = "delete-event-{{created_event.event_id}}">Delete Event</button>
-                    </li>
-                {% endfor %}
-        
-            {% else %}
-                    <h3>You haven't created an event yet.</h3>
-            {% endif %}
-        <br>
+            <h4 class="heading">My Created Events</h4>
+            <br>
 
+                {%if created_events%} 
+                    {% for created_event in created_events %}
+                        <li class ="created-event" id = "delete-event-{{created_event.event_id}}">
+            
+                            <a href = "/events/{{created_event.event_id}}">
+                                {{ created_event.name }}
+                            </a> 
+                    
+                            <button type = "submit" class = "delete-button btn btn-primary btn-sm" id = "delete-event-{{created_event.event_id}}">Delete Event</button>
+                        </li>
+                    {% endfor %}
+            
+                {% else %}
+                        <h7>You haven't created any events yet!</h7>
+                {% endif %}
+            <br>
+        </div>
     </div>
+</div>
 </div>
     
         
