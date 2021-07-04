@@ -12,6 +12,8 @@ const removeEvent = (evt) => {
 
     // take event_id from the event we're saving 
     //... and send to server to save event to user
+    if (confirm("Are you sure you want to remove this event from your Saved Events?")) {
+
     $.post({
         url: '/remove-event',
         data: eventID,
@@ -32,6 +34,9 @@ const removeEvent = (evt) => {
             // print success message in Div for event
             removeDiv.remove();
         });
+    }
+    else {console.log("Not confirmed!");
+    }
 }
 
 // for ANY save-event button and then ID changes according to event
@@ -76,7 +81,7 @@ const deleteEvent = (evt) => {
 
     }
     else {
-        console.log("Not confirmed!")
+        console.log("Not confirmed!");
     }
     // take event_id from the event we're saving 
     //... and send to server to save event to user
@@ -105,7 +110,7 @@ const removeCategory = (evt) => {
     console.log(category);
     console.log(categoryJSON);
 
-    if (confirm("Are you sure you want to delete this filter?")) {
+    if (confirm("Are you sure you want to remove this category from your Saved Filters?")) {
 
         console.log("Confirmed!");
 
@@ -155,7 +160,7 @@ const removeKeyword = (evt) => {
     console.log(keyword);
     console.log(keywordJSON);
 
-    if (confirm("Are you sure you want to delete this filter?")) {
+    if (confirm("Are you sure you want to remove this search word from your Saved Filters?")) {
 
         console.log("Confirmed!");
 

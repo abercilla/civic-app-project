@@ -3,14 +3,16 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
-    <h2>Event: {{name}} successfully created!</h2>
+    <h2>Event: "{{name}}" successfully created!</h2>
 
     <br>
-    <h3><a href = "/events/{{ event.event_id }}">View Event Here</a></h3>
+    <h4><a href = "/events/{{ event.event_id }}">View Event Here</a></h4>
     <br>
-    <h3><a href = "/create-event">Create Another Event</a></h3>
+    <h4><a href = "/create-event">Create Another Event</a></h4>
 
+</div>
 
 
 

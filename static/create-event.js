@@ -2,7 +2,7 @@
 
 // attached to create-event.html
 
-alert("create-event.js is connected!");
+// alert("create-event.js is connected!");
 
 //when you click "Upload Image"
 var loadFile = function(event) {

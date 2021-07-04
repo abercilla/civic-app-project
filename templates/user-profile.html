@@ -14,9 +14,22 @@
 <div class="container">
     <div class="row">
         <div class="col">
+            <div class="container shadow-sm p-3 mb-5 bg-body rounded" id="account-info">
+                <h4 class="heading">Account Information</h4>
+                    <h7><b>Name:</b> {{user.fname}} {{user.lname}}</h7>
+                        <br>
+                    <h7><b>Email:</b> {{user.email}}</h7>
+                        <br>
+                    <h7><b>Phone:</b> {{user.phone}}</h7>
+                        <br>
+                    <h7><b>Zipcode:</b> {{user.zipcode}}</h7>
+                        <br>
+            </div>
+
+
+
             <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
-        
                 <h4 class="heading">My Saved Filters</h4>
             
                 <br>
@@ -62,8 +75,14 @@
                 {% endif %}
             <br>
             <br>
+
         </div>
+
+    </div>
     
+
+    <div class="col">
+
         <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
          <h4 class="heading">My Saved Events</h4>
@@ -88,9 +107,9 @@
         
             {% endif %}
         </div>
-        </div>
+       
    
-    <div class="col">
+    
         <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
             <h4 class="heading">My Created Events</h4>
@@ -113,8 +132,11 @@
                 {% endif %}
             <br>
         </div>
+
+        </div>
+
     </div>
-</div>
+
 </div>
     
         

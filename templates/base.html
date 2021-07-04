@@ -55,9 +55,9 @@
         <br>
 
         {% for msg in get_flashed_messages()%}
-            <p class="flash-msg">
+            <div class="flash-msg alert alert-primary" role="alert">
                 {{ msg }}
-            </p>
+            </div>
         {% endfor %}
         <br>
         

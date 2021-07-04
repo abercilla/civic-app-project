@@ -262,7 +262,9 @@ def show_profile(user_id):
 def logout_user():
     """Process logout"""
 
-    del session["user_id"]
+    if session.get("user_id"):
+        del session["user_id"]
+    
 
     return render_template("logout.html")
 
@@ -311,15 +313,14 @@ def create_event():
 
     if logged_in_user is None:
         flash(f"Please log in to create an event.")
-    else:  
-        flash(f"User with user_id =  {logged_in_user} is currently logged in")
+    # else:  
+    #     flash(f"User with user_id =  {logged_in_user} is currently logged in")
 
     return render_template("create-event.html")
 
 @app.route("/event-confirm", methods=["POST"])
 def confirm_added_event():
     """Commit event to DB and present confirm page"""
-    #add logic to give error if not enough fields are filled out
     
     logged_in_user = session.get("user_id")
 

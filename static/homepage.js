@@ -205,7 +205,8 @@ const saveEvent = (evt) => {
 
             // print success message in Div for event
             // -- TO DO --  make this a temporary message and change Save Event button to "Saved"
-            successDiv.prepend("<p>**** Event successfully saved! ****</p>");
+            // successDiv.prepend("<p id='success-message'>**** Event successfully saved! ****</p>");
+            successDiv.prepend("<div class='alert alert-primary' role='alert'>Event successfully saved!</div>");
         });
 }
 
