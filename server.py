@@ -12,15 +12,7 @@ import crud
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
-app.secret_key = "DEV" #need to change this and add to secrets.sh
-
-#GOOGLE_MAPS_API_KEY = os.environ['API_KEY']
-
-
-
-
-#set a max size for images uploaded--anything larger than 1MB will be rejected
-#app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024
+app.secret_key = "DEV" 
 
 #set acceptable file extensions for images uploaded
 app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png", ".gif", ".PNG", ".JPEG", ".jpeg"]
@@ -28,31 +20,19 @@ app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png", ".gif", ".PNG", ".JPEG", ".jp
 #UPLOAD_IMAGE_PATH = "/static/images/"
 app.config["UPLOAD_IMAGE_PATH"] = "static/images/"
 
-
 app.jinja_env.undefined = StrictUndefined
-
-
-
 
 @app.route("/")
 def index():
     """View homepage"""
 
-    
     random_events = crud.get_events()
-
-
-    
-    #grab images from Event objects so they can be loaded on homepage 
-    
-    #event_images = crud.get
 
     return render_template("homepage.html", events=random_events)
     
     #-------code for if I want the homepage to display different things------#
     #------------based on whether whether someone is logged in---------------#
     
-
     #logged_in_user = session.get("user_id")
 
     # if logged_in_user:
@@ -61,18 +41,13 @@ def index():
     # else:
     #     random_events = crud.get_events()
     #     return render_template("homepage.html", events=random_events)
-    #     if button is clicked, run this other thing
 
 @app.route("/", methods=["POST"])
 def filter_homepage():
     """Filter homepage by unsaved search and/or categories"""
-    #-----currently runs the search all over again with each form submit----#
-    #-----as opposed to adding searches on top of each other----------------#
 
     keyword_search = request.form.get("keyword")
-    #print(f"---- KEYWORD RECEIVED BY SERVER = {keyword_search}------")
     categories = request.form.getlist("categories")
-    #print(f"---- CATEGORIES RECEIVED BY SERVER = {categories}------")
 
     filtered_events = crud.filter_events_by_prefs(keyword_search, categories)
 
@@ -86,9 +61,9 @@ def save_pref_to_user():
     
     logged_in_user = session["user_id"]
     
-    #get JSON string from JS and turn into Python ob
+    #get JSON string from JS and turn into Python obj
     data = request.get_json()
-    print(f'-----DATA = {data}')
+    #print(f'-----DATA = {data}')
 
     categories = []
 
@@ -109,52 +84,41 @@ def save_pref_to_user():
     crud.save_categories_as_user_prefs(logged_in_user, categories)
     
     
-    return jsonify("items saved") # delete this after debugging 
-
-#if the homepage is filtered by category or keyword
-#"Save filter" should show up
+    return jsonify("items saved") # delete this after debugging?
 
 @app.route("/save-event", methods=["POST"]) 
 def save_event_to_user_from_homepage():
     """Save an event to a user without redirecting to event page"""
 
-    #--TO DO-- if there isn't a user logged in, give them an alert
-        #...and don't let them save
+    #--TO DO-- if there isn't a user logged in, give them an alert and don't let them save
         
-    # if not session.get("user_id"):
-    #     flash("Create an account to save an event!") 
-    #     return jsonify("None")
-    # else:
-
+            # if not session.get("user_id"):
+            #     flash("Create an account to save an event!") 
+            #     return jsonify("None")
+            # else:
 
     logged_in_user = session["user_id"]
 
     # get JSON string from JS and turn into Python ob
     data = request.get_json()
-    print(f'HERE IS DATA = {data}-------')
-    # print(f'HERE IS LOGGED_IN_USER = {logged_in_user}')
     
     #get event object from event ID pulled from button ID
     event = crud.get_event_by_id(data)
-    #print(f'EVENT_OBJ = {event}')
     
     #connect user to event 
     crud.connect_user_to_event(logged_in_user, event)
 
-    return jsonify("items saved") # delete this after debugging 
+    return jsonify("items saved") # delete this after debugging?
 
 @app.route("/saved-filter.json") 
 def filter_homepage_by_prefs():
     """Filter homepage based on user's prefs"""
 
-    #-----Compiles list of relevant events for user 
-    #-----------and sends back to JS in JSON object
+    #Compiles list of relevant events for user and sends back to JS in JSON object
 
     events = crud.filter_events_by_user_prefs(session["user_id"])
-    print(f'HERE ARE EVENTS FROM SERVER = {events}------')
     
     event_list = []
-    # print(f"------JSONIFY LIST = {jsonify(event_list)}-------")
 
     #open list of event objs and loop over 
     for event in events: 
@@ -173,8 +137,6 @@ def filter_homepage_by_prefs():
     #append each dict to a list
     #jsonify that list 
 
-    print(f"***EVENT LIST = {event_list}****")
-    print(f"***JSONIFIED EVENT LIST = {jsonify(event_list)}****")
     return jsonify(event_list)
 
 @app.route("/events/<event_id>")
@@ -193,7 +155,6 @@ def save_event_to_user(event_id):
     logged_in_user = session.get("user_id")
     
     event = crud.get_event_by_id(event_id)
-    #print(f"****HERE IS EVENT = {event}")
 
     #Save event to current user's account
     if logged_in_user:
@@ -227,11 +188,11 @@ def collect_login():
     else:
         session["user_id"] = user.user_id
 
-        #-----if we want to be redirected to the homepage with prefs filtered----#
-        # logged_in_user = session.get("user_id")
-        # print(f'******** HERE IS THE SESSION = {session} ********')
-        #filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
-        # return render_template("/homepage.html", events=events)
+        #---if we want to be redirected to the homepage with prefs filtered----#
+            # logged_in_user = session.get("user_id")
+            # print(f'******** HERE IS THE SESSION = {session} ********')
+            #filtered_events = crud.filter_events_by_user_prefs(logged_in_user)
+            # return render_template("/homepage.html", events=events)
 
         random_events = crud.get_events()
         return render_template("homepage.html", events=random_events)
@@ -247,13 +208,10 @@ def show_profile(user_id):
         user = crud.get_user_by_id(user_id)
         
         saved_events = crud.get_user_saved_events(logged_in_user)
-        
-        #print(f'----HERE ARE EVENTS FROM SERVER = {events}-----')
-        
+                
         created_events = crud.get_user_created_events(logged_in_user)
 
         prefs = crud.get_user_prefs(user_id)
-        #print(f'----HERE ARE PREFS FROM SERVER = {prefs}-----')
 
         categories = crud.get_user_categories(prefs)
         keywords = crud.get_user_keywords(prefs)
@@ -262,8 +220,6 @@ def show_profile(user_id):
     else:
         flash("Access Denied. Create an account to access this page.")
         return redirect("/")
-
- 
 
     return render_template("user-profile.html", fname=fname, lname=lname)
 
@@ -274,7 +230,6 @@ def logout_user():
     if session.get("user_id"):
         del session["user_id"]
     
-
     return render_template("logout.html")
 
    
@@ -307,7 +262,6 @@ def collect_account():
     else:
         user = crud.create_user(fname=fname, lname=lname, email=email, 
                     phone=phone, password=password, zipcode=zipcode)
-        print(f'------USER = {user}-------')
         
         #collect categories chosen and connect to user
         crud.connect_user_to_multiple_prefs(user, categories)
@@ -318,9 +272,6 @@ def collect_account():
         random_events = crud.get_events()
 
         return render_template("homepage.html", events=random_events)
-
-    #render same template with specific events based on queries about preferences
-    #or just render template with first 25 events
 
 
 @app.route("/create-event")
@@ -347,48 +298,22 @@ def confirm_added_event():
     start_date = request.form.get("start_date")
     address = request.form.get("address")
     description = request.form.get("description")
-    #image = request.files["image"] #how to capture whatever they want to upload
-    
-    #print(f'----HERE IS IMAGE = {image}---')
-    #upload_file()
     
     #HANDLE IMAGE
     def upload_file():
-        print("===We're in upload_file===")
         uploaded_file = request.files["image"]
-
-        print(f'===uploaded_file = {uploaded_file}====')
-
         filename = secure_filename(uploaded_file.filename)
-        print(f'====here is filename = {filename} ====')
 
         #if the filename is not empty
         if filename != " ":
-            #pull out the file extension by splitting filename and indexing to suffix
-            # file_ext = os.path.splitext(filename)[1]
-           # print(f'===file_ext = {file_ext}====')
-            #if the file's ext is not in our list of accepted exts, give 500 
-            # if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
-                # flash("Make sure image has an extension of .jpg, .png, .gif, .PNG, .JPEG, or .jpeg.")
-            
             uploaded_file.save(os.path.join(app.config["UPLOAD_IMAGE_PATH"], filename))
-            print("-----Image was correctly stored!------")
 
         return uploaded_file, filename
 
     #allow users to not uploaded images
     uploaded_file, filename = upload_file()
-    # print(f'----output from upload_file = {uploaded_file, filename}------')
 
-    #need to figure out how to create URL from upload_file output !
     image_url = url_for("static", filename= "images/" + filename)
-    #image_url = url_for('static')  
-    print(f'====image_url = {image_url}====')
-
-
-    #crud.upload_image(image)
-
-    #set up logic to turn the image from user into a filepath so we can display it on homepage
 
     event = crud.create_event(creator_id=logged_in_user,name=name, category=category, start_date=start_date, 
                                 address=address, description=description, image=image_url)
@@ -397,11 +322,6 @@ def confirm_added_event():
     logged_in_user = session.get("user_id")
 
     crud.connect_user_to_event(logged_in_user, event)
-
-    #if session user_id = the event's creator_id 
-#   call this function that saves it to their account as an event they created
-# if not: 
-#   save to their account as a saved event 
 
     return render_template("event-confirm.html", event=event, name=name)
 
@@ -438,16 +358,6 @@ def delete_created_event():
          #delete event from db
         crud.delete_event(data)
 
-        print(f"----DATA = {data}-------")
-    #get event object from event ID pulled from button ID
-    #event = crud.get_event_by_id(data)
- 
-    # #get user object
-    #user = crud.get_user_by_id(logged_in_user)
-    
-   
-
-
     return jsonify("items removed")
 
 @app.route("/remove-category", methods=["POST"])
@@ -458,11 +368,8 @@ def remove_category_from_user():
 
     category = request.get_json()
     
-    print(f"----Category = {category}-------")
-
     crud.remove_category_from_user(logged_in_user, category)
 
-    
     return jsonify("items removed")
 
 @app.route("/remove-keyword", methods=["POST"])
@@ -473,15 +380,9 @@ def remove_keyword_from_user():
 
     keyword = request.get_json()
     
-    print(f"----Keyword = {keyword}-------")
-
     crud.remove_keyword_from_user(logged_in_user, keyword)
-
     
     return jsonify("items removed")
-
-
-
 
 
 if __name__ == "__main__":

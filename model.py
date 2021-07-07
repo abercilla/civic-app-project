@@ -42,7 +42,7 @@ class User(db.Model):
     lname = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(100), nullable=False,
                                         unique=True)
-    phone = db.Column(db.String) #parse this out with RegEx, how to get leading 0s to stay
+    phone = db.Column(db.String)
     password = db.Column(db.String)
 
     zipcode = db.Column(db.Integer)
@@ -98,92 +98,6 @@ class Preference(db.Model):
 
     def __repr__(self): 
         return f'<Preference pref_id={self.pref_id} category={self.category} keyword={self.keyword_search}>'
-
-# class Event(db.Model):
-#     """An event (from a source)"""
-#     """Has many-to-many re'lp with User"""
-
-#     __tablename__ = 'events'
-
-#     event_id = db.Column(db.Integer,
-#                         primary_key=True,
-#                         autoincrement=True,
-#                         nullable=False)
-#     created_event_id = db.Column(db.Integer, 
-#                         db.ForeignKey('created_events.created_event_id')) 
-#     eventbrite_event_id = db.Column(db.Integer) #Event ID is returned from Eventbrite 
-#     mobilize_event_id = db.Column(db.Integer) #Event ID returned from Mobilize
-#                                             #Event ID from additional source?
-#                                                 #external source id  
-#                                                 #type: "eventbrite", "fb", "meetup"
-    
-    # created_events = db.relationship ('CreatedEvent', backref='events') #on created_event_id
-
-    # def __repr__(self):
-    #     return f'<Event event_id={self.event_id} created_event_id={self.created_event_id} eventbrite_id={self.eventbrite_event_id} mobilize_id={self.mobilize_event_id}>' 
-
-# class UserEvent (db.Model):
-#     """Glue table for User and Event""" 
-
-#     __tablename__ = 'user_events'
-
-#     user_events_id = db.Column(db.Integer, 
-#                                 primary_key=True,
-#                                 autoincrement=True,
-#                                 nullable=False) 
-#     event_id = db.Column(db.Integer, 
-#                         db.ForeignKey('events.event_id'),
-#                         nullable=False)
-#     user_id = db.Column(db.Integer,
-#                         db.ForeignKey('users.user_id'),
-#                         nullable=False)
-
-    
-#     def __repr__(self):
-#         return f'<UserEvent user_events_id={self.user_events_id} event_id={self.event_id} user_id={self.user_id}>'
-
-# class CreatedEvent (db.Model):
-#     """A new event created by a user"""
-
-#     __tablename__ = 'created_events'
-
-#     created_event_id = db.Column(db.Integer,
-#                         primary_key=True,
-#                         autoincrement=True,
-#                         nullable=False)
-#     name = db.Column(db.String)
-#     category = db.Column(db.String) #--> if category already exists, tag on, if not, add to category in preferences
-#     start_date = db.Column(db.DateTime)
-#     location = db.Column(db.String)
-#     description = db.Column(db.Text)
-#     image = db.Column(db.String)
-
-#     def __repr__(self):
-#         return f'<CreatedEvent created_event_id={self.created_event_id}, name={self.name}>'
-    
-
-
-    
-
-
-# class UserPreference(db.Model):
-#     """Glue table to connect users to their saved preferences"""
-
-#     __tablename__ = 'user_preferences'
-
-#     user_pref_id = db.Column(db.Integer,
-#                             primary_key=True,
-#                             autoincrement=True,
-#                             nullable=False)
-#     pref_id = db.Column(db.Integer, 
-#                         db.ForeignKey('preferences.pref_id'),
-#                         nullable=False)
-#     user_id = db.Column(db.Integer,
-#                         db.ForeignKey('users.user_id'),
-#                         nullable=False)
-    
-#     def __repr__(self):
-#         return f'<UserPref user_pref_id={self.user_pref_id} pref_id={self.pref_id} user_id={self.user_id}>'
 
 #connect server to db with SQLAlchemy
 def connect_to_db(flask_app, db_uri='postgresql:///civic', echo=True):

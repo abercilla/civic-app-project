@@ -3,7 +3,7 @@
 {% extends 'base.html' %}
 {%block head%}  
 
-    <link href="/static/user-profile.css" rel="stylesheet">
+<link href="/static/user-profile.css" rel="stylesheet">
 
 {% endblock %} 
 
@@ -35,6 +35,7 @@
                 <br>
                 
                 <h5 class="heading2">Event Categories</h5>
+
                 {% if categories%}    
                     {% for category in categories %}
                             <li class ="preference" id = "remove-category-{{category}}">   
@@ -42,26 +43,22 @@
                                 <button type = "submit" class="remove-category" id="remove-category-{{category}}">
                                     x
                                 </button>
-                                <!--button with X-->
-                                <!-- aria-label="Close" -->
-                                <!-- <button type = "submit" class = "remove-category close"  id = "remove-category-{{category}}">
-                                    <span aria-hidden="true">&times;</span>
-                                </button> -->
                             </li>     
                         {% endfor %}
 
                     {% else %}
                         <h7>You haven't saved any categories yet.</h7>
                     {% endif %}
+
                 <br>
                 <br>
 
                 <h5 class="heading2">Search Words</h5>  
+
                 {% if keywords%}
                     {% for keyword in keywords %}
                         <li class ="preference" id = "remove-keyword-{{keyword}}">   
                             {{ keyword }} 
-            
                             <button type = "submit" class = "remove-keyword" id = "remove-keyword-{{keyword}}">
                                 x
                             </button>    
@@ -69,24 +66,22 @@
                     {% endfor %} 
 
                 {% else %} 
-
                     <h7>You haven't saved any search words yet.</h7>
-                
                 {% endif %}
             <br>
             <br>
 
         </div>
-
     </div>
     
 
     <div class="col">
-
         <div class="container shadow-sm p-3 mb-5 bg-body rounded">
 
          <h4 class="heading">My Saved Events</h4>
+
             <br>
+
             {% if saved_events%} 
         
                 {% for saved_event in saved_events %}
@@ -102,9 +97,7 @@
                 {% endfor %}
         
             {% else %}
-        
                 <h7>You haven't saved any events yet.</h7>
-        
             {% endif %}
         </div>
        
@@ -132,11 +125,8 @@
                 {% endif %}
             <br>
         </div>
-
         </div>
-
     </div>
-
 </div>
     
         

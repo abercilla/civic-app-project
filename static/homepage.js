@@ -38,8 +38,6 @@ function filterHomepage (evt) {
 
                     const saveEventButton = "<button type = 'submit' class = 'btn btn-primary save-button' name = 'button' id ='save-event-" + eventID + "'>Save Event</button>";
 
-                    // "<button type = 'submit' class = 'save-button' name = 'button' id ='save-event-" + eventID + "'>Save Event</button>"
-
                     const eventAdd = "<div class='container'><div class='card mb-3'><div class='row g-0'><div class='col-md-4'><img class='img-thumbnail rounded-start' src='" + events[i]['image'] + 
                                         "' onerror='this.onerror=null; this.remove();'></div><div class='col-md-8'><div class='card-body'><div class='event' id='event-id-" + eventID + 
                                         "'><div class='success-msg' id='success-msg-" + eventID + "'><h5 class='card-title'>"+ events[i]["name"] + "</h5><p class='card-text'>" + events[i]['category'] + 
@@ -47,28 +45,10 @@ function filterHomepage (evt) {
                                         "' method='POST'><button type='submit' class='btn btn-primary save-button' name='button' id='save-event-" + eventID + 
                                         "'>Save Event</button></form><form action='/events/" + eventID + "'><button class='btn btn-primary' id='event-details'>See Event Details > </button></form></div></div></div></div>";
                     
-                    
-                    
-                    
-                    
-                    
-                    // <div class= 'success-msg' id ='success-msg-" + eventID + 
-                    //                     "'><h3>" + events[i]['name'] + "</h3><p>" + events[i]['category'] + "</p><p>" + events[i]['start_date'] + 
-                    //                     "</p><img src='" + events[i]['image'] + "' width='300' onerror='this.onerror=null; this.remove();'><p>" + 
-                    //                     events[i]['address'] + "</p><p>" + events[i]['description'] + "</p>" + 
-                    //                     "<span class = 'buttons'><form action='/events/" + eventID + "' method='POST'>" +
-                    //                     saveEventButton +
-                    //                     "</form><br><form action='events/" + eventID + "'>" + 
-                    //                     "<button>See Event Details</button></form></span><br><br><br></div>"; }
-
-                    //how can we get it to save on the page again with this new behavior instead of redirecting
-                    //are we clicking on this in JS instead of HTML on the page, and if so, how can we add a listener to the JS itself to then reference anther JS function
 
                     console.log(eventAdd);
                     
                     $('#event-list').append(eventAdd);
-
-
 
                     i = i + 1;
                 }  
@@ -81,7 +61,7 @@ $('#saved_filters').on('click', filterHomepage);
 
 
 
-// --------------Make user's search criteria STICKY----------//
+// -------------------- MAKE USERS SEARCH STICKY ------------------------//
 
 //this will listen for all checkboxes on homepage.html
 // var i is a number of checkboxes
@@ -119,7 +99,7 @@ function load_() {
     }
 }
 
-//-------------------- Clear LocalStorage --------------------------------//
+//-------------------- CLEAR LOCAL STORAGE --------------------------------//
 
 const clear = () => {
     // clear filters via localStorage
@@ -131,6 +111,7 @@ const clear = () => {
 //when "Clear Filter" is clicked
 $('#clear-button').on("click", clear);
 
+//------------Only show Save Filter and Clear Filter after Apply Filter is clicked-----//
 
 //if localStorage has been set, show Save Filter and Clear Filter
 //if there IS a keyword OR if there IS a checked box (i.e. is "true")
@@ -145,20 +126,6 @@ if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.va
 //Filters should stick as long as we are still on homepage
 //once all DOM objects are loaded, repopulate localStorage in search filters
 $(document).ready(load_());
-//console.log(localStorage);
-
-//------------Only show Save Filter and Clear Filter after Apply Filter is clicked-----//
-
-//if localStorage has been set, show Save Filter and Clear Filter
-//if there IS a keyword OR if there IS a checked box (i.e. is "true")
-// if ((localStorage.getItem('keyword') != null)  || (localStorage.getItem(boxes.value) == "true")) {
-//     console.log("We're in if statement");
-//     console.log(localStorage.getItem('keyword'));
-//     console.log(localStorage.getItem(boxes.value));
-//     $('#save_to_prefs').show();
-//     $('#clear-button').show();
-// } 
-
 
 
 //-------------------Save whatever is in localStorage as prefs for user ---------------//
@@ -219,7 +186,6 @@ const saveEvent = (evt) => {
 
             // print success message in Div for event
             // -- TO DO --  make this a temporary message and change Save Event button to "Saved"
-            // successDiv.prepend("<p id='success-message'>**** Event successfully saved! ****</p>");
             successDiv.prepend("<div class='alert alert-primary' role='alert'>Event successfully saved!</div>");
         });
 }
@@ -228,8 +194,7 @@ const saveEvent = (evt) => {
 const showClear = (evt) => {
     $('#clear-button').show();
 }
-// deprecated: for events preloaded on page via HTML 
-//$('.save-button').on('click', saveEvent);
+
 
 //if any button on the save-button class is clicked... 
 //...(including dynicamlly created events via "Search by My Filters"), do saveEvent
@@ -240,7 +205,7 @@ $('#saved_filters').on('click', showClear);
 
 
 
-// --TO FIX-- 
+// --TO DO -- 
 // If we leave homepage and come back, filters should clear via localStorage
 // currently this messes with the Save Filter feature
 

@@ -1,4 +1,5 @@
 //----Remove SAVED event from user-profile and in db w/o redirecting-------//
+
 const removeEvent = (evt) => {
 
     //prevent page from redirecting to events/event_id
@@ -44,6 +45,7 @@ $('.remove-button').on('click', removeEvent);
 
 
 //----Delete a CREATED event from user-profile and in db w/o redirecting-------//
+
 const deleteEvent = (evt) => {
 
     //prevent page from redirecting to events/event_id
@@ -53,8 +55,11 @@ const deleteEvent = (evt) => {
     //get specific eventID from html button element 
     let eventID = (evt.target.id).split('-')[2]
 
-    console.log(eventID);
+    //console.log(eventID);
 
+
+    // take event_id from the event we're saving 
+    //... and send to server to save event to user
     if (confirm("Are you sure you want to delete this event?")) {
         console.log("Confirmed!")
 
@@ -64,6 +69,7 @@ const deleteEvent = (evt) => {
             contentType: 'application/json; charset=utf-8'
         }) 
 
+        // add success message to correct event Div based on dynamic div id
         .done((response) => {
             
             // console.log(response)
@@ -83,12 +89,6 @@ const deleteEvent = (evt) => {
     else {
         console.log("Not confirmed!");
     }
-    // take event_id from the event we're saving 
-    //... and send to server to save event to user
-    
-        
-    // add success message to correct event Div based on dynamic div id
-
         
 }
 
@@ -176,11 +176,9 @@ const removeKeyword = (evt) => {
             console.log(keywordJSON);
             console.log(keyword);
            
-            // find the div that matches ID of event button we clicked on
             let removeItem = $('#remove-keyword-' + keyword);
             console.log(removeItem);
 
-            // print success message in Div for event
             removeItem.remove();
         
         });

@@ -1,145 +1,117 @@
-<!--This page is rendered when URL is "/" 
-        and the user input is captured by "/create-account" app route-->
+{% extends 'base.html' %}
 
-        {% extends 'base.html' %}
+{% block head%}
 
-        {% block head%}
+<link href="/static/create-event.css" rel="stylesheet">
 
-        <link href="/static/create-event.css" rel="stylesheet">
+{% endblock %}
 
-        {% endblock %}
+{%block title %}{% endblock %}
 
-        {%block title %}{% endblock %}
-        
-        {% block body %}
-        <div class="container shadow-sm col-md-6 p-3 mb-5 bg-body rounded">
-            <!-- <div class="container shadow-sm bg-body rounded col-md-6 p-3 mb-5"> -->
+{% block body %}
+<div class="container shadow-sm col-md-6 p-3 mb-5 bg-body rounded">
 
+    <h2>Create Event</h2>
+    <br>
+    
+    <form action="/event-confirm" method ="POST" enctype="multipart/form-data">
 
-            <h2>Create Event</h2>
-            <br>
-            
-            <form action="/event-confirm" method ="POST" enctype="multipart/form-data">
-
-                <div class="form-group">
-                    <label for="event-name">Event Name</label>
-                    <input required type="text" class="form-control" id="event-name" name="name" size="50"
-                            placeholder="Women's March 2021">
-                </div>
-                <br>
-
-                <!--ask for event category (1)-->
-               
-                <h7>Event Category</h7>  
-                <br>
-                <br>
-                <div class="form-check">  
-                   <input class="form-check-input" type="radio" name="category" value="" id="protest" value="protest" checked>                
-                   <label class="form-check-label" for="protest">Protest</label>
-                </div>
-                
-                <div class="form-check">  
-                    <input class="form-check-input" type="radio" name="category" value="" id="march" value="march">                
-                    <label class="form-check-label" for="march">March</label>
-                 </div>
-
-                <div class="form-check">  
-                    <input class="form-check-input" type="radio" name="category" value="" id="meeting" value="meeting">                
-                    <label class="form-check-label" for="meeting">Meeting</label>
-                 </div>
-
-                 <div class="form-check">  
-                    <input class="form-check-input" type="radio" name="category" value="" id="canvass" value="canvass">                
-                    <label class="form-check-label" for="canvass">Canvass</label>
-                 </div>
-
-                 <div class="form-check">  
-                    <input class="form-check-input" type="radio" name="category" value="" id="workshop" value="workshop">                
-                    <label class="form-check-label" for="workshop">Workshop</label>
-                 </div>
-
-                 <br>
-
-                   <!-- <select name="category">
-                       <option value="Protest">Protest</option>
-                       <option value="March">March</option>
-                       <option value="Meeting">Meeting</option>
-                       <option value="Canvass">Canvass</option>
-                       <option value="Workshop">Workshop</option>
-                   </select> 
-                   <br><br> -->
-        
-                   
-                   
-                   
-                   
-                   
-                   
-                   <!-- <label>Event Category</label>
-                    <select name="category">
-                        <option value="Protest">Protest</option>
-                        <option value="March">March</option>
-                        <option value="Meeting">Meeting</option>
-                        <option value="Canvass">Canvass</option>
-                        <option value="Workshop">Workshop</option>
-                    </select> 
-                    <br><br>
-                    </p> -->
-                    
-                <!--input day of event // can I add a calendar here?-->
-                <div class="form-group">
-                    <label for="start_date">Event Date</label>
-                    <input required type="datetime-local" class="form-control" name="start_date" id="start_date">
-                </div>
-
-                <br>
-                
-                <!--input address/location of event-->
-                <div class="form-group">
-                    <label for="location">Address</label>
-                    <input required type="text" class="form-control" name="address" 
-                            id="location" size="50" placeholder="SF Public Library, 100 Larkin Street San Francisco, CA 94102">
-                </div>
-
-                <br>
-        
-
-                 <!--input event description-->
-                 <div class=form-group>
-                    <label for="description">Description of Event</label>
-                    <textarea name="description" class="form-control" cols="50" rows="5" 
-                            id="description" placeholder="Join us for the fourth annual Women's March! Bring a sign and water!"></textarea>
-                </div>
-
-                <br>
-
-                <!--prompt user to upload an image for the event-->
-                <div class="form-group">
-                    <h7>Upload Event Image</h7>
-                    <br>
-                    <br>
-                    <!-- <label for="file">Upload Event Image</label> -->
-                    <input required type = "file" class="form-control-file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
-                <!-- <label for="file" style="cursor": pointer;">Upload Image</label><p></p> -->
-                </div>
-
-                <br> 
-                <img class="img-thumbnail rounded-start" id="output" width="300" onerror="this.onerror=null; this.remove();">
-   
-                <!-- <img id = "output" width="200"/>
-                  </section> -->
-            
-                <div class="form-group-row">
-                    <div class="col-sm-10">
-                        <button type = "submit" class="btn btn-primary" name = "button " id ="create-event">Create Event</button>
-                    </div>
-                </div>
-
-        
-            </form>
+        <div class="form-group">
+            <label for="event-name">Event Name</label>
+            <input required type="text" class="form-control" id="event-name" name="name" size="50"
+                    placeholder="Women's March 2021">
         </div>
 
-        <script src = "/static/create-event.js"></script>
-    
+        <br>
+
+        <!--ask for event category (1)-->
         
-        {% endblock %}
+        <h7>Event Category</h7>  
+
+        <br>
+        <br>
+
+        <div class="form-check">  
+            <input class="form-check-input" type="radio" name="category" value="" id="protest" value="protest" checked>                
+            <label class="form-check-label" for="protest">Protest</label>
+        </div>
+        
+        <div class="form-check">  
+            <input class="form-check-input" type="radio" name="category" value="" id="march" value="march">                
+            <label class="form-check-label" for="march">March</label>
+            </div>
+
+        <div class="form-check">  
+            <input class="form-check-input" type="radio" name="category" value="" id="meeting" value="meeting">                
+            <label class="form-check-label" for="meeting">Meeting</label>
+            </div>
+
+            <div class="form-check">  
+            <input class="form-check-input" type="radio" name="category" value="" id="canvass" value="canvass">                
+            <label class="form-check-label" for="canvass">Canvass</label>
+            </div>
+
+            <div class="form-check">  
+            <input class="form-check-input" type="radio" name="category" value="" id="workshop" value="workshop">                
+            <label class="form-check-label" for="workshop">Workshop</label>
+            </div>
+
+            <br>
+
+            
+        <!--input day of event-->
+        <div class="form-group">
+            <label for="start_date">Event Date</label>
+            <input required type="datetime-local" class="form-control" name="start_date" id="start_date">
+        </div>
+
+        <br>
+        
+        <!--input address/location of event-->
+        <div class="form-group">
+            <label for="location">Address</label>
+            <input required type="text" class="form-control" name="address" 
+                    id="location" size="50" placeholder="SF Public Library, 100 Larkin Street San Francisco, CA 94102">
+        </div>
+
+        <br>
+
+
+        <!--input event description-->
+        <div class=form-group>
+            <label for="description">Description of Event</label>
+            <textarea name="description" class="form-control" cols="50" rows="5" 
+                id="description" placeholder="Join us for the fourth annual Women's March! Bring a sign and water!"></textarea>
+        </div>
+
+        <br>
+
+        <!--prompt user to upload an image for the event-->
+        <div class="form-group">
+            <h7>Upload Event Image</h7>
+            <br>
+            <br>
+            <!-- <label for="file">Upload Event Image</label> -->
+            <input required type = "file" class="form-control-file" accept="image/*" name = "image" id = "file" onchange = "loadFile(event)" style="display": none;"></p>
+        </div>
+
+        <br> 
+
+        <!--display image once it's uploaded-->
+        <img class="img-thumbnail rounded-start" id="output" width="300" onerror="this.onerror=null; this.remove();">
+
+    
+        <div class="form-group-row">
+            <div class="col-sm-10">
+                <button type = "submit" class="btn btn-primary" name = "button " id ="create-event">Create Event</button>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+<script src = "/static/create-event.js"></script>
+
+
+{% endblock %}

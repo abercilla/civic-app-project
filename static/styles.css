@@ -2,23 +2,12 @@ body {
     background-color: whitesmoke;
 }
 
-/* 
-button {
-    background-color: #192476;
-    color: white;
-    /* border: none;
-    
-    /* padding: 5px 10px; */
-    /* text-align: center;
-    text-decoration: none;
-    display: inline-block; */
-    /* font-size: 12px; */
-/* } */ 
 
 nav {
     height: 60px;
     background-color: white;
 }
+
 /* make elements on nav evenly spaced */
 nav a {
     padding-left:15px;
@@ -39,8 +28,6 @@ nav a {
 }
 
 button {
-    /* margin-right:20px; */
-    /* background-color: #2738B9; */
     font-weight: 500;
     color: white;
     margin:2px;
@@ -56,15 +43,6 @@ button {
 #event-header {
     margin-left:30px;
 }
-
-/* .card-horizontal {
-    display: flex;
-    flex: 1 1 auto;
-} */
-/* .container {
-    height:100%;
-
-} */
 
 ul {
     padding: 0;
@@ -111,9 +89,3 @@ ul {
 #no-events-found {
     text-align:center;
 }
-
-/* .flash-msg {
-    background-color: lightblue;
-    color: #2738B9;
-    align-content: center;
-} */

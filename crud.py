@@ -21,7 +21,7 @@ def create_event(creator_id, name, category, start_date, address, description, i
                     description=description, image=image)
     db.session.add(event)
     db.session.commit()
-    print("We're in create_event and it's been committed")
+    # print("We're in create_event and it's been committed")
     return event
 
 
@@ -29,7 +29,6 @@ def create_preference(category=None, keyword_search=None):
     """Create a preference"""
 
     preference = Preference(category=category, keyword_search=keyword_search)
-    print("We tried instantiating a preference")
 
     db.session.add(preference)
     db.session.commit()
@@ -99,8 +98,6 @@ def save_categories_as_user_prefs(user_id, categories):
     for pref in prefs: 
         #connect each pref obj to the user
         connect_user_to_pref(user, pref)
-    
-    print(f"-------Here are user_prefs from categories = {user.preferences}-----")
 
     
 def save_keyword_as_user_pref(user_id, keyword):
@@ -111,8 +108,6 @@ def save_keyword_as_user_pref(user_id, keyword):
     pref = check_search(keyword)
 
     connect_user_to_pref(user, pref)
-
-    print(f"-------Here are user_prefs from keyword = {user.preferences}-----")
 
 
 def get_user_by_id(user_id):
@@ -125,15 +120,11 @@ def connect_user_to_event(user_id, event_obj):
 
     #this will just connect user_id to Event...
     #...but not make a distinction whether they created it or not
-    print("********WE ARE IN CONNECT_USER_TO_EVENT***********")
     user_obj = User.query.get(user_id)
-    # event_obj = Event.query.get(event_id)
     
-    user_obj.events.append(event_obj) #BUG -- event_obj is coming in as <event_id>
+    user_obj.events.append(event_obj) #BUG -- event_obj is coming in as <event_id>--need to verify
 
     db.session.commit()
-    print(f"-----HERE IS THE EVENT WE COMMITTED = {event_obj}-----")
-    print("**********WE COMMITTED THE USER_EVENT RELATIONSHIP*********")
 
     return event_obj
 
@@ -179,10 +170,10 @@ def get_user_created_events(user_id):
 
 def connect_user_to_their_event(user):
     """Connect event(s) a user created to them via user.events"""
-    #print("We are in crud.connect_user_to_their_event")
+
     #find the events that were created by that user
     event_to_add = Event.query.filter_by(creator_id=user.user_id).all()
-    #print(f"------Here is event_to_add = {event_to_add}-----")
+
     #if the user didn't create any events (event_to_add = [])
     if len(event_to_add) < 1:
         print("No Events Created By User") 
@@ -203,8 +194,7 @@ def connect_user_to_random_event(user):
 
 def connect_user_to_pref(user, pref):
     """Connect a User to an Preference"""
-    #add in functionality to make sure we are 
-    #...only adding the preference to the user in session
+
     user.preferences.append(pref)
 
     db.session.commit()
@@ -212,7 +202,6 @@ def connect_user_to_pref(user, pref):
 def connect_user_to_multiple_prefs(user, categories):
     """Connect User to Multiple Preference(s)"""
     
-    #print('************we are in connect_user_to_multiple_prefs**********')
     #pull out the Preference object associated with each category in pref_list
     pref_objs = []
 
@@ -220,8 +209,6 @@ def connect_user_to_multiple_prefs(user, categories):
         pref_obj = Preference.query.filter_by(category=category).first()
         pref_objs.append(pref_obj)
     
-   # print(f'HERE ARE THE PREF_OBJS = {pref_objs}')
-
     #attach Preference object to User object
     for pref in pref_objs:
         user.preferences.append(pref)
@@ -237,7 +224,6 @@ def remove_event_from_user(user, event):
 def delete_event(event_id):
     """Delete event from db"""
     event = Event.query.get(event_id)
-    print(f'----event to delete = {event}-----')
 
     db.session.delete(event)
     db.session.commit()
@@ -246,10 +232,8 @@ def remove_keyword_from_user(user_id, keyword):
     """Remove keyword as pref from user"""
 
     user = User.query.get(user_id)
-    print(f'----USER = {user}-------')
 
     delete_keyword = Preference.query.filter(Preference.keyword_search == keyword).first()
-    print(f'----delete keyword = {delete_keyword}-------')
     
     user.preferences.remove(delete_keyword)
     db.session.commit()
@@ -259,22 +243,12 @@ def remove_category_from_user(user_id, category):
     """Remove category as pref from user"""
 
     user = User.query.get(user_id)
-    print(f'----USER = {user}-------')
 
-    
     delete_category = Preference.query.filter(Preference.category == category).first()
-    print(f'----delete category = {delete_category}-------')
 
     user.preferences.remove(delete_category)
     db.session.commit()
 
-    
-
-
-#add search functionality in here
-#search by user_Id so they can see what things they've saved
-def search_by_user_id(user_id):
-    """Search for user_id based on sign-in info"""
 
 def check_email(email):
     """See if input matches user info in db"""
@@ -293,9 +267,7 @@ def get_event_by_id(event_id):
 
 def filter_events_by_prefs(keyword_search=None, categories=None):
     """Filter homepage events based on non-user search"""
-    print("**********WE ARE IN FILter_BY_PREFS*****")
-    print(f"-----------KEYWORD_SEARCH IN FUNCTION = {keyword_search}------")
-    print(f"-----------CATEGORY LIST IN FUNCTION = {categories}------")
+  
     events = []
 
     
@@ -303,19 +275,10 @@ def filter_events_by_prefs(keyword_search=None, categories=None):
         #pull out events that fit chosen categories
         for category in categories:
                 events.extend(Event.query.filter_by(category=category).all())
-        #categories.append(user_pref.category)
-        # #if it's only one category:
-        # else:
-        #     for category in categories:
-        #             events.append(Event.query.filter_by(category=category).first())
-
     
     if keyword_search:
         #pull out events that have chosen keyword (KEY SENSITIVE)
         events.extend(Event.query.filter((Event.description.like(f'%{keyword_search}%')) | (Event.name.like(f'%{keyword_search}%'))).all())
-
-    
-    print(f"**********HERE ARE EVENTS = {events}*****")
 
     return events
 
@@ -337,8 +300,6 @@ def filter_events_by_user_prefs(user_id):
         if user_pref.keyword_search != None:
             keywords.append(user_pref.keyword_search)
     
-    print(f'-----------KEYWORDS = {keywords}')
-    print(f'----------CATEGORIES = {categories}')
     #pull out events tied to those categories and keywords
     for category in categories:
         events.extend(Event.query.filter_by(category=category).all())
@@ -348,13 +309,8 @@ def filter_events_by_user_prefs(user_id):
                                             (Event.name.like(f'%{keyword}'))).all()
 
         events.extend(results)
-    # print(f"--------HERE ARE THE RESULTS FROM CRUD= {results}--------")
 
-    print(f"--------HERE ARE THE EVENTS FROM CRUD= {events}--------")
     return events
-
-
-
 
 def get_user_prefs(user_id):
     """Grab prefs for a user"""
@@ -362,7 +318,6 @@ def get_user_prefs(user_id):
     user = User.query.get(user_id)
     prefs = user.preferences
 
-    print(f"------HERE ARE USER PREFS from CRUD = {prefs}----")
     return prefs
     
 
@@ -376,7 +331,6 @@ def get_user_categories(prefs):
         if pref.category:
             categories.append(pref.category)
     
-    print(f'----HERE ARE CATEGORIES IN CRUD = {categories}-----')
     return categories
    
     
@@ -390,15 +344,13 @@ def get_user_keywords(prefs):
         if pref.keyword_search:
             keywords.append(pref.keyword_search)
 
-    print(f'----HERE ARE KEYWORDS IN CRUD = {keywords}-----')
-
     return keywords
 
 
 def convert_start_dates(events):
-
     """Convert datetime object to be readable to user"""
-    #don't think i need this actually since they display correctly with Jinja        
+    
+    #don't think i need this actually since they display correctly with Jinja       
     converted_date = start_date.strftime("%A, %B %d %Y")
 
     return converted_date

@@ -1,16 +1,14 @@
-<!--This page is rendered when URL is "/login" 
-        and the user input is captured by "/feed" app route-->
+{% extends 'base.html' %}
+{%block head%}
 
-        {% extends 'base.html' %}
-        {%block head%}
-       
-        <link href="/static/login.css" rel="stylesheet">
-    
-        {% endblock %}
+<link href="/static/login.css" rel="stylesheet">
 
-        {%block title %}{% endblock %}
-        
-        {% block body %}
+{% endblock %}
+
+{%block title %}{% endblock %}
+
+{% block body %}
+
         <body class="text-center">
         <main class="form-signin">
 
@@ -29,6 +27,7 @@
                     <input type="text" name="email" class="form-control" placeholder="name@example.com">
                     <label for="floatingInput">Email</label>
                 </div> 
+
                 <div class="form-floating">
                     <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="password">
                     <label for="floastingPassowrd">Password</label>
@@ -36,7 +35,8 @@
         
                     <button type = "submit" class="w-100 btn btn-lg btn-primary">Login</button>
                     <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
-                </form>
+
+            </form>
         </main>
     </body>
-        {% endblock %}
+{% endblock %}

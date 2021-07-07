@@ -1,4 +1,4 @@
-# Civic App Intro
+# About the Civic App
 
 The Civic App is based on an idea a friend and I had after the 2016 election when people felt angry but didn’t know how to direct their energy, including us. We hypothesized that if people had a centralized place to find events related to issues they were passionate about, people would take action, and on a regular basis. 
 
@@ -21,8 +21,14 @@ Anyone can browse events, but in order to save events and filters, users need to
 
 ## Save Filter
 
-
+## Edit Filters
+I wanted users to have a lot of control over the search words and categories they save as a filter. On the user's profile page, they can view and remove individual search words and/or categories from their filter. The item will be removed in real time on the profile page with JavaScript. 
 ## Search by My Filters
+
+## Save Event 
+Users can save events directly on the homepage. 
+
+## View & Remove Events
 
 
 

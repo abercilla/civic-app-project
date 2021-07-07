@@ -16,6 +16,7 @@ model.connect_to_db(server.app)
 model.db.create_all()
 
 
+## TESTING
 
 # #------------------------- CREATE 5 USERS  ------------------------------#
 # users = []
@@ -100,6 +101,7 @@ model.db.create_all()
 
 
 
+## "REAL" DATA FOR DEMO
 
 #-----------------------------------------------------------------------#
 #------------------------- CREATE 5 USERS  ------------------------------#
@@ -240,8 +242,6 @@ for user in users:
 for user in users: 
     #choose random pref from list
     random_pref = choice(prefs_in_db)
-    print(f'HERE IS THE RANDOM_PREFERENCE= {random_pref}')
 
     #connect random Preference object to User object
     crud.connect_user_to_pref(user, random_pref)        
-    print(f'Here are the user.preferences objects = {user.preferences}')
