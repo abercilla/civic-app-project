@@ -3,7 +3,7 @@
 
 The Civic App is based on an idea a friend and I had after the 2016 election when people were angry but didn't know how to direct their energy (including us). We hypothesized that if people had a centralized place to find events related to issues they were passionate about, people would take action, and on a regular basis. 
 
-I built this app on my own over two 2-week sprints at the end of the Hackbright program.
+This is the first full-stack web app that I designed and developed on my own. It was completed over two 2-week sprints at the end of the Hackbright program.
 
 Note: [Mobilize](https://www.mobilize.us/) created a version of this that was widely used by established organizations during the 2018 election cycle, and I drew a lot of inspiration from their website for this project!
 
